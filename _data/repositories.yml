@@ -1,14 +1,12 @@
 github_users:
-  - torvalds
-  - alshedivat
+  - Kaiser-Yang
 
 repo_description_lines_max: 2
 
 github_repos:
-  - alshedivat/al-folio
-  - jekyll/jekyll
-  - twbs/bootstrap
-  - jquery/jquery
-  - FortAwesome/Font-Awesome
-  - mathjax/MathJax
-  - jpswalsh/academicons
+  - Kaiser-Yang/dotfiles
+  - Kaiser-Yang/OJProblems
+  - Kaiser-Yang/t-SNE
+  - Kaiser-Yang/matrix-calculation-accelerator
+  - CMIPT/gcs-back-end
+  - CMIPT/docker-script

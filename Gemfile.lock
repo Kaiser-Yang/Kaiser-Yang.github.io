@@ -119,6 +119,7 @@ GEM
     jekyll-regex-replace (1.1.0)
     jekyll-sass-converter (3.0.0)
       sass-embedded (~> 1.54)
+    jekyll-remote-include (1.0.2)
     jekyll-scholar (7.1.3)
       bibtex-ruby (~> 6.0)
       citeproc-ruby (~> 1.0)
@@ -230,6 +231,7 @@ DEPENDENCIES
   jekyll-minifier
   jekyll-paginate-v2
   jekyll-regex-replace
+  jekyll-remote-include
   jekyll-scholar
   jekyll-sitemap
   jekyll-tabs
