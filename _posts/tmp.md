@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 
+title:
 date: 2024-08-12 11:59:00+0800
 description:
 tags:

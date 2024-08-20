@@ -14,4 +14,4 @@ toc:
 related_posts: true
 ---
 
-{% remote_include https://raw.githubusercontent.com/Kaiser-Yang/vimwiki/feature-gcs/gcs.md %}
+{% remote_include https://raw.githubusercontent.com/Kaiser-Yang/vimwiki/develop/gcs.md %}
