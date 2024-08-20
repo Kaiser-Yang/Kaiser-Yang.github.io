@@ -12,4 +12,4 @@ related_posts: true
 pretty_table: true
 ---
 
-{% remote_include https://raw.githubusercontent.com/Kaiser-Yang/vimwiki/feature-gcs/blog/2024/spring-intro.md %}
+{% remote_include https://raw.githubusercontent.com/Kaiser-Yang/vimwiki/develop/blog/2024/spring-intro.md %}

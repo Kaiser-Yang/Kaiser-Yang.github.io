@@ -12,4 +12,4 @@ related_posts: true
 pretty_table: true
 ---
 
-{% remote_include https://raw.githubusercontent.com/Kaiser-Yang/vimwiki/feature-gcs/blog/2024/gcs-back-end-v0.1.0.md %}
+{% remote_include https://raw.githubusercontent.com/Kaiser-Yang/vimwiki/develop/blog/2024/gcs-back-end-v0.1.0.md %}
