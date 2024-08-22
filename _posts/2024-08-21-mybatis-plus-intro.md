@@ -4,6 +4,9 @@ title: MyBatis-Plus 简介
 date: 2024-08-21 14:43:00+0800
 description:
 tags:
+  - Spring
+  - Spring Boot
+  - MyBatis-Plus
 categories: Java
 featured:
 giscus_comments: true
