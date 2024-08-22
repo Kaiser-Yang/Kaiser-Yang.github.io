@@ -4,6 +4,11 @@ title: 使用 Spring-Doc 生成接口文档
 date: 2024-08-21 21:44:57+0800
 description:
 tags:
+  - Spring
+  - Spring MVC
+  - Spring Boot
+  - Spring-Doc
+  - OpenAPI
 categories: Java
 featured:
 giscus_comments: true
