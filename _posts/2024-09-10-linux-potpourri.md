@@ -7,7 +7,7 @@ tags:
   - Linux
   - CLI
 categories: Potpourri
-featured:
+featured: true
 giscus_comments: true
 toc:
   sidebar: left
