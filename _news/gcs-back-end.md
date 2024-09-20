@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Currently working on [gcs-back-end](https://github.com/CMIPT/gcs-back-end).
+Working on [gcs-back-end](https://github.com/CMIPT/gcs-back-end).
