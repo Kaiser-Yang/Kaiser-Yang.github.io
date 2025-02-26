@@ -2,6 +2,7 @@
 layout: post
 title: gcs-back-end v0.1.0 开发实录
 date: 2024-08-12 11:59:00+0800
+last_updated: 2025-02-26 21:04:46+0800
 description:
 tags:
   - Spring
@@ -18,6 +19,13 @@ pretty_table: true
 NOTE: 文章内容按照时间 `pr` 创建的时间线进行排列。
 
 仓库地址：[gcs-back-end](https://github.com/CMIPT/gcs-back-end)。
+
+`v0.1.0` 的主要完成的功能如下：
+
+* 添加、修改、查询用户。
+* 添加、修改、查询和删除 `SSH` 密钥。
+* 添加、修改、查询和删除 `Git` 仓库。
+* 添加、修改、查询和删除合作者。
 
 # Add docker creator and format action
 
@@ -808,7 +816,7 @@ TODO:
 
 TODO:
 
-- [ ] 修改 `E-R` 图
+- [x] 修改 `E-R` 图
 
 # Finish delete and update repo, and delete user
 
@@ -827,3 +835,89 @@ TODO:
 删除用户部分，我们会同时删除用户创建的 `ssh-key`。
 
 除此之外，我们将所有需要查询数据库才能完成鉴权的操作都放到了 `controller` 层。
+
+# Finish adding salt for password encryption
+
+`pr` 链接：[gcs-pull-55](https://github.com/CMIPT/gcs-back-end/pull/55)。
+
+在这个 `pr` 中，我们增加了对密码加盐的功能。主要是为了防止彩虹表攻击。
+
+彩虹表攻击是一种通过预先计算出所有可能的密码的哈希值，然后将这些哈希值与数据库中的哈希值进行比对，
+从而破解密码的攻击方式。`MD5` 对同一个字符串的哈希值是固定的，
+因此当数据库中数据泄露后，攻击者可以通过比对哈希值来破解密码。而加盐是指在密码的基础上加上一段随机字符串，
+然后再进行哈希值的计算。这样只有知道这段随机字符串的人才能够破解密码。
+
+# Finish generating the ssh URL
+
+`pr` 链接：[gcs-pull-56](https://github.com/CMIPT/gcs-back-end/pull/56)。
+
+在这个 `pr` 中，我们在用户创建仓库的时候自动生成 `ssh` 的 `url` 并将其保存到数据库中。
+
+# Update help doc content and format
+
+`pr` 链接：[gcs-pull-61](https://github.com/CMIPT/gcs-back-end/pull/61)。
+
+在这个 `pr` 中，我们更新了脚本的帮助文档，使其更加清晰易懂。
+
+# Add a new table to the ER diagram
+
+`pr` 链接：[gcs-pull-63](https://github.com/CMIPT/gcs-back-end/pull/63)
+
+由于之前修改过表结构，这个 `pr` 主要是更新了 `ER` 图。
+
+# Fix a bug related with Sys-Init-V
+
+`pr` 链接：[gcs-pull-64](https://github.com/CMIPT/gcs-back-end/pull/64)
+
+在这个 `pr` 中，我们修复了一个 `Sys-Init-V` 的问题。在之前的 `Sys-Init-V` 脚本中，
+日志不能被正确的保存到文件中。
+
+# Finish the document for deployment
+
+`pr` 链接：[gcs-pull-65](https://github.com/CMIPT/gcs-back-end/pull/65)。
+
+在这个 `pr` 中，我们完成了部署文档的编写。
+
+# Finish the conversion to gitolite
+
+`pr` 链接：[gcs-pull-67](https://github.com/CMIPT/gcs-back-end/pull/67)。
+
+之前我们使用手动的方式管理创建仓库等相关操作，不是很好做权限管理。
+
+我发现了 `gitolite` 这个工具，可以很好地管理 `git` 仓库的权限。
+
+该 `pr` 主要是替换成 `gitolite` 这个工具进行仓库的权限管理。
+
+# Update default configures
+
+`pr` 链接：[gcs-pull-68](https://github.com/CMIPT/gcs-back-end/pull/68)。
+
+在这个 `pr` 中，我们更新了默认的配置文件，默认使用 `Docker` 的方式进行部署。
+
+# Add exposure header to allow CORS
+
+`pr` 链接：[gcs-pull-70](https://github.com/CMIPT/gcs-back-end/pull/70)。
+
+之前我们在 `CORS` 部分只是允许了 `GET`、`POST` 和 `DELETE` 请求，但是没有允许相关请求头，
+导致前端不能够获取到 `tokens` 这个 `pr` 修复了这个问题。
+
+# Use `redis` to implement the white list of tokens
+
+`pr` 链接：[gcs-pull-75](https://github.com/CMIPT/gcs-back-end/pull/75)。
+
+在这个 `pr` 中，我们使用 `redis` 实现了 `token` 的白名单功能。登录后用户的 `tokens`
+会被加入到 `redis` 中，并设置失效的时间，当用户登出后，`tokens` 会被移除。
+
+增加的新的错误码：`SERVER_ERROR`。
+
+# Add APIs for checking repo names and passwords
+
+`pr` 链接：[gcs-pull-78](https://github.com/CMIPT/gcs-back-end/pull/78)。
+
+在这个 `pr` 中，我们增加了检查仓库名和密码是否合理的 `API`。
+
+# Finish the functionality of adding collaborators
+
+`pr` 链接：[gcs-pull-79](https://github.com/CMIPT/gcs-back-end/pull/79)。
+
+在这个 `pr` 中，我们完成了添加、删除协作者的功能。协作者可以对仓库进行 `push` 和 `pull` 操作。
