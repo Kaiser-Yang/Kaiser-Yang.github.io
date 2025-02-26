@@ -4,9 +4,9 @@ github_users:
 repo_description_lines_max: 2
 
 github_repos:
-  - Kaiser-Yang/dotfiles
-  - Kaiser-Yang/OJProblems
-  - Kaiser-Yang/t-SNE
-  - Kaiser-Yang/matrix-calculation-accelerator
+  - Kaiser-Yang/blink-cmp-git
+  - Kaiser-Yang/blink-cmp-dictionary
+  - Kaiser-Yang/blink-cmp-avante
+  - Kaiser-Yang/win-resizer.nvim
+  - CMIPT/gcs-front-end
   - CMIPT/gcs-back-end
-  - CMIPT/docker-script
