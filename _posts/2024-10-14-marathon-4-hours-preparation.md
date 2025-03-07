@@ -1357,3 +1357,63 @@ pretty_table: true
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-08-00-19-12-65_efaee9233a816a5.jpg){: .img-fluid}
 
+### 2025-03
+
+#### 1
+
+距离：`25KM`。
+
+平均心率：`148BPM`。
+
+平均配速：`5'34''`。
+
+![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-07-23-05-06-92.jpg){: .img-fluid}
+
+![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-08-00-26-17-06_efaee9233a816a5.jpg){: .img-fluid}
+
+#### 2
+
+距离: `5KM`。
+
+平均心率：`141BPM`。
+
+平均配速：`5'46''`。
+
+![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-07-23-05-14-27_721f7cb5d53e9f3.jpg){: .img-fluid}
+
+![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-08-00-26-31-76_efaee9233a816a5.jpg){: .img-fluid}
+
+#### 3
+
+距离: `10KM`。
+
+平均心率：`153BPM`。
+
+平均配速：`4'55''`。
+
+![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-07-23-05-24-65.jpg){: .img-fluid}
+
+![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-08-00-26-45-72_efaee9233a816a5.jpg){: .img-fluid}
+
+#### 5
+
+距离: `15KM`。
+
+平均心率：`150BPM`。
+
+平均配速：`5'16''`。
+
+![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-07-23-05-40-36.jpg){: .img-fluid}
+
+![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-08-00-26-59-39_efaee9233a816a5.jpg){: .img-fluid}
+#### 7
+
+距离: `42KM`。
+
+平均心率：`155BPM`。
+
+平均配速：`5'38''`。
+
+![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-07-23-06-22-49.jpg){: .img-fluid}
+
+![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-08-00-27-17-79_efaee9233a816a5.jpg){: .img-fluid}
