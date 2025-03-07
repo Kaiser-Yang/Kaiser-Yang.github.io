@@ -71,7 +71,7 @@ pretty_table: true
 
 距离：`12KM`。
 
-平均心率：`157`。
+平均心率：`157BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/ccc5b8f17cc0ffe53ca19e0253b0c092.jpeg){: .img-fluid}
 
@@ -85,7 +85,7 @@ pretty_table: true
 
 距离：`3KM`。
 
-平均心率：`159`。
+平均心率：`159BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/20241015184333.png){: .img-fluid}
 
@@ -93,7 +93,7 @@ pretty_table: true
 
 距离：`3KM`。
 
-平均心率：`165`。
+平均心率：`165BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/20241015184354.png){: .img-fluid}
 
@@ -101,7 +101,7 @@ pretty_table: true
 
 距离：`3KM`。
 
-平均心率：`164`。
+平均心率：`164BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/20241015184446.png){: .img-fluid}
 
@@ -109,7 +109,7 @@ pretty_table: true
 
 距离：`3KM`。
 
-平均心率：`162`。
+平均心率：`162BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/20241015184529.png){: .img-fluid}
 
@@ -123,7 +123,7 @@ pretty_table: true
 
 距离：`10KM`。
 
-平均心率：`155`。
+平均心率：`155BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/7bba47a3205ef6e174ffe7a334c5c8be.jpeg){: .img-fluid}
 
@@ -137,7 +137,7 @@ pretty_table: true
 
 距离：`12KM`。
 
-平均心率：`156`。
+平均心率：`156BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/20241017200419.png){: .img-fluid}
 
@@ -151,7 +151,7 @@ pretty_table: true
 
 距离：`12KM`。
 
-平均心率：`161`。
+平均心率：`161BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/fd64d6f42601dc86046fc677503e9ae7.jpeg){: .img-fluid}
 
@@ -165,7 +165,7 @@ pretty_table: true
 
 距离：`6KM`。
 
-平均心率：`150`。
+平均心率：`150BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/2cb4801f343a880dcb171f4de1dcf1c7.jpeg){: .img-fluid}
 
@@ -179,7 +179,7 @@ pretty_table: true
 
 距离：`21KM`。
 
-平均心率：`162`。
+平均心率：`162BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2024-10-20-17-10-50-88.jpg){: .img-fluid}
 
@@ -193,7 +193,7 @@ pretty_table: true
 
 距离：`6KM`。
 
-平均心率：`154`。
+平均心率：`154BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/c8303d05a521b80d1884bd80e75333c4.jpeg){: .img-fluid}
 
@@ -207,7 +207,7 @@ pretty_table: true
 
 距离：`10KM`。
 
-平均心率：`167`。
+平均心率：`167BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/96b259864c79a14f2f02dc129acb7080.jpeg){: .img-fluid}
 
@@ -223,7 +223,7 @@ pretty_table: true
 
 距离：`10KM`。
 
-平均心率：`160`。
+平均心率：`160BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/e4ff8190080dd76ca1fc0049f7a3d1e0.jpeg){: .img-fluid}
 
@@ -237,7 +237,7 @@ pretty_table: true
 
 距离：`6KM`。
 
-平均心率：`168`。
+平均心率：`168BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/cba65aa001bf8a9cfc85cb30b4ef90ca.jpeg){: .img-fluid}
 
@@ -251,7 +251,7 @@ pretty_table: true
 
 距离：`21KM`。
 
-平均心率：`156`。
+平均心率：`156BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/fb32e844b3dc998a8321927615abcd18.jpeg){: .img-fluid}
 
@@ -265,7 +265,7 @@ pretty_table: true
 
 距离：`6KM`。
 
-平均心率：`166`。
+平均心率：`166BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/2f00f6e032f4c11ba70d026093353bce.jpeg){: .img-fluid}
 
@@ -279,7 +279,7 @@ pretty_table: true
 
 距离：`10KM`。
 
-平均心率：`162`。
+平均心率：`162BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/0686a88e6fcacf28f9e87f621dc0b0ed.jpeg){: .img-fluid}
 
@@ -295,7 +295,7 @@ pretty_table: true
 
 距离：`6KM`。
 
-平均心率：`143`。
+平均心率：`143BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/23a5b24716428285f83e62c0972c5ef1.jpeg){: .img-fluid}
 
@@ -309,7 +309,7 @@ pretty_table: true
 
 距离：`6KM`。
 
-平均心率：`154`。
+平均心率：`154BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/ed7dcb62b7d157a25eeccec33eafd271.jpeg){: .img-fluid}
 
@@ -325,7 +325,7 @@ pretty_table: true
 
 距离：`15KM`。
 
-平均心率：`157`。
+平均心率：`157BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/ca0e8e25bf5791b47038a673fbf22a14.jpeg){: .img-fluid}
 
@@ -339,7 +339,7 @@ pretty_table: true
 
 距离：`25KM`。
 
-平均心率：`162`。
+平均心率：`162BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/8e9c15682c99d36c6969234b56f6fd89.jpeg){: .img-fluid}
 
@@ -353,7 +353,7 @@ pretty_table: true
 
 距离：`3KM`。
 
-平均心率：`167`。
+平均心率：`167BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/14edaa7fc62559092084d1881239473a.jpeg){: .img-fluid}
 
@@ -367,7 +367,7 @@ pretty_table: true
 
 距离：`10KM`。
 
-平均心率：`175`。
+平均心率：`175BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/f100dace78cff6bbc45cb8ee730667f5.jpeg){: .img-fluid}
 
@@ -381,7 +381,7 @@ pretty_table: true
 
 距离：`5KM`。
 
-平均心率：`169`。
+平均心率：`169BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/aa70d6b2e612a3147242ddd056a4d523.jpeg){: .img-fluid}
 
@@ -395,7 +395,7 @@ pretty_table: true
 
 距离：`7KM`。
 
-平均心率：`169`。
+平均心率：`169BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/c7b546a3f7225c118e8eb182cc6a685c.jpeg){: .img-fluid}
 
@@ -409,7 +409,7 @@ pretty_table: true
 
 距离：`2KM`。
 
-平均心率：`155`。
+平均心率：`155BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/c544afcbd6cf1a406b518a0fdfa52af2.jpeg){: .img-fluid}
 
@@ -423,7 +423,7 @@ pretty_table: true
 
 距离：`10KM`。
 
-平均心率：`160`。
+平均心率：`160BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/d3861a2348fa6482833449446c20fc54.jpeg){: .img-fluid}
 
@@ -437,7 +437,7 @@ pretty_table: true
 
 距离：`5KM`。
 
-平均心率：`152`。
+平均心率：`152BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/eaf0041e189b89f6f6de280fe88b246f.jpeg){: .img-fluid}
 
@@ -447,7 +447,7 @@ pretty_table: true
 
 距离：`5KM`。
 
-平均心率：`136`。
+平均心率：`136BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/1720d450cab7d158fab5940e447b5856.jpeg){: .img-fluid}
 
@@ -457,7 +457,7 @@ pretty_table: true
 
 距离：`6KM`。
 
-平均心率：`168`。
+平均心率：`168BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/f05e4426f672d90806bfe9c96c6df7a6.jpeg){: .img-fluid}
 
@@ -467,7 +467,7 @@ pretty_table: true
 
 距离：`6KM`。
 
-平均心率：`165`。
+平均心率：`165BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/285f93e6eb5e515a25114906bf1d5410.jpeg){: .img-fluid}
 
@@ -477,7 +477,7 @@ pretty_table: true
 
 距离：`10KM`。
 
-平均心率：`172`。
+平均心率：`172BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/237d051788f8944e1e0a65c924586d09.jpeg){: .img-fluid}
 
@@ -487,7 +487,7 @@ pretty_table: true
 
 距离：`8KM`。
 
-平均心率：`170`。
+平均心率：`170BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/c5795d3ccb5a8e77d5154259d3cf52fb.jpeg){: .img-fluid}
 
@@ -497,7 +497,7 @@ pretty_table: true
 
 距离：`10KM`。
 
-平均心率：`165`。
+平均心率：`165BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/ccf85be784b5911293abc45359ce3e63.jpeg){: .img-fluid}
 
@@ -507,7 +507,7 @@ pretty_table: true
 
 距离：`7KM`。
 
-平均心率：`157`。
+平均心率：`157BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/b62f3e377dfd8f3a83cc93a93ffb0775.jpeg){: .img-fluid}
 
@@ -517,7 +517,7 @@ pretty_table: true
 
 距离：`8KM`。
 
-平均心率：`147`。
+平均心率：`147BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/eb537a764bb5660724b5419ccc0e3737.jpeg){: .img-fluid}
 
@@ -527,7 +527,7 @@ pretty_table: true
 
 距离：`6KM`。
 
-平均心率：`138`。
+平均心率：`138BPM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/b14ca49ba572735e473d3a1946360c26.jpeg){: .img-fluid}
 
