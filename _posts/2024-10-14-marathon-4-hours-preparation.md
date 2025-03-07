@@ -69,6 +69,8 @@ pretty_table: true
 
 是否达标：是。
 
+距离：`12KM`。
+
 平均心率：`157`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/ccc5b8f17cc0ffe53ca19e0253b0c092.jpeg){: .img-fluid}
@@ -81,24 +83,33 @@ pretty_table: true
 
 是否达标：是。
 
-平均心率：
+距离：`3KM`。
 
-* 第一组：`159`。
-* 第二组：`165`。
-* 第三组：`164`。
-* 第四组：`162`。
+平均心率：`159`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/20241015184333.png){: .img-fluid}
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/20241015184432.png){: .img-fluid}
 
+距离：`3KM`。
+
+平均心率：`165`。
+
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/20241015184354.png){: .img-fluid}
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/20241015184509.png){: .img-fluid}
 
+距离：`3KM`。
+
+平均心率：`164`。
+
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/20241015184446.png){: .img-fluid}
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/20241015184552.png){: .img-fluid}
+
+距离：`3KM`。
+
+平均心率：`162`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/20241015184529.png){: .img-fluid}
 
@@ -109,6 +120,8 @@ pretty_table: true
 今日训练目标：十公里慢跑，配速 `6:00`。
 
 是否达标：是。
+
+距离：`10KM`。
 
 平均心率：`155`。
 
@@ -122,6 +135,8 @@ pretty_table: true
 
 是否达标：是。
 
+距离：`12KM`。
+
 平均心率：`156`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/20241017200419.png){: .img-fluid}
@@ -133,6 +148,8 @@ pretty_table: true
 今日训练目标：十公里慢跑，配速 `6:00`。
 
 是否达标：是。
+
+距离：`12KM`。
 
 平均心率：`161`。
 
@@ -146,6 +163,8 @@ pretty_table: true
 
 是否达标：是。
 
+距离：`6KM`。
+
 平均心率：`150`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/2cb4801f343a880dcb171f4de1dcf1c7.jpeg){: .img-fluid}
@@ -157,6 +176,8 @@ pretty_table: true
 今日训练目标：半马，配速 `5:40`。
 
 是否达标：是。
+
+距离：`21KM`。
 
 平均心率：`162`。
 
@@ -170,6 +191,8 @@ pretty_table: true
 
 是否达标：是。
 
+距离：`6KM`。
+
 平均心率：`154`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/c8303d05a521b80d1884bd80e75333c4.jpeg){: .img-fluid}
@@ -178,9 +201,11 @@ pretty_table: true
 
 #### 22
 
-今日训练目标：一公里热身，$$ 6 \times 1km $$，配速 `4:45`，每个一公里后小跑 `500m` 休息，总共 `10km`。
+今日训练目标：`1KM` 热身，$$ 6 \times 1KM $$，配速 `4:45`，每个一公里后小跑 `500M` 休息，总共 `10KM`。
 
 是否达标：是。
+
+距离：`10KM`。
 
 平均心率：`167`。
 
@@ -196,6 +221,8 @@ pretty_table: true
 
 是否达标：是。
 
+距离：`10KM`。
+
 平均心率：`160`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/e4ff8190080dd76ca1fc0049f7a3d1e0.jpeg){: .img-fluid}
@@ -208,6 +235,8 @@ pretty_table: true
 
 是否达标：是。
 
+距离：`6KM`。
+
 平均心率：`168`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/cba65aa001bf8a9cfc85cb30b4ef90ca.jpeg){: .img-fluid}
@@ -216,9 +245,11 @@ pretty_table: true
 
 #### 25
 
-今日训练目标：马拉松，配速 `5:40`。
+今日训练目标：全马，配速 `5:40`。
 
 是否达标：否。
+
+距离：`21KM`。
 
 平均心率：`156`。
 
@@ -232,6 +263,8 @@ pretty_table: true
 
 是否达标：是。
 
+距离：`6KM`。
+
 平均心率：`166`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/2f00f6e032f4c11ba70d026093353bce.jpeg){: .img-fluid}
@@ -243,6 +276,8 @@ pretty_table: true
 今日训练目标：一公里热身，$$ 6 \times 1km $$，配速 `4:45`，每个一公里后小跑 `500m` 休息，总共 `10km`。
 
 是否达标：是。
+
+距离：`10KM`。
 
 平均心率：`162`。
 
@@ -258,6 +293,8 @@ pretty_table: true
 
 是否达标：是。
 
+距离：`6KM`。
+
 平均心率：`143`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/23a5b24716428285f83e62c0972c5ef1.jpeg){: .img-fluid}
@@ -269,6 +306,8 @@ pretty_table: true
 今日训练目标：六公里，配速：`5:40`。
 
 是否达标：是。
+
+距离：`6KM`。
 
 平均心率：`154`。
 
@@ -284,6 +323,8 @@ pretty_table: true
 
 是否达标：是。
 
+距离：`15KM`。
+
 平均心率：`157`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/ca0e8e25bf5791b47038a673fbf22a14.jpeg){: .img-fluid}
@@ -295,6 +336,8 @@ pretty_table: true
 今日训练目标：二十五公里，配速 `6:10`。
 
 是否达标：是。
+
+距离：`25KM`。
 
 平均心率：`162`。
 
@@ -308,6 +351,8 @@ pretty_table: true
 
 是否达标：否。
 
+距离：`3KM`。
+
 平均心率：`167`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/14edaa7fc62559092084d1881239473a.jpeg){: .img-fluid}
@@ -319,6 +364,8 @@ pretty_table: true
 今日训练目标：十公里，配速 `4:50`。
 
 是否达标：是。
+
+距离：`10KM`。
 
 平均心率：`175`。
 
@@ -332,6 +379,8 @@ pretty_table: true
 
 是否达标：是。
 
+距离：`5KM`。
+
 平均心率：`169`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/aa70d6b2e612a3147242ddd056a4d523.jpeg){: .img-fluid}
@@ -343,6 +392,8 @@ pretty_table: true
 今日训练目标：十公里，配速 `5:00`。
 
 是否达标：否。
+
+距离：`7KM`。
 
 平均心率：`169`。
 
@@ -356,6 +407,8 @@ pretty_table: true
 
 是否达标：是。
 
+距离：`2KM`。
+
 平均心率：`155`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/c544afcbd6cf1a406b518a0fdfa52af2.jpeg){: .img-fluid}
@@ -367,6 +420,8 @@ pretty_table: true
 今日训练目标：十公里，配速 `5:40`。
 
 是否达标：是。
+
+距离：`10KM`。
 
 平均心率：`160`。
 
@@ -380,6 +435,8 @@ pretty_table: true
 
 是否达标：是。
 
+距离：`5KM`。
+
 平均心率：`152`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/eaf0041e189b89f6f6de280fe88b246f.jpeg){: .img-fluid}
@@ -387,6 +444,8 @@ pretty_table: true
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/20241115200839.png){: .img-fluid}
 
 #### 18
+
+距离：`5KM`。
 
 平均心率：`136`。
 
@@ -396,6 +455,8 @@ pretty_table: true
 
 #### 22
 
+距离：`6KM`。
+
 平均心率：`168`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/f05e4426f672d90806bfe9c96c6df7a6.jpeg){: .img-fluid}
@@ -403,6 +464,8 @@ pretty_table: true
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/20250120154515.png){: .img-fluid}
 
 #### 23
+
+距离：`6KM`。
 
 平均心率：`165`。
 
@@ -412,6 +475,8 @@ pretty_table: true
 
 #### 25
 
+距离：`10KM`。
+
 平均心率：`172`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/237d051788f8944e1e0a65c924586d09.jpeg){: .img-fluid}
@@ -419,6 +484,8 @@ pretty_table: true
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/20250120154603.png){: .img-fluid}
 
 #### 26
+
+距离：`8KM`。
 
 平均心率：`170`。
 
@@ -428,6 +495,8 @@ pretty_table: true
 
 #### 27
 
+距离：`10KM`。
+
 平均心率：`165`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/ccf85be784b5911293abc45359ce3e63.jpeg){: .img-fluid}
@@ -435,6 +504,8 @@ pretty_table: true
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/20250120155205.png){: .img-fluid}
 
 #### 28
+
+距离：`7KM`。
 
 平均心率：`157`。
 
@@ -444,6 +515,8 @@ pretty_table: true
 
 #### 29
 
+距离：`8KM`。
+
 平均心率：`147`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/eb537a764bb5660724b5419ccc0e3737.jpeg){: .img-fluid}
@@ -451,6 +524,8 @@ pretty_table: true
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/20250120155042.png){: .img-fluid}
 
 #### 30
+
+距离：`6KM`。
 
 平均心率：`138`。
 
@@ -462,65 +537,97 @@ pretty_table: true
 
 #### 2
 
+距离：`6KM`。
+
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-06-13-28-19-71.jpg){: .img-fluid}
 
 #### 3
+
+距离：`5KM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-06-13-28-42-37_721f7cb5d53e9f3.jpg){: .img-fluid}
 
 #### 5
 
+距离：`6KM`。
+
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-06-13-29-01-13.jpg){: .img-fluid}
 
 #### 6
+
+距离：`6KM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-06-13-29-29-04_721f7cb5d53e9f3.jpg){: .img-fluid}
 
 #### 7
 
+距离：`7KM`。
+
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-06-13-29-45-09.jpg){: .img-fluid}
 
 #### 8
+
+距离：`8KM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-06-13-30-01-43.jpg){: .img-fluid}
 
 #### 9
 
+距离：`9KM`。
+
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-06-13-30-19-76.jpg){: .img-fluid}
 
 #### 10
+
+距离：`10KM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-06-13-30-35-46.jpg){: .img-fluid}
 
 #### 11
 
+距离：`10KM`。
+
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-06-13-30-53-71.jpg){: .img-fluid}
 
 #### 12
+
+距离：`10KM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-06-13-31-10-21.jpg){: .img-fluid}
 
 #### 13
 
+距离：`10KM`。
+
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-06-13-31-38-59.jpg){: .img-fluid}
 
 #### 14
+
+距离：`10KM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-06-13-31-56-80.jpg){: .img-fluid}
 
 #### 16
 
+距离：`10KM`。
+
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-06-13-32-15-86.jpg){: .img-fluid}
 
 #### 17
+
+距离：`10KM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-06-13-32-31-03.jpg){: .img-fluid}
 
 #### 27
 
+距离：`3KM`。
+
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-06-13-32-45-03_721f7cb5d53e9f3.jpg){: .img-fluid}
 
 #### 29
+
+距离：`5KM`。
 
 ![](https://raw.githubusercontent.com/Kaiser-Yang/image-hosting-site/main/20240421-20250421/Screenshot_2025-03-06-13-32-56-61_721f7cb5d53e9f3.jpg){: .img-fluid}
 
