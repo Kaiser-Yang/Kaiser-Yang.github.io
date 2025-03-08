@@ -2,6 +2,7 @@
 layout: post
 title:
 date:
+last_updated:
 description:
 tags:
 categories:
