@@ -6,16 +6,15 @@ title: Kaiser's Homepage # the website title (if blank, full name will be used i
 first_name: Kaiser
 middle_name:
 last_name: Yang
-email: kaiserqzyue@gmail.com
+email: kaiserqzyue@foxmail.com
 description: > # the ">" symbol means to ignore newlines until "footer_text:"
-  This homepage is for sharing everything I know.
+  Sharing everything I know.
 footer_text: >
   Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme.
   Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
   Photos from <a href="https://unsplash.com" target="_blank">Unsplash</a>.
 keywords: C/C++, Java, Python # add your own keywords or leave empty
 lang: zh # the language of your site (for example: en, fr, cn, ru, etc.)
-# TODO: Update the favicon
 icon: ⚛️ # the emoji used as the favicon (alternatively, provide image name in /assets/img/)
 
 url: https://Kaiser-Yang.github.io # the base hostname & protocol for your site
@@ -250,17 +249,7 @@ exclude:
   - _pages/teaching.md
   - _news/announcement_2.md
   - _news/announcement_3.md
-  - _posts/tmp.md
   - _projects/tmp.md
-  - _posts/2015*
-  - _posts/2018*
-  - _posts/2020*
-  - _posts/2021*
-  - _posts/2022*
-  - _posts/2023*
-  - _posts/2024-01*
-  - _posts/2024-04*
-  - _posts/2024-05*
   - _projects/*_project.md
 keep_files:
   - CNAME
