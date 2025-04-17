@@ -6,7 +6,7 @@ last_updated: 2025-03-08 00:35:12+0800
 description:
 tags:
 categories: Potpourri
-featured: true
+featured: false
 giscus_comments: true
 toc:
   sidebar: left
