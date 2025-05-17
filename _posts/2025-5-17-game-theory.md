@@ -32,10 +32,11 @@ Both of you are very clever and have optimal strategies for the game.
 How to know if you can win the game?
 
 For example, if there are $$ 4 $$ stones in the heap and now it's your turn,
-you will never win the game:
-no matter $$ 1 $$, $$ 2 $$, or $$ 3 $$ stones you remove,
+you will never win the game.
+No matter $$ 1 $$, $$ 2 $$, or $$ 3 $$ stones you remove,
 the last stone will always be removed by your friend.
-Another example: if there are $$ 5 $$ stones in the heap and now it's your turn, you will win the game.
+Another example: If there are $$ 5 $$ stones in the heap and now it's your turn,
+you will win the game.
 You can remove $$ 1 $$stone, then no matter how many stones your friend remove,
 you can remove the last stone and win the game.
 
@@ -48,15 +49,15 @@ But when there are $$ 5 $$ stones, you will win.
 
 What's the next? Actually:
 
-* `Theorem 1`: when the number of the stones is multiple of $$ 4 $$, you will lose the game.
+* `Theorem 1`: When the number of the stones is multiple of $$ 4 $$, you will lose the game.
 Otherwise, you will win the game.
 
 But why? In order to prove this, we must introduce some important definitions:
 
-* `Winning State`: the state you will win the game.
-* `Losing State`: the state you will lose the game.
+* `Winning State`: The state you will win the game.
+* `Losing State`: The state you will lose the game.
 
-We can find that: if a state is a winning state,
+We can find that if a state is a winning state,
 we can make a move to change the state to a losing state (make your opposite lose).
 And if a state is a losing state, no mater which move we choose,
 the state will be changed to a winning state (make your opposite win).
@@ -107,12 +108,12 @@ then you will win the game.
 We can solve this problem by using the `Nim Sum`.
 The `Nim Sum` of a set of numbers is the bitwise `XOR` of the numbers.
 
-`XOR`: if two bits of binary representations are different, the result is $$ 1 $$,
+`XOR`: If two bits of binary representations are different, the result is $$ 1 $$,
 otherwise, the result is $$ 0 $$.
 
 For the problem, the solution is below:
 
-* `Theorem 2`: the `Nim Sum` of a set of numbers is $$ 0 $$ if and only if
+* `Theorem 2`: The `Nim Sum` of a set of numbers is $$ 0 $$ if and only if
 the set of numbers is in the losing state.
 
 We can prove the `theorem 2` similarly as the `theorem 1`. We can prove the following two claims:
@@ -128,15 +129,15 @@ and the number of the rest stones of the pile is $$ r $$.
 Then the `Nim Sum` of the rest numbers is $$ (x + r) \oplus r $$.
 When this number is $$ 0 $$, $$ x $$ must be $$ 0 $$, which is not a legal move.
 
-NOTE: You may ask why the `Nim Sum` of the rest numbers is $(x + r) \oplus r$.
+**NOTE**: You may ask why the `Nim Sum` of the rest numbers is $$ (x + r) \oplus r $$.
 This is because the `XOR` operation is associative and commutative.
-After removing $x$ stones, we change the number from $x + r$ to $r$.
+After removing $$ x $$ stones, we change the number from $$ x + r $$ to $$ r $$.
 We can use the origin `Nim Sum` $$ 0 $$ to calculate the new `Nim Sum`: $0 \oplus (x + r) \oplus r$.
-The $\oplus (x + r)$ means we remove the whole pile,
-and the $\oplus r$ means we add new pile of $r$ stones.
-By the two steps, we can make a pile from $x + r$ stones to $r$ stones.
+The $$ \oplus (x + r) $$ means we remove the whole pile,
+and the $$ \oplus r $$ means we add new pile of $$ r $$ stones.
+By the two steps, we can make a pile from $$ x + r $$ stones to $$ r $$ stones.
 And $$ 0 $$ is the identity element of the `XOR` operation.
-Therefore the `Nim Sum` of the rest numbers is $(x + r) \oplus r$.
+Therefore the `Nim Sum` of the rest numbers is $$ (x + r) \oplus r $$.
 
 The proof of the `claim 4` is a little bit complex.
 Suppose the $$ i $$-th bit of the `Nim Sum` is $$ b_i $$ (the right most bit's index is $$ 1 $$),
@@ -198,14 +199,14 @@ We index the left most one as $$ 0 $$,
 and the right most one as $$ n $$.
 Let me show you the solution first:
 
-* `Theorem 3`: when the `Nim Sum` of the odd index piles is $$ 0 $$,
+* `Theorem 3`: When the `Nim Sum` of the odd index piles is $$ 0 $$,
 you will lose the game. Otherwise, you will win the game.
 
 Let me explain this. We still can prove by proving the following two claims:
 
-* `Claim 5`: if the `Nim Sum` of the odd index piles is $$ 0 $$,
+* `Claim 5`: If the `Nim Sum` of the odd index piles is $$ 0 $$,
 any move will make the `Nim Sum` of the rest odd index numbers not $$ 0 $$.
-* `Claim 6`: if the `Nim Sum` of the odd index piles is not $$ 0 $$,
+* `Claim 6`: If the `Nim Sum` of the odd index piles is not $$ 0 $$,
 we can make a move to make the `Nim Sum` of the rest odd index numbers $$ 0 $$.
 
 Actually, we have proven this two already.
