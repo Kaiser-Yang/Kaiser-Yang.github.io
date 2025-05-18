@@ -290,7 +290,7 @@ and move assignment operator to make them work with move semantics.
 
 There are some examples for move semantics:
 
-1. Initialization phase, if the right side of the assignment is an rvalue,
+Initialization phase, if the right side of the assignment is an rvalue,
 then it will trigger the move constructor:
 
 ```cpp
@@ -305,7 +305,7 @@ and then move it to `value` through the move constructor
 (if we don't consider the optimization of the compiler).
 Move semantics reduces one time copy operation.
 
-2. Assignment phase, if the right side of the assignment is an rvalue,
+Assignment phase, if the right side of the assignment is an rvalue,
 then it will trigger the move assignment operator:
 
 ```cpp
@@ -314,7 +314,7 @@ std::string value;
 value = std::string("HelloWorld");
 ```
 
-3. If we bind a rvalue to a rvalue reference, no move semantics will occur:
+If we bind a rvalue to a rvalue reference, no move semantics will occur:
 
 ```cpp
 std::string value{"HelloWorld"};
@@ -324,7 +324,7 @@ std::string &&rRef = std::move(value);
 
 In the above code, if we modify `rRef`, it will affect `value`,
 
-4. If we assign a rvalue reference to a variable, no move semantics will occur unless we use
+If we assign a rvalue reference to a variable, no move semantics will occur unless we use
 `std::move`:
 
 ```cpp
