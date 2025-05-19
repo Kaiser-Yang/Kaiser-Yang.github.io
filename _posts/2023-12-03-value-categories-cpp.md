@@ -523,7 +523,7 @@ struct remove_reference<_Tp&&> { typedef _Tp type; };
 
 ## References
 
-[value category cppreference](https://en.cppreference.com/w/cpp/language/value_category)
-[std::move cppreference](https://en.cppreference.com/w/cpp/utility/move#:~:text=C%2B%2B%20Utilities%20library%20std%3A%3Amove%20is%20used%20to%20indicate,to%20a%20static_cast%20to%20an%20rvalue%20reference%20type.)
-[reference cppreference](https://en.cppreference.com/w/cpp/language/reference)
-[std::forward cppreference](https://en.cppreference.com/w/cpp/utility/forward)
+* [value category cppreference](https://en.cppreference.com/w/cpp/language/value_category)
+* [std::move cppreference](https://en.cppreference.com/w/cpp/utility/move#:~:text=C%2B%2B%20Utilities%20library%20std%3A%3Amove%20is%20used%20to%20indicate,to%20a%20static_cast%20to%20an%20rvalue%20reference%20type.)
+* [reference cppreference](https://en.cppreference.com/w/cpp/language/reference)
+* [std::forward cppreference](https://en.cppreference.com/w/cpp/utility/forward)

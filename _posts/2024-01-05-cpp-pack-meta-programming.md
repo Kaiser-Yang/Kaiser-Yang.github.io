@@ -320,7 +320,7 @@ staticFor<100>([](auto i) {
 
 ## References
 
-[parameter pack cppreference](https://en.cppreference.com/w/cpp/language/parameter_pack)
-[C++ 变长模板参数与折叠表达式教学 bilibili](https://www.bilibili.com/video/BV1NM4y1e7Hn/?spm_id_from=333.788&vd_source=d042cf319136676c69986086c618b3bb)
-[std::get cppreference](https://en.cppreference.com/w/cpp/utility/tuple/get)
-[std::integral_constant cppreference](https://en.cppreference.com/w/cpp/types/integral_constant)
+* [parameter pack cppreference](https://en.cppreference.com/w/cpp/language/parameter_pack)
+* [C++ 变长模板参数与折叠表达式教学 bilibili](https://www.bilibili.com/video/BV1NM4y1e7Hn/?spm_id_from=333.788&vd_source=d042cf319136676c69986086c618b3bb)
+* [std::get cppreference](https://en.cppreference.com/w/cpp/utility/tuple/get)
+* [std::integral_constant cppreference](https://en.cppreference.com/w/cpp/types/integral_constant)
