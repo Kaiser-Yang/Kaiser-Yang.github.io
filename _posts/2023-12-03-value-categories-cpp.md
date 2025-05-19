@@ -103,7 +103,6 @@ void foo()
 {
     // not an lvalue, `v` is a template parameter of scalar type int
     const int* a = &v; // ill-formed
- 
     v = 3; // ill-formed: lvalue required as left operand of assignment
 }
 ```
