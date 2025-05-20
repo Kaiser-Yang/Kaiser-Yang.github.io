@@ -48,7 +48,7 @@ there are some wildcards in the `bash` shell:
 * `?`: matches a single character (excluding `/`).
 * `[]`：matches any character in the brackets. For example, `[abc]` matches `a` or `b` or `c`.
 * `[!]` or `[^]`: matches any character not in the brackets. For example, `[!abc]` matches any
-character except `a` or `b` or `c`.
+character except `a`, `b` and `c`.
 
 In the square brackets, you can use `-` to represent a range, for example, `[0-9]`
 matches any digit, and `[a-z]` matches any lowercase letter.
@@ -62,6 +62,14 @@ for example, `echo {a..z}` will be parsed as `echo a b c ... z`.
 
 **Note**: these wildcards are not all same with regex. In regex, `*` means 0 or more times,
 `?` means 0 or 1 time, and `^` also means the beginning of a line.
+
+When `extglob` is on (use `shopt | grep extglob` to check), those below are supported:
+
+* `?(pattern-list)`: Matches zero or one occurrence of the given patterns.
+* `*(pattern-list)`: Matches zero or more occurrences of the given patterns.
+* `+(pattern-list)`: Matches one or more occurrences of the given patterns.
+* `@(pattern-list)`: Matches one of the given patterns.
+* `!(pattern-list)`: Matches anything except one of the given patterns.
 
 ### Quoting
 
@@ -504,6 +512,43 @@ See [Wildcards](#wildcards).
 
 * `$(command)` or `` `command` ``: The standard output of `command` is substituted
 with trailing newlines deleted.
+
+#### Process Substitution
+
+* `<(command)`: Provides the output of `command` as a file that can be read from.
+* `>(command)`: Provides a file that, when written to, becomes the input for `command`
+
+#### Word Splitting
+
+The part depends on the `IFS` variable.
+
+The shell scans the results of parameter expansion, command substitution,
+and arithmetic expansion that did not occur within double quotes for word splitting.
+
+You can put variables in double quotes to prevent word splitting, for examples:
+
+```bash
+a='1 2   3'
+echo $a # 1 2 3
+echo "$a" # 1 2   3
+
+set -- $a
+echo $# # 3
+set -- "$a"
+echo $# # 1
+```
+
+The `IFS` default to `space`, `tab`, and `newline`.
+
+#### Pathname Expansion
+
+See [Wildcards](#wildcards).
+
+#### Quote Removal
+
+After the preceding expansions,
+all unquoted occurrences of the characters `\`, `'`, and `"`
+that did not result from one of the above expansions are removed.
 
 ## `git`
 
