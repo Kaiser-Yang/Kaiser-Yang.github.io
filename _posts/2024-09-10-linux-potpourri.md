@@ -120,6 +120,150 @@ echo "!!" # ls
 You can use `$"string"` to translate the string according to the current locale.
 If there is no translation available, the string `$` will be ignored.
 
+### Variables
+
+You can use `name=[value]` (square braces here mean that the `value` is optional) to define a
+variable and set its value. If the `value` is omitted, the empty string is assigned to it.
+
+**NOTE**: You can not put a space between `name` and `=`. For example, `name = value` is invalid.
+
+You can also use `declare` command to define a variable and set its value.
+Those below are available `declare` attributes options:
+
+| Option | Meaning |
+| --- | --- |
+| `-a` | indexed array |
+| `-A` | associative array |
+| `-i` | integer |
+| `-l` | lowercase value automatically |
+| `-u` | uppercase value automatically |
+| `-r` | readonly |
+| `-x` | export |
+| `-n` | name reference to another variable |
+| `-t` | trace, rarely used |
+
+**NOTE**: You can use `+` instead of `-` to unset an attribute.
+
+If you use `declare -i` to set the integer attribute of a variable, the value will be evaluated
+as an arithmetic expression automatically, for example:
+
+```bash
+a=1+2
+echo $a # 1+2
+# You can use $((...)) to evaluate an arithmetic expression
+echo $((a)) # 3
+declare -i a=1+2
+echo $a # 3
+```
+
+You can use `+=` to expand a variable:
+
+```bash
+declare -i num=5
+num+=3
+echo $num # 8
+num+=2+5
+echo $num # 15
+
+str="Hello"
+str+=" World"
+echo "$str" # Hello World
+
+arr=("apple" "banana")
+arr+=("cherry" "date")
+echo "${arr[@]}" # apple banana cherry date
+
+arr=([0]="a" [2]="b") # Non-continuous index
+arr+=("c") # Appends at index 3 (next max index + 1)
+echo "${!arr[@]}" # 0 2 3 (indexes of the array)
+
+# Must use declare -A aarr to define aarr as an associative array,
+# which is similar with a dictionary or map
+declare -A aarr
+aarr=([name]="Alice" [age]=30)
+aarr+=([city]="Paris" [job]="Engineer") # Add new keys
+echo "${aarr[@]}" # Alice 30 Paris Engineer (unordered)
+```
+
+The `*` in the value of a variable is not expanded, but is treated as a normal character.
+
+**NOTE**: The variable can be unset by the `unset` command.
+
+### Positional Parameters
+
+A positional parameter is a parameter denoted by one or more digits,
+other than the single digit 0.
+
+Positional parameters are assigned from the shell's arguments when it is invoked,
+and may be reassigned using the `set` builtin command.
+Positional parameters may not be assigned to with assignment statements.
+The positional parameters are temporarily replaced when a shell function is executed.
+
+When a positional parameter consisting of more than a single digit is expanded,
+it must be enclosed in braces.
+
+You can update positional parameters with `set` command, for example:
+
+```bash
+# Set all the positional parameters with 1 2 3 4
+set -- 1 2 3 4
+
+args=("$@") # Copy positional args into an array
+args[1]="mango" # Change the second element (index 1)
+set -- "${args[@]}" # Reset positional arguments
+
+set -- "$@" "bird" # Append "bird"
+
+set -- "fish" "$@" # Prepend "fish"
+
+# Remove the first positional parameter
+# After this, the $1 is the value of original $2
+shift # or shift 1
+
+args=("$@")
+unset 'args[2]' # Remove the second positional parameter
+set -- "${args[@]}"
+```
+
+**NOTE**: `0` is not a positional parameter, it is a special parameter, which will be expanded to
+the name of the shell or shell script.
+
+### Special Parameters
+
+* `$*`: All positional parameters, each of which expands to a separate word.
+* `"$*"`: A single string with all positional parameters
+separated by the first character of the `IFS` variable.
+If `IFS` is unset, the parameters are separated by spaces.
+If `IFS` is null, the parameters are joined without intervening separators.
+* `$@`: All positional parameters, each of which expands to a separate word.
+* `"$@"`: Equivalent to `"$1" "$2" ... "$N"` (where N is the number of positional parameters).
+`prefix"$@"suffix` will be parsed as `prefix"$1" "$2" ... "$N"suffix`.
+* `$#`: The number of positional parameters in decimal.
+* `$?`: The exit status of the most recently executed foreground pipeline.
+* `$$`: The process ID of the shell. In a sub-shell,
+it expands to the process ID of the current shell, not the sub-shell.
+* `$!`: The process ID of the job most recently placed into the background.
+* `$0`: The name of the shell or shell script.
+If bash is invoked with a file of commands, `$0` is set to the name of that file.
+If bash is started with the `-c` option, 
+then `$0` is set to the first argument after the string to be executed, if one is present.
+Otherwise, it is set to the filename used to invoke bash, as given by argument zero.
+* `$_`: The last argument of the previous command or script path.
+* `$-`: The current option flags as specified upon invocation,
+by the set builtin command, or those set by the shell itself (such as the -i option).
+
+The characters of `$-` and their meanings:
+
+| Flag | Meaning |
+| --- | --- |
+| `h` | hashall (remembers command locations in `$PATH`) |
+| `i` | interactive shell |
+| `m` | monitor mode (job control enabled) |
+| `H` | history expansion enabled (e.g., `!!` expands to the last command) |
+| `B` | brace expansion enabled (e.g., `{a, b}` expands to `a b`) |
+| `s` | compounds read from stdin (e.g., `bash -s` |
+
+
 ## `git`
 
 ### `.gitignore`
