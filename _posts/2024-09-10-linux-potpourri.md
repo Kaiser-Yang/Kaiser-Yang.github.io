@@ -327,7 +327,7 @@ unless they have been quoted themselves (quote removal).
 
 #### Brace Expansion
 
-This is the expansion of `{}` see [Wildcards](###wildcards).
+This is the expansion of `{}` see [Wildcards](#wildcards).
 
 #### Tilde Expansion
 
@@ -428,9 +428,9 @@ the pattern removal operation is applied to each element in turn,
 and the expansion is the resultant list:
 
 * `${parameter#word}`: Removes the shortest match of `word` from the beginning of `parameter`.
-Wildcards are allowed in `word`. See [Wildcards](###wildcards).
+Wildcards are allowed in `word`. See [Wildcards](#wildcards).
 * `${parameter##word}`: Removes the longest match of `word` from the beginning of `parameter`.
-Wildcards are allowed in `word`. See [Wildcards](###wildcards).
+Wildcards are allowed in `word`. See [Wildcards](#wildcards).
 * `${parameter%word}`: Similar to `${parameter#word}`
 but removes the suffix instead of the prefix.
 * `${parameter%%word}`: Similar to `${parameter##word}`
@@ -479,22 +479,31 @@ the match is performed without regard to the case of alphabetic characters.
 The `pattern` can only match one character.
 If `pattern` is omitted, it is treated like a `?`, which matches every character.
 Wildcards are allowed in `pattern`.
-See [Wildcards](###wildcards).
+See [Wildcards](#wildcards).
 * `${paramter^^pattern}`: Convert all matches of `pattern` to uppercase.
 The `pattern` can only match one character.
 If `pattern` is omitted, it is treated like a `?`, which matches every character.
 Wildcards are allowed in `pattern`.
-See [Wildcards](###wildcards).
+See [Wildcards](#wildcards).
 * `${paramter,pattern}`: Convert the first match of `pattern` to lowercase.
 The `pattern` can only match one character.
 If `pattern` is omitted, it is treated like a `?`, which matches every character.
 Wildcards are allowed in `pattern`.
-See [Wildcards](###wildcards).
+See [Wildcards](#wildcards).
 * `${paramter,,pattern}`: Convert all matches of `pattern` to lowercase.
 The `pattern` can only match one character.
 If `pattern` is omitted, it is treated like a `?`, which matches every character.
 Wildcards are allowed in `pattern`.
-See [Wildcards](###wildcards).
+See [Wildcards](#wildcards).
+
+#### Arithmetic Expansion
+
+* `$$(expression)`: The value of `expression` is substituted.
+
+#### Command Substitution
+
+* `$(command)` or `` `command` ``: The standard output of `command` is substituted
+with trailing newlines deleted.
 
 ## `git`
 
