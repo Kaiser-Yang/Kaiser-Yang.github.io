@@ -246,7 +246,7 @@ it expands to the process ID of the current shell, not the sub-shell.
 * `$!`: The process ID of the job most recently placed into the background.
 * `$0`: The name of the shell or shell script.
 If bash is invoked with a file of commands, `$0` is set to the name of that file.
-If bash is started with the `-c` option, 
+If bash is started with the `-c` option,
 then `$0` is set to the first argument after the string to be executed, if one is present.
 Otherwise, it is set to the filename used to invoke bash, as given by argument zero.
 * `$_`: The last argument of the previous command or script path.
@@ -310,6 +310,191 @@ the argument is subject to pathname expansion (expands to `unset arri`).
 If pathname expansion is not desired, the argument should be quoted
 (`unset 'arr[i]'` or `unset "arr[i]"`).
 
+### Expansion
+
+The order of expansions is:
+
+* brace expansion;
+* tilde expansion, parameter and variable expansion,
+arithmetic expansion, command substitution (done in a left-to-right fashion)
+and process substitution (if the system supports it);
+* word splitting;
+* pathname expansion.
+
+After these expansions are performed,
+quote characters present in the original word are removed
+unless they have been quoted themselves (quote removal).
+
+#### Brace Expansion
+
+This is the expansion of `{}` see [Wildcards](###wildcards).
+
+#### Tilde Expansion
+
+* `~`: Current user's home (`$HOME`).
+* `~username`: Home directory of `username`.
+* `~+`: Current working directory (`$PWD`).
+* `~-`: Previous working directory (`$OLDPWD`).
+* `"~"` or `'~'`: Literal `~` (no expansion).
+* `~+number`: The `number`-th entry of the output `dirs` (0-indexed).
+* `~-number`: The `number`-last entry of the output `dirs` (1-indexed).
+* `~number`: Same as `~+number`.
+
+**NOTE:** You can use `pushd` to add directory to `dirs` and `popd` to remove directory from `dirs`.
+
+#### Parameter and Variable Expansion
+
+* `${parameter}`: The value of parameter is substituted. Sometimes, the braces can be omitted.
+* `${!parameter}`: Expands to the value of the variable named by `parameter`.
+* `${!nameref}`: Expands to the referenced name, for example:
+
+```bash
+declare -n nameref_var="target_var"  # nameref_var is a reference to target_var
+target_var="Hello"
+
+echo "$nameref_var" # Hello (dereferences automatically)
+echo "${!nameref_var}" # target_var (returns the referenced name)
+```
+
+* `${!prefix*}` or `${prefix@}`: Expands to the values of variables whose names begin with `prefix`.
+For example:
+
+```bash
+a=1
+aa=11
+aaa=111
+echo "${!a*}" # 1 11 111 (all variables starting with a)
+echo "${!a@}" # 1 11 111 (all variables starting with a)
+```
+
+* `${parameter:offset}`: Expands to the substring of the value of `parameter`
+starting at the character specified by `offset`.
+* `${parameter:offset:length}`: Expands to the substring of the value of `parameter`
+starting at the character specified by `offset` and extending for `length` characters.
+For examples:
+
+```bash
+# Basic usage
+str="Hello, World!"
+echo "${str:7}" # World! (substring starting at index 7)
+echo "${str:7:5}" # World (substring starting at index 7 and length 5)
+echo "${str:7:-1}" # World (substring starting at index 7 and end at -1)
+# The space between `:` and `-` is required to avoid confusion with the `:-` expansion
+echo "${str: -6}" # World! (substring starting at index -6)
+echo "${str: -6:5}" # World (substring starting at index -6 and length 5)
+echo "${str: -6:-1}" # World (substring starting at index -6 and end at -1)
+
+# For @
+set -- A B C D E
+echo "${@:0:1}" # the name of the script or the shell
+echo "${@:2}" # B C D E (substring starting at index 2)
+echo "${@:2:3}" # B C D (substring starting at index 2 and length 3)
+echo "${@: -3}" # C D E (substring starting at index -3)
+echo "${@: -3:2}" # C D (substring starting at index -3 and length 2)
+# echo "${@:2:-1}" # Error, the length can not be negative for @
+
+# For indexed array
+arr=(A B C D E)
+echo "${arr[@]:2}" # C D E (substring starting at index 2)
+echo "${arr[@]:2:3}" # C D E (substring starting at index 2 and length 3)
+echo "${arr[@]: -3}" # C D E (substring starting at index -3)
+echo "${arr[@]: -3:2}" # C D (substring starting at index -3 and length 2)
+# echo "${arr[@]:2:-1}" # Error, the length can not be negative for an indexed array
+
+# Undefined results for associative array
+```
+
+* `${!array[@]}` or `${!array[*]}`: Expands to the indices of the array `array`.
+* `${#parameter}`: The length of the value of `parameter` is substituted.
+* `${#*}` or `${#@}`: Same with `$#`: the number of positional parameters.
+
+For those below, you can remove `:` to make it only work for unset variables:
+
+* `${parameter:-word}`: Expands to `word` if `parameter` is unset or null;
+otherwise, it expands to the value of `parameter`.
+* `${parameter:=word}`: Assigns `word` to `parameter` and expands to `word`
+if `parameter` is unset or null;
+otherwise, it expands to the value of `parameter`.
+You can not use this to positional parameters.
+* `${parameter:?word}`: `word` is written to standard error if `parameter` is unset or null,
+if it is not interactive, exits;
+otherwise, it expands to the value of `parameter`.
+* `${parameter:+word}`: Nothing is substituted if `parameter` is null or unset;
+otherwise, the expansion of `word` is substituted.
+
+For those below,
+if `parameter` is `@` or `*` or an array subscripted with `@` or `*`,
+the pattern removal operation is applied to each element in turn,
+and the expansion is the resultant list:
+
+* `${parameter#word}`: Removes the shortest match of `word` from the beginning of `parameter`.
+Wildcards are allowed in `word`. See [Wildcards](###wildcards).
+* `${parameter##word}`: Removes the longest match of `word` from the beginning of `parameter`.
+Wildcards are allowed in `word`. See [Wildcards](###wildcards).
+* `${parameter%word}`: Similar to `${parameter#word}`
+but removes the suffix instead of the prefix.
+* `${parameter%%word}`: Similar to `${parameter##word}`
+but removes the suffix instead of the prefix.
+* `${parameter@U}`: Converts the value of `parameter` to uppercase.
+* `${parameter@u}`: Converts the first character of the value of `parameter` to uppercase.
+* `${parameter@L}`: Converts the value of `parameter` to lowercase.
+* `${parameter@a}`: Expands to the attributes of `parameter`.
+* `${parameter@E}`: Expands to a string with all the escaped characters expanded
+(such as `\n` -> newline).
+* `${parameter@A}`: Expands to a string whose value,
+if evaluated,
+will recreate `parameter` with its attributes and value.
+If used for array variables, you should use `${a[@]@A}` to get the string.
+* `${parameter@Q}`: Expands to a single-Quoted string with any special characters
+(such as `\n`, `\t`, etc.) escaped.
+* `${parameter@K}`: Similar to `${parameter@Q}`, but this will
+print the values of indexed and associative arrays as a sequence of quoted key-value pairs.
+* `${parameter@P}`: Expands as if it were a prompt string.
+For examples:
+
+```bash
+PS1='\u@\h:\w\$ '
+echo "${PS1@P}" # user@host:/path$  (expands prompt codes)
+
+a='Hello World'
+b=('Hello' 'World')
+declare -A c=([first]='Hello' [second]='World')
+echo "${a@P}" # Hello World
+echo "${b[@]@P}" # Hello World
+echo "${c[@]@P}" # World Hello (unordered)
+echo "${a@K}" # 'Hello World'
+echo "${b[@]@K}" # 0 "Hello" 1 "World"
+echo "${c[@]@K}" # first "Hello" second "World"
+```
+
+* `${parameter/pattern/string}`: Replace the longest match of `pattern` with `string`.
+If `pattern` begins with `/`, all matches of `pattern` are replaced with `string`.
+If `pattern` begins with `#`, it must match at the beginning of the expanded value of `parameter`.
+If `pattern` begins with `%`, it must match at the end of the expanded value of `parameter`.
+If `string` is null,
+matches of `pattern` are deleted and the `/` following `pattern` may be omitted.
+If the `nocasematch` shell option is enabled,
+the match is performed without regard to the case of alphabetic characters.
+* `${paramter^pattern}`: Convert the first match of `pattern` to uppercase.
+The `pattern` can only match one character.
+If `pattern` is omitted, it is treated like a `?`, which matches every character.
+Wildcards are allowed in `pattern`.
+See [Wildcards](###wildcards).
+* `${paramter^^pattern}`: Convert all matches of `pattern` to uppercase.
+The `pattern` can only match one character.
+If `pattern` is omitted, it is treated like a `?`, which matches every character.
+Wildcards are allowed in `pattern`.
+See [Wildcards](###wildcards).
+* `${paramter,pattern}`: Convert the first match of `pattern` to lowercase.
+The `pattern` can only match one character.
+If `pattern` is omitted, it is treated like a `?`, which matches every character.
+Wildcards are allowed in `pattern`.
+See [Wildcards](###wildcards).
+* `${paramter,,pattern}`: Convert all matches of `pattern` to lowercase.
+The `pattern` can only match one character.
+If `pattern` is omitted, it is treated like a `?`, which matches every character.
+Wildcards are allowed in `pattern`.
+See [Wildcards](###wildcards).
 
 ## `git`
 
