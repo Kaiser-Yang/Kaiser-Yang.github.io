@@ -186,6 +186,7 @@ echo "${aarr[@]}" # Alice 30 Paris Engineer (unordered)
 ```
 
 The `*` in the value of a variable is not expanded, but is treated as a normal character.
+You can use `(*.txt)` to expand to all `.txt` files.
 
 **NOTE**: The variable can be unset by the `unset` command.
 
@@ -262,6 +263,52 @@ The characters of `$-` and their meanings:
 | `H` | history expansion enabled (e.g., `!!` expands to the last command) |
 | `B` | brace expansion enabled (e.g., `{a, b}` expands to `a b`) |
 | `s` | compounds read from stdin (e.g., `bash -s` |
+
+### Arrays
+
+An indexed array is created automatically
+if any variable is assigned to using the syntax `name[subscript]=value`.
+The subscript is treated as an arithmetic expression that must evaluate to a number.
+
+For an indexed array, you can use negative index, which will count back from the end of the array.
+For example, `a[-1]` means the last element, and `a[-2]` means the second to last.
+
+You can reference an element of any array with `${name[subscript]}`.
+You can not omit the braces.
+
+You can use `${name[@]}` or `${name[*]}` to get all assigned values,
+and `${!name[@]}` or `${!name[@]}` to get all assigned indices.
+They difference between them when they are double-quoted
+is similar with the one between `"$@"` and `"$*"`.
+
+`${#name[subscript]}` expands to the length of `${name[subscript]}`.
+If subscript is `*` or `@`, the expansion is the number of elements in the array.
+
+`$name` is equivalent to `${name[0]}`.
+
+`unset name[0]` can destroy the first element of the array.
+
+`unset name` or `unset name[@]` or `unset name[*]` will removes the entire array.
+
+You can use `declare -a name` to create an array called `name`.
+
+You can use `declare -A name` to create an associative array called `name`.
+
+`declare -a -A name` is equivalent to `declare -A name`.
+
+For an associative array,
+Using `name=( key1 value1 key2 value2...)` and `name=( [key1]=value1 [key2]=value2 ...)`
+to assign value are both OK. But you can not mixed these two types like
+`myarr=( key1 value1 [key2]=value2 )`.
+If you leave off a value at the end, it's treated as the empty string.
+In `declare -A myarr=( key1 value1 key2 )`, `myarr[key2]` is an empty string.
+
+When using a variable name with a subscript as an argument to a command,
+such as with unset (`unset arr[i]`),
+without using the word expansion syntax described above (`unset ${arr[i]}`),
+the argument is subject to pathname expansion (expands to `unset arri`).
+If pathname expansion is not desired, the argument should be quoted
+(`unset 'arr[i]'` or `unset "arr[i]"`).
 
 
 ## `git`
