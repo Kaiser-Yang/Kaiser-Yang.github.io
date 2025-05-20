@@ -581,4 +581,5 @@ and the global ignore file has the lowest priority.
 ## References
 
 * [10 Practical Examples Using Wildcards to Match Filenames in Linux](https://www.tecmint.com/use-wildcards-to-match-filenames-in-linux/)
+* [Man Page of Bash](https://www.gnu.org/software/bash/manual/bash.html)
 * [Ignoring files](https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files)
