@@ -53,7 +53,7 @@ we often use the `new` keyword to allocate memory in `C++`:
 ```cpp
 class Base {
 public:
- int num{10};
+    int num{10};
     Base() {}
     ~Base() { std::cout << "~Base()" << std::endl; }
 };
@@ -71,7 +71,7 @@ However, We may forget to release the memory when we use `return` or `throw` to 
 int test() {
     Base *b = new Base;
     if (!check()) { // do some check, but failed.
-     // delete b; // this may be forgotten easily.
+        // delete b; // this may be forgotten easily.
         return -1;
     }
     delete b;
@@ -288,7 +288,7 @@ Using the `new` and constructors may be unsafe when exceptions are thrown. For e
 ```cpp
 // In some header file:
 void f(std::unique_ptr<T1>, std::unique_ptr<T2>);
- 
+
 // At some call site:
 f(std::unique_ptr<T1>{ new T1 }, std::unique_ptr<T2>{ new T2 });
 ```
@@ -313,10 +313,10 @@ This is very easy to use, for example:
 ```cpp
 class Base {
 public:
- int num1;
- int num2;
- Base() = default;
- Base(int i, int j) : num1(i), num2(j) {}
+    int num1;
+    int num2;
+    Base() = default;
+    Base(int i, int j) : num1(i), num2(j) {}
 };
 std::unique_ptr<Base> up = std::make_unique<Base>(1, 2); // new Base(1, 2);
 // create an array.
