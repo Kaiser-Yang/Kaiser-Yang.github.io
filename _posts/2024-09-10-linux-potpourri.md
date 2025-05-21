@@ -354,6 +354,14 @@ This is the expansion of `{}` see [Wildcards](#wildcards).
 
 * `${parameter}`: The value of parameter is substituted. Sometimes, the braces can be omitted.
 * `${!parameter}`: Expands to the value of the variable named by `parameter`.
+For example:
+
+```bash
+foo='Hello'
+bar='foo'
+echo "${!bar}" # Hello
+```
+
 * `${!nameref}`: Expands to the referenced name, for example:
 
 ```bash
@@ -455,24 +463,36 @@ will recreate `parameter` with its attributes and value.
 If used for array variables, you should use `${a[@]@A}` to get the string.
 * `${parameter@Q}`: Expands to a single-Quoted string with any special characters
 (such as `\n`, `\t`, etc.) escaped.
+For examples:
+
+```cpp
+a='Hello World'
+b=('Hello' 'World')
+declare -A c=([first]='Hello' [second]='World')
+echo "${a@Q}" # 'Hello World'
+echo "${b[@]@Q}" # 'Hello' 'World'
+echo "${c[@]@Q}" # 'World' 'Hello' (unordered)
+```
+
 * `${parameter@K}`: Similar to `${parameter@Q}`, but this will
 print the values of indexed and associative arrays as a sequence of quoted key-value pairs.
+For examples:
+
+```cpp
+a='Hello World'
+b=('Hello' 'World')
+declare -A c=([first]='Hello' [second]='World')
+echo "${a@K}" # 'Hello World'
+echo "${b[@]@K}" # 0 "Hello" 1 "World"
+echo "${c[@]@K}" # first "Hello" second "World"
+```
+
 * `${parameter@P}`: Expands as if it were a prompt string.
 For examples:
 
 ```bash
 PS1='\u@\h:\w\$ '
 echo "${PS1@P}" # user@host:/path$  (expands prompt codes)
-
-a='Hello World'
-b=('Hello' 'World')
-declare -A c=([first]='Hello' [second]='World')
-echo "${a@P}" # Hello World
-echo "${b[@]@P}" # Hello World
-echo "${c[@]@P}" # World Hello (unordered)
-echo "${a@K}" # 'Hello World'
-echo "${b[@]@K}" # 0 "Hello" 1 "World"
-echo "${c[@]@K}" # first "Hello" second "World"
 ```
 
 * `${parameter/pattern/string}`: Replace the longest match of `pattern` with `string`.
