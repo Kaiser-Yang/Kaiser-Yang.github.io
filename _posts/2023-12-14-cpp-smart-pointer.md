@@ -64,7 +64,7 @@ delete b;
 For the above code, we need to use `new` to allocate memory,
 and `delete` to release the memory.
 
-However, we may forget to release the memory in some cases:
+However, We may forget to release the memory when we use `return` or `throw` to exit the function:
 
 ```cpp
 // memory leakage.
@@ -79,7 +79,6 @@ int test() {
 }
 ```
 
-We may forget to release the memory when we use `return` or `throw` to exit the function.
 Smart pointers are designed to solve this problem.
 
 ### `std::unique_ptr`
@@ -109,7 +108,7 @@ std::cout << *p << std::endl;
 std::cout << b->num << std::endl;
 ```
 
-We can also use `std::unique_ptr` to manage arrays:
+We can also use `std::unique_ptr` to manage arrays, too:
 
 ```cpp
 std::unique_ptr<int[]> p(new int[10]);
@@ -168,10 +167,10 @@ and the second template parameter is a deleter.
 
 The default deleter is like `delete` and `delete[]`.
 
-You can also use a custom deleter to release the resource, for example:
+You can also use a customized deleter to release the resource, for example:
 
 ```cpp
-// The custom deleter to close a file.
+// The customized deleter to close a file.
 void close_file(std::FILE* fp) {
     std::fclose(fp);
     std::cout << "File closed" << std::endl;
@@ -190,12 +189,16 @@ void close_file(std::FILE* fp) {
 `std::shared_ptr` is a smart pointer that can be shared by multiple pointers.
 You can bind many `std::shared_ptr` to a same address in memory.
 
-There is a reference count in `std::shared_ptr`
-to indicate how many `std::shared_ptr` objects are bound to the same address.
-When a new `std::shared_ptr` object is created (it needs to be copied from another `std::shared_ptr`),
+There is a variable representing the count of reference in `std::shared_ptr`
+(indicate how many `std::shared_ptr` objects are bound to the same address).
+When a new `std::shared_ptr` object is created
+(it needs to be copied from another `std::shared_ptr`),
+the reference count will increase by $$ 1 $$.
+When a `std::shared_ptr` object is destroyed,
+the reference count will decreased by $$ 1 $$.
 
-It is still not recommended to bind a `std::shared_ptr` to a raw pointer directly, you should use
-`std::make_shared` instead.
+It is still not recommended to bind a `std::shared_ptr` to a raw pointer directly,
+you should use `std::make_shared` instead.
 
 There is an example for `std::shared_ptr`:
 
@@ -284,7 +287,7 @@ Using the `new` and constructors may be unsafe when exceptions are thrown. For e
 
 ```cpp
 // In some header file:
-void f( std::unique_ptr<T1>, std::unique_ptr<T2> );
+void f(std::unique_ptr<T1>, std::unique_ptr<T2>);
  
 // At some call site:
 f(std::unique_ptr<T1>{ new T1 }, std::unique_ptr<T2>{ new T2 });
@@ -335,9 +338,9 @@ Herb Sutter, chair of the ISO C++ standards committee, writes on his blog that:
 
 ## References
 
-[GotW #102: Exception-Safe Function Calls (Difficulty: 7/10)](https://herbsutter.com/gotw/_102/)
-[std::unique_ptr cppreference](https://en.cppreference.com/w/cpp/memory/unique_ptr)
-[std::shared_ptr cppreference](https://en.cppreference.com/w/cpp/memory/shared_ptr)
-[std::weak_ptr cppreference](https://en.cppreference.com/w/cpp/memory/weak_ptr)
-[std::make_unique cppreference](https://en.cppreference.com/w/cpp/memory/unique_ptr/make_unique)
-[std::make_shared cppreference](https://en.cppreference.com/w/cpp/memory/shared_ptr/make_shared)
+* [GotW #102: Exception-Safe Function Calls (Difficulty: 7/10)](https://herbsutter.com/gotw/_102/)
+* [std::unique_ptr cppreference](https://en.cppreference.com/w/cpp/memory/unique_ptr)
+* [std::shared_ptr cppreference](https://en.cppreference.com/w/cpp/memory/shared_ptr)
+* [std::weak_ptr cppreference](https://en.cppreference.com/w/cpp/memory/weak_ptr)
+* [std::make_unique cppreference](https://en.cppreference.com/w/cpp/memory/unique_ptr/make_unique)
+* [std::make_shared cppreference](https://en.cppreference.com/w/cpp/memory/shared_ptr/make_shared)
