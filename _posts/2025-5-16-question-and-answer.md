@@ -20,7 +20,6 @@ pretty_table: true
 A/B testing is a statistical method used to compare two versions of an application to determine
 which performs better based on specific metrics.
 
-
 In A/B testing, users are split into two groups: the control group (A) and the treatment group (B).
 The control group is exposed to the original version of the application, while the treatment group
 is exposed to the modified version. By analyzing the performance of both groups, you can determine
@@ -71,10 +70,10 @@ public:
 
 ## What is the `3-2-1 rule` for backups?
 
-* At least `3` copies of your data. This ensures redundancy; if one copy fails,
+- At least `3` copies of your data. This ensures redundancy; if one copy fails,
 you have others to rely on.
-* At least `2` copies on different storage media. This avoids points of failure.
-* At least `1` copy off-site. This protects against local disasters like fire or flood.
+- At least `2` copies on different storage media. This avoids points of failure.
+- At least `1` copy off-site. This protects against local disasters like fire or flood.
 
 ## What is the difference between Docker and a virtual machine?
 
