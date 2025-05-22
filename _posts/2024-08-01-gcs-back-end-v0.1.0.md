@@ -308,7 +308,7 @@ Expected status code 0, got status code {1}
 如果通过样的方式创建 `docker` 失去了 `docker` 的部分安全性，
 因此我将在 `docker` 中的部署改用成了 `Sys Init V` 的方式，而在物理机上的部署继续保持`systemd` 的方式。
 
-`Sys Init V` 的脚本模板来自于 [_service.md](https://gist.github.com/naholyr/4275302) 。
+`Sys Init V` 的脚本模板来自于 [\_service.md](https://gist.github.com/naholyr/4275302) 。
 我对其中进行了部分的修改，得到了如下的文件：
 
 ```bash
