@@ -5,8 +5,7 @@ date: 2025-05-16 21:16:38+0800
 last_updated: 2025-05-16 21:16:38+0800
 description: Some questions that I have encountered in my work.
 tags:
-  - Potpourri
-categories:
+categories: Potpourri
 featured:
 giscus_comments: true
 toc:
@@ -99,3 +98,23 @@ Lastly, Docker is a specific implementation of containers
 and it is tailored for software deployment.
 Because of this, it has some quirks.
 For example, Docker containers will not persist any form of storage between reboots by default.
+
+## How to Upgrade Application When DB Schema Changes?
+
+When developing new features, the DB schema may changes, such as adding new columns or tables.
+We must make sure that the data is not lost after upgrading the application.
+
+Versioned schema migrations are a common solution to this problem.
+The steps can be summarized as follows:
+
+* Store the version of the schema in the database.
+* Creating incremental migration scripts
+that can be run to update the schema between two contiguous versions.
+Each migration script should be idempotent,
+meaning that it can be run multiple times without causing any issues.
+We should also update the base schema to the latest version
+to support installation the latest version directly.
+* Automatically run the migration scripts when the application starts.
+For the first installation, we call the base schema script.
+For upgrading, we check the current version of the schema,
+and run the migration scripts until the specific version.
