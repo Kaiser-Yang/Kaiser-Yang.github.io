@@ -40,7 +40,3 @@ related_posts: true
 # 开发相关
 
 * [`gcs` 部署](/blog/2025/gcs-deploy)]
-
-# 项目开发进展
-
-* [ ] [后端v0.1.0开发实录](/blog/2024/gcs-back-end-v0.1.0)
