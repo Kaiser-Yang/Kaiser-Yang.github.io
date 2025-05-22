@@ -95,15 +95,21 @@ auto factorial = [](int n) {
 struct Foo {
     Foo(int num) : num_(num) {}
     Foo(const Foo &other) = default;
-    void print_add(int i) { std::cout << num_ + i << '\n'; }
+    void print_add(int i) { num_ += i; }
     int num_;
 };
 std::function<void(Foo&, int)> f_add_display = &Foo::print_add;
 Foo foo(314159);
 f_add_display(foo, 1); // same as foo.print_add(1);
+std::cout << foo.num_ << std::endl; // 314160
 
 std::function<void(Foo, int)> copy_f_add_display = &Foo::print_add;
 copy_f_add_display(foo, 1); // same as Foo(foo).print_add(1);
+std::cout << foo.num_ << std::endl; // 314160
+
+std::function<void(Foo*, int)> ptr_f_add_display = &Foo::print_add;
+ptr_f_add_display(foo, 1); // same as (&foo)->print_add(1);
+std::cout << foo.num_ << std::endl; // 314161
 ```
 
 **NOTE**: In the code above, if the first parameter is a reference or pointer,
@@ -116,8 +122,12 @@ a copy constructor is used to bind the object to the parameter.
 ```cpp
 std::function<int(Foo &)> f_num = &Foo::num_;
 f_num(foo); // same as foo.num_, but f_num(foo) is a rvalue, rather than lvalue;
+
 std::function<int(Foo)> copy_f_num = &Foo::num_;
 copy_f_num(foo); // same as Foo(foo).num_, but copy_f_num(foo) is a rvalue, rather than lvalue;
+
+std::function<int(Foo *)> ptr_f_num = &Foo::num_;
+ptr_f_num(&foo); // same as (&foo)->num_, but copy_f_num(foo) is a rvalue, rather than lvalue;
 ```
 
 **NOTE**: In the code above,
