@@ -529,7 +529,7 @@ mu.unlock();
 
 `std::mutex::lock` will block current thread, if it can not acquire the lock.
 Use `std::mutex::try_lock` will not block current thread, but return `false`
-when the lock is acquired by another thread:
+when the lock has been acquired by another thread:
 
 ```cpp
 std::mutex mu;
