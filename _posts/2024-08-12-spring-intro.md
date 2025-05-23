@@ -14,7 +14,9 @@ pretty_table: true
 ---
 
 For the Spring Framework, there are two most important concepts: IoC and AOP.
-This post will introduce these two concepts and some commonly used annotations in Spring.
+
+This post will introduce these two concepts, some other important concepts in Spring
+and some commonly used annotations in Spring.
 
 ## What is a Bean?
 
@@ -23,7 +25,7 @@ A bean is an object that is instantiated, assembled, and managed by a Spring IoC
 ## Bean and IoC
 
 Without using Spring for development,
-if you need to create an object, it is usually created using the `new` keyword.
+if you need to create an object, you usually create it with the `new` keyword.
 In this case,
 the creation and destruction of the object are controlled by the programmer (or your source code).
 In contrast,
@@ -31,14 +33,15 @@ IoC refers to Inversion of Control,
 which means that
 the creation and destruction of objects are no longer controlled by the programmer
 (or your source code).
+
 In Spring,
 the creation and destruction of objects are controlled by the Spring's IoC container.
 Programmers only need to specify the configuration of the object,
-and the Spring container will automatically create or destroy the object.
+and the Spring container will create or destroy the object automatically.
 
 With IoC, we can finish some work easily.
-For example, we can implement an interface with different implementations,
-and then inject the implementation into the class that uses it.
+For example, if we implement an interface with different implementations,
+and then inject one implementation into the class that uses it.
 We can easily switch between different implementations
 without modifying the code of the class that uses it.
 
@@ -63,15 +66,17 @@ you can use the `@Bean` annotation to register beans into the `Spring` container
 into the application context.
 It allows you to modularize your configuration by combining multiple configuration sources
 into a single context.
+
 We rarely use this annotation in Spring Boot,
 because Spring Boot automatically scans the package of the class
 where `@SpringBootApplication` is located and its sub-packages.
-We just need use `@Configuration` or `Component` to register those classes as beans.
+We usually use `@Configuration` or `Component` to register those classes as beans.
 
 ### `@Bean`
 
 `@Bean` is an annotation used to specify that a method is a bean producer,
 and the return value is a bean.
+
 `@Bean` can specify the name of the bean.
 If the name of the bean is not specified,
 the name of the bean defaults to the method name.
@@ -131,10 +136,11 @@ The default name of the bean is the class name with the first letter in lowercas
 
 `@ComponentScan` is an annotation used to specify which classes will be scanned by Spring.
 For example, `@ComponentScan("com.example")` indicates scanning `com.example`.
+
 In most cases, we do not need to use this annotation in Sprint Boot.
 This is because Spring Boot will automatically scan the package
 where the class with `@SpringBootApplication` is located and its sub-packages.
-In fact, this is because `@SpringBootApplication` contains the `@ComponentScan` annotation.
+This is because `@SpringBootApplication` contains the `@ComponentScan` annotation.
 
 ### `@Description`
 
@@ -233,7 +239,8 @@ if the class contains only one constructor.
 **NOTE**: A non-required method will not be called at all if its dependency
 (or one of its dependencies, in case of multiple arguments)
 is not available.
-A non-required field will not get populated at all in such cases, leaving its default value in place.
+A non-required field will not get populated at all in such cases,
+leaving its default value in place.
 
 ### `@Qualifier`
 
