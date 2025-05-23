@@ -170,6 +170,21 @@ The index helps the linker find the symbols faster.
 - `t`: List the contents of the archive.
 - `x`: Extract the files from the archive.
 - `d`: Delete the files from the archive.
+
+## What is CDNs?
+
+A Content Delivery Network (CDN) is a geographically distributed network of servers
+that work together to deliver web content
+(e.g., images, videos, CSS, JavaScript)
+to users more efficiently.
+The primary goal is to reduce latency,
+improve load times,
+and decrease bandwidth consumption by serving content from servers closest to the end user.
+
+The CDN works by caching content on multiple servers located in various geographic locations.
+When a user requests content, the CDN routes the request to the nearest server,
+which reduces the distance the data has to travel.
+
 ## What are SOP and CORS?
 
 SOP is an abbreviation for Same-Origin Policy.
