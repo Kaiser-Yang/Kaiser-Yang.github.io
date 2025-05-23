@@ -118,3 +118,55 @@ to support installation the latest version directly.
 For the first installation, we call the base schema script.
 For upgrading, we check the current version of the schema,
 and run the migration scripts until the specific version.
+
+## How to Build Shared or Static Library?
+
+For shared library, we can use `-fPIC` to generate position-independent object code.
+Then we can use `-shared` to generate shared library.
+
+```bash
+# Generate position-independent object code
+g++ -c -fPIC a.cpp -o a.o
+g++ -c -fPIC b.cpp -o b.o
+g++ -c -fPIC c.cpp -o c.o
+# Generate shared library
+g++ -shared -o libfoo.so a.o b.o c.o
+```
+
+After that, you may need to update the environment variable `LD_LIBRARY_PATH`
+to include the directory where the shared library is located.
+
+```bash
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/path/to/library
+```
+
+Then you can use `-L` and `-l` to link the shared library when compiling your program.
+
+You may be asking why we need update the `LD_LIBRARY_PATH` environment variable
+even if we have already specified the path to the shared library using `-L`.
+The reason is that the `-L` option only specifies the path to the library at compile time,
+which is used to find the library when linking the program.
+At runtime, the dynamic linker needs to know where to find the shared library.
+The `LD_LIBRARY_PATH` environment variable tells the dynamic linker
+where to look for shared libraries when the program is executed.
+If the library is not in a standard location (like `/usr/lib` or `/usr/local/lib`),
+the dynamic linker will not be able to find it unless you specify the `LD_LIBRARY_PATH`.
+
+For static library, we can use `ar` to archive object files into a static library.
+
+```bash
+g++ -c a.cpp -o a.o
+g++ -c b.cpp -o b.o
+g++ -c c.cpp -o c.o
+ar rcs libfoo.a a.o b.o c.o
+```
+
+The options for `ar` are as follows:
+
+* `r`: Insert or replace the files in the archive.
+* `c`: Create the archive if it does not exist.
+* `s`: Create or update the index for the archive.
+The index helps the linker find the symbols faster.
+* `t`: List the contents of the archive.
+* `x`: Extract the files from the archive.
+* `d`: Delete the files from the archive.
