@@ -107,14 +107,14 @@ We must make sure that the data is not lost after upgrading the application.
 Versioned schema migrations are a common solution to this problem.
 The steps can be summarized as follows:
 
-* Store the version of the schema in the database.
-* Creating incremental migration scripts
+- Store the version of the schema in the database.
+- Creating incremental migration scripts
 that can be run to update the schema between two contiguous versions.
 Each migration script should be idempotent,
 meaning that it can be run multiple times without causing any issues.
 We should also update the base schema to the latest version
 to support installation the latest version directly.
-* Automatically run the migration scripts when the application starts.
+- Automatically run the migration scripts when the application starts.
 For the first installation, we call the base schema script.
 For upgrading, we check the current version of the schema,
 and run the migration scripts until the specific version.
@@ -163,10 +163,10 @@ ar rcs libfoo.a a.o b.o c.o
 
 The options for `ar` are as follows:
 
-* `r`: Insert or replace the files in the archive.
-* `c`: Create the archive if it does not exist.
-* `s`: Create or update the index for the archive.
+- `r`: Insert or replace the files in the archive.
+- `c`: Create the archive if it does not exist.
+- `s`: Create or update the index for the archive.
 The index helps the linker find the symbols faster.
-* `t`: List the contents of the archive.
-* `x`: Extract the files from the archive.
-* `d`: Delete the files from the archive.
+- `t`: List the contents of the archive.
+- `x`: Extract the files from the archive.
+- `d`: Delete the files from the archive.
