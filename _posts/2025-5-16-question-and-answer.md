@@ -170,3 +170,38 @@ The index helps the linker find the symbols faster.
 - `t`: List the contents of the archive.
 - `x`: Extract the files from the archive.
 - `d`: Delete the files from the archive.
+## What are SOP and CORS?
+
+SOP is an abbreviation for Same-Origin Policy.
+It is a security measure implemented in web browsers.
+It restricts web pages from making requests to a different domain
+than the one that served the web page.
+
+This policy is in place to prevent malicious websites from accessing sensitive data
+from another domain without the user's consent. For example,
+if a user is logged into their bank account in one tab,
+and then visits a malicious website in another tab,
+the malicious website should not be able to access the user's bank account information.
+Therefore, the SOP is for security reasons and protects users from cross-site attacks.
+
+**NOTE**: If two URLs have the same protocol, domain, and port,
+then they are considered to have the same origin.
+
+However, there are some cases where we need to allow cross-origin requests,
+such as when we are using APIs from different domains or when we are using CDNs.
+
+CORS is an abbreviation for Cross-Origin Resource Sharing.
+It is a browser mechanism that allows restricted resources on a web page
+to be requested from another domain outside the domain from which the first resource was served.
+With CORS, the broser will send an `OPTIONS` request to the server
+to check if the server allows cross-origin requests.
+Then the server will respond with the appropriate headers
+(such as `Access-Control-Allow-Origin`,
+`Access-Control-Allow-Methods`,
+`Access-Control-Allow-Headers` etc.)
+to indicate whether the request is allowed or not.
+
+From the introduction above, we can figure out that SOP and CORS are only in
+the browser level. Therefore, we can use reverse proxy to bypass the SOP.
+For example, we can use `nginx` to set up a reverse proxy to forward requests to the target server.
+This way, the browser will only see the requests going to the same origin.
