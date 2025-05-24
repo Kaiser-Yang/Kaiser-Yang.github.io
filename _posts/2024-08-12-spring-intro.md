@@ -329,3 +329,77 @@ This annotation is usually placed above the `package` statement.
 are not allowed to be `null`.
 This annotation is usually placed above the `package` statement.
 
+## AOP
+
+AOP (Aspect-Oriented Programming) is a programming paradigm
+that allows you to separate cross-cutting concerns from the main business logic.
+
+In Spring, AOP is used to provide declarative transaction management,
+logging, security, and other cross-cutting concerns.
+
+AOP allows you to define aspects, which are reusable modules
+that encapsulate cross-cutting concerns.
+
+### `@Aspect`
+
+This annotation is used to define a class as an aspect.
+
+### `@PointCut`
+
+This annotation is used to define a method as a pointcut.
+
+This annotation can reduce the code duplication. For example,
+if you want to add multiple aspect to a same pointcut,
+you can use `@PointCut` to define the pointcut once,
+then add the aspect to the name of the pointcut (the method name).
+
+```java
+@Aspect
+@Component
+public Class MyAspect {
+    @Pointcut("execution(* com.example.service.*.*(..))")
+    public void serviceLayer() {}
+
+    @Before("serviceLayer()")
+    public void beforeServiceLayer(JoinPoint joinPoint) {
+        System.out.println("Before method: " + joinPoint.getSignature());
+    }
+
+    @After("serviceLayer()")
+    public void afterServiceLayer(JoinPoint joinPoint) {
+        System.out.println("After method: " + joinPoint.getSignature());
+    }
+}
+```
+
+### `@Before`
+
+This annotation is used to define a method as a before advice.
+
+### `@After`
+
+This annotation is used to define a method as an after advice.
+
+### `@Around`
+
+This annotation is used to define a method as an around advice.
+
+### `@AfterReturning`
+
+This advice will be executed after the target method returns successfully,
+which means it will not be executed if the target method throws an exception.
+
+### `@AfterThrowing`
+
+This advice will be executed after the target method throws an exception.
+
+**NOTE**: When there are multiple aspects for the same join point,
+The order of execution is shown below:
+
+* `@Around` (before `proceed()`)
+* `@Before`
+* Target method execution
+* `@After`
+* `@AfterReturning` or `@AfterThrowing`
+* `@Around` (after `proceed()`)
+
