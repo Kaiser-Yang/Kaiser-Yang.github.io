@@ -19,11 +19,12 @@ pretty_table: true
 [blink-cmp-git](https://github.com/Kaiser-Yang/blink-cmp-git) is a source for
 [blink.cmp](https://github.com/Saghen/blink.cmp). The source is able to provide completion items
 related to a git repository. For example, if a git repository's remote is `GitHub`, the source
-can get the issues, pull requests, and commits from the `GitHub` by using `gh` or `curl`.
+can get the issues, pull requests, and contributors from the `GitHub` by using `gh` or `curl`.
 
 Actually, the source is able to provide completion items for other git hosting platforms.
 This post explains how to configure additional git hosting platforms,
 which is useful when you are using your own git hosting platforms.
+
 By the way, if you find that the source has not configured the git hosting platforms you are using,
 please feel free to create a pull request or an issue. As for `v3.0.0`, the source supports `GitHub`
 and `GitLab`. For enterprise deployments (GitHub Enterprise/GitLab EE), it is possible to support
@@ -69,20 +70,20 @@ of strings. This is the arguments of the command to get the completion items.
 This value will be inserted when users confirm or select the completion item.
 * `separate_output`: A function that receives the output of the command and returns a list of any
 type. Each item of the return value will be assembled into a completion item.
-* `get_label`: A function receives the item of the list of `separate_output` and returns a string.
-Label is the element related with matching.
-* `get_kind_name`: A function receives the item of the list of `separate_output` and returns a
-string.
-* `get_insert_text`: A function receives the item of the list of `separate_output` and returns a
-string. This value is what will be inserted when the item is confirmed or selected.
-* `get_documentation`: A function receives the item of the list of `separate_output` and returns a
-string or an object of
+* `get_label`: A function that receives the item of the list of `separate_output`
+and returns a string. Label is the element related with matching.
+* `get_kind_name`: A function that receives the item of the list of `separate_output`
+and returns a string.
+* `get_insert_text`: A function that receives the item of the list of `separate_output`
+and returns a string. This value is what will be inserted when the item is confirmed or selected.
+* `get_documentation`: A function that receives the item of the list of `separate_output`
+and returns a string or an object of
 [`blink-cmp-git.DocumentationCommand`](https://github.com/Kaiser-Yang/blink-cmp-git/blob/master/lua/blink-cmp-git/types.lua#L1).
 Documentation usually shows the description of the completion item.
 * `configure_score_offset`: A function receives the list of completion items. The function is used
 to decide how to order the completion items.
-* `on_error`: A function receives the return value and standard error of the command. The function
-will be called when the command fails (non-zero return or non-empty standard error).
+* `on_error`: A function receives the return value and standard error output of the command.
+The function will be called when the command fails (non-zero return or non-empty standard error).
 
 ### `GitLab` Implementation
 
@@ -119,11 +120,11 @@ return {
 The `utils` is from `require('blink-cmp-git.utils')`, which provides some useful functions.
 
 For the triggers, we use `#` for `issue`, `!` for `pull_request`, and `@` for `mention`, which are
-the default triggers of `GitLab` when you edit in `GitLab`. The code is:
+the default triggers of `GitLab`. The code is:
 
 ```lua
 -- In file 'lua/blink-cmp-git/default/gitlab.lua'
--- NOTE:Some code is omitted
+-- NOTE: Some code is omitted
 return {
     issue = {
         triggers = { '#' },
@@ -141,7 +142,7 @@ For `get_token`, we can use an empty string as the default value:
 
 ```lua
 -- In file 'lua/blink-cmp-git/default/gitlab.lua'
--- NOTE:Some code is omitted
+-- NOTE: Some code is omitted
 return {
     issue = {
         get_token = '',
@@ -161,7 +162,7 @@ If not, `curl` can be as the default:
 
 ```lua
 -- In file 'lua/blink-cmp-git/default/gitlab.lua'
--- NOTE:Some code is omitted
+-- NOTE: Some code is omitted
 local function default_gitlab_get_command()
     return utils.command_found('glab') and 'glab' or 'curl'
 end
@@ -183,7 +184,7 @@ arguments for them (we only give the code for `issue` here):
 
 ```lua
 -- In file 'lua/blink-cmp-git/default/gitlab.lua'
--- NOTE:Some code is omitted
+-- NOTE: Some code is omitted
 local function basic_args_for_gitlab_api(token)
     if utils.truthy(token) then return {
         '-H',
@@ -216,23 +217,26 @@ return {
 
 Please make sure the last argument of `get_command_args` is the URL of the API. This will make it
 easy for users to configure if they using enterprise version. The `utils.get_repo_owner_and_repo`
-is a function that getting the owner and repository name of the current git repository. The
-parameter `true` means that the return value is encoded as URL (using '%20' instead of space).
+is a function that getting the owner and repository name of the current git repository.
+The parameter `true` means that the return value is encoded as URL (using '%20' instead of space).
+Some git hosting platforms require encoding, while some do not.
+You need to check the API documentation of the git hosting platform.
 
-For `insert_text_trailing`, we can use an space as the default value:
+
+For `insert_text_trailing`, we can use an empty string as the default value:
 
 ```lua
 -- In file 'lua/blink-cmp-git/default/gitlab.lua'
--- NOTE:Some code is omitted
+-- NOTE: Some code is omitted
 return {
     issue = {
-        insert_text_trailing = ' ',
+        insert_text_trailing = '',
     },
     pull_request = {
-        insert_text_trailing = ' ',
+        insert_text_trailing = '',
     },
     mention = {
-        insert_text_trailing = ' ',
+        insert_text_trailing = '',
     },
 }
 ```
@@ -243,7 +247,7 @@ to parse it into a `lua` table:
 
 ```lua
 -- In file 'lua/blink-cmp-git/default/gitlab.lua'
--- NOTE:Some code is omitted
+-- NOTE: Some code is omitted
 return {
     issue = {
         separate_output = require('blink-cmp-git.default.common').json_array_separator,
@@ -395,7 +399,7 @@ use some useful information to assemble the documentation:
 
 ```lua
 -- In file 'lua/blink-cmp-git/default/gitlab.lua'
--- NOTE:Some code is omitted
+-- NOTE: Some code is omitted
 return {
   issue = {
     get_label = function(item)
@@ -443,14 +447,15 @@ return {
 }
 ```
 
-Sometimes, we can not assemble the documentation from the output of the command, or we want
-more detailed information as the documentation. In this case, we can return an object of
-`blink-cmp-git.DocumentationCommand` in the `get_documentation` function, for example, the
-`get_documentation` of `mention`:
+Sometimes, we can not assemble the documentation from the output of the command,
+or we want more detailed information as the documentation.
+In this case,
+we can return an object of `blink-cmp-git.DocumentationCommand` in the `get_documentation` function,
+for example, the `get_documentation` of `mention`:
 
 ```lua
 -- In file 'lua/blink-cmp-git/default/gitlab.lua'
--- NOTE:Some code is omitted
+-- NOTE: Some code is omitted
 return {
     mention = {
         get_documentation = function(item)
@@ -491,7 +496,7 @@ For the `configure_score_offset`, we can sort the completion items as original o
 
 ```lua
 -- In file 'lua/blink-cmp-git/default/gitlab.lua'
--- NOTE:Some code is omitted
+-- NOTE: Some code is omitted
 return {
     issue = {
         configure_score_offset = require('blink-cmp-git.default.common').score_offset_origin,
@@ -510,7 +515,7 @@ For the `on_error`, we can use the `default_on_error` function defined in
 
 ```lua
 -- In file 'lua/blink-cmp-git/default/gitlab.lua'
--- NOTE:Some code is omitted
+-- NOTE: Some code is omitted
 return {
     issue = {
         on_error = require('blink-cmp-git.default.common').default_on_error,
@@ -528,7 +533,7 @@ At last, we just need to add this table to `lua/blink-cmp-git/default/init.lua`:
 
 ```lua
 -- In file 'lua/blink-cmp-git/default/init.lua'
--- NOTE:Some code is omitted
+-- NOTE: Some code is omitted
 return {
     git_centers = {
         gitlab = require('blink-cmp-git.default.gitlab'),
@@ -540,7 +545,7 @@ Maybe you need to update the `lua/blink-cmp-git/health.lua` to add some checks:
 
 ```lua
 -- In file 'lua/blink-cmp-git/health.lua'
--- NOTE:Some code is omitted
+-- NOTE: Some code is omitted
 function M.check()
     health.start('blink-cmp-git')
     check_command_executable('git')
@@ -553,5 +558,6 @@ end
 
 Now it's time to do some simple tests.
 
-If this update works well, you can update the `README.md` to add some information about the new
-git center. Then you can create a pull request to the `blink-cmp-git` repository.
+If this update works well,
+you can update the `README.md` to add some information about the new git center.
+Then you can create a pull request to the `blink-cmp-git` repository.
