@@ -101,7 +101,7 @@ For example, Docker containers will not persist any form of storage between rebo
 
 ## How to Upgrade Application When DB Schema Changes?
 
-When developing new features, the DB schema may changes, such as adding new columns or tables.
+When developing new features, the DB schema may change, such as adding new columns or tables.
 We must make sure that the data is not lost after upgrading the application.
 
 Versioned schema migrations are a common solution to this problem.
@@ -168,8 +168,8 @@ The options for `ar` are as follows:
 - `s`: Create or update the index for the archive.
 The index helps the linker find the symbols faster.
 - `t`: List the contents of the archive.
-- `x`: Extract the files from the archive.
-- `d`: Delete the files from the archive.
+- `x`: Extract files from the archive.
+- `d`: Delete files from the archive.
 
 ## What is CDNs?
 
@@ -208,7 +208,7 @@ such as when we are using APIs from different domains or when we are using CDNs.
 CORS is an abbreviation for Cross-Origin Resource Sharing.
 It is a browser mechanism that allows restricted resources on a web page
 to be requested from another domain outside the domain from which the first resource was served.
-With CORS, the broser will send an `OPTIONS` request to the server
+With CORS, the browser will send an `OPTIONS` request to the server
 to check if the server allows cross-origin requests.
 Then the server will respond with the appropriate headers
 (such as `Access-Control-Allow-Origin`,
@@ -220,3 +220,7 @@ From the introduction above, we can figure out that SOP and CORS are only in
 the browser level. Therefore, we can use reverse proxy to bypass the SOP.
 For example, we can use `nginx` to set up a reverse proxy to forward requests to the target server.
 This way, the browser will only see the requests going to the same origin.
+
+## What is ORM?
+
+ORM stands for Object-Relational Mapping.
