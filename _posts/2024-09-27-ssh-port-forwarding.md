@@ -25,7 +25,7 @@ and "remote" as a host with a public IP address unless otherwise specified.
 ## Local Forwarding
 
 The local forwarding refers to forwarding requests received on a local port
-to a specific port on the destination host through the remote machine as a jump host.
+to a specific port on the destination host using the remote machine as a jump host.
 
 The most common example of using local forwarding is
 when you are using `VSCode` to connect to a remote host via `ssh-remote`
@@ -73,8 +73,8 @@ I will explain this later in the [GatewayPorts](#gatewayports) section.
 **NOTE**：Using `*:8080:localhost:80` is equivalent to using `:8080:localhost:80`, from the `MAN`
 page of `SSH` we have those below:
 
-> The bind_address of “localhost” indicates that the listening port be bound for use only, while
-an empty address or ‘*’ indicates that the port should be available from all interfaces.
+> The bind_address of `localhost` indicates that the listening port be bound for use only, while
+an empty address or `*` indicates that the port should be available from all interfaces.
 
 ### Local Forwarding among Three Hosts
 
@@ -92,17 +92,17 @@ ssh -f -N -L 8080:2.2.2.2:80 user@1.1.1.1
 ```
 
 The above command means that requests received on the local `8080` port
-will be forwarded to the `80` port of `2.2.2.2` through `1.1.1.1`.
+will be forwarded to the `80` port of `2.2.2.2` using `1.1.1.1` as the jump host.
 
 An example of this is when you are using `SSH` to connect to a remote host,
-and you want to access a service running on another host in the same network as the remote host.
+and you want to access a service running on another host in the same network with the remote host.
 In this case, you can use the above command to access the service. Note that you should execute the
 command on your local machine.
 
 ## Remote Forwarding
 
 The remote forwarding refers to forwarding requests received on a remote host's port
-to a specific port on the destination host through the local machine as a jump host.
+to a specific port on the destination host using the local machine as a jump host.
 
 ### Remote Forwarding between Two Hosts
 
@@ -129,12 +129,13 @@ ssh -f -N -R 80:198.168.0.2:8080 user@remote-host
 
 After running the command, you may think that
 if someone requests the `http://remote-host:80` on his or her browser,
-the request will be forwarded to the `8080` port of `198.168.0.2` through your local host.
+the request will be forwarded to the `8080` port of `198.168.0.2`
+using your local host as a jump host.
 This is almost right, but not exactly. Only the requests that come from the `remote-host`'s
 `localhost` will be forwarded by default.
 
 In order to allow other hosts' requests to be forwarded, you must set the `GatewayPorts` option
-on the server side. Use the command below:
+on the server side. Then use the command below:
 
 ```bash
 ssh -f -N -R :80:198.168.0.2:8080 user@remote-host
@@ -161,7 +162,7 @@ To learn more about this, you can refer to [GatewayPorts](#gatewayports).
 
 The local forwarding or remote forwarding are both to forward requests from a certain port
 to a specific port on the destination host.
-Dynamic forwarding is a bit different. It can forward requests to different locations.
+Dynamic forwarding is a little bit different. It can forward requests to different locations.
 With dynamic forwarding, we can achieve a proxy server.
 For example:
 
