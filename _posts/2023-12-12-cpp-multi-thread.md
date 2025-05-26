@@ -926,6 +926,115 @@ int main() {
 }
 ```
 
+## Example
+
+### Control the Sequence of Threads
+
+There are three threads: `A`, `B`, and `C`. Every thread will print its name for three times.
+How to control the sequence of the threads to print their names?
+
+* Serialization. We hope get the output `AAABBBCCC`.
+* Interlace. We hope get the output `ABCABCABC`.
+* Start at same time.
+
+For serialisation, we can use three `std::mutex` to implement:
+
+```cpp
+std::mutex mA, mB, mC;
+mB.lock();
+mC.lock();
+std::thread A([&mA, &mB]() {
+    mA.lock();
+    for (int i = 0; i < 3; i++) { std::cout << 'A'; }
+    mA.unlock();
+    mB.unlock();
+});
+std::thread B([&mB, &mC]() {
+    mB.lock();
+    for (int i = 0; i < 3; i++) { std::cout << 'B'; }
+    mB.unlock();
+    mC.unlock();
+});
+std::thread C([&mC]() {
+    mC.lock();
+    for (int i = 0; i < 3; i++) { std::cout << 'C'; }
+    mC.unlock();
+});
+A.join();
+B.join();
+C.join();
+```
+
+In the code above, `A`, `B` and `C` must acquire their locks to start. At very beginning,
+we lock `mB` and `mC` in the main thread, so only thread `A` can start. When `A` finishes,
+it will release `B`'s lock, so that `B` can start;
+When `B` finishes, it will release `C`'s lock, so that `C` can start.
+
+For interlace, we still can use the `std::mutex` to implement:
+
+```cpp
+std::mutex mA, mB, mC;
+mB.lock();
+mC.lock();
+std::thread A([&mA, &mB]() {
+    for (int i = 0; i < 3; i++) {
+        mA.lock();
+        std::cout << 'A';
+        mB.unlock();
+    }
+});
+std::thread B([&mB, &mC]() {
+    for (int i = 0; i < 3; i++) {
+        mB.lock();
+        std::cout << 'B'; 
+        mC.unlock();
+    }
+});
+std::thread C([&mC, &mA]() {
+    for (int i = 0; i < 3; i++) {
+        mC.lock();
+        std::cout << 'C'; 
+        mA.unlock();
+    }
+});
+A.join();
+B.join();
+C.join();
+mB.unlock();
+mC.unlock();
+```
+
+In the code above, we just move the lock into the `for` loop. And `A` will unlock `B`'s lock,
+`B` will unlock `C`'s lock and `C` will unlock `A`'s lock.
+
+For starting at the same time, we can use `std::condition_variable` or `std::promise` to implement,
+there is an example using `std::promise`:
+
+```cpp
+std::promise<void> barrier;
+std::future<void> barrier_future = barrier.get_future();
+std::thread A([&barrier_future]() {
+    barrier_future.wait();
+    for (int i = 0; i < 3; i++) { std::cout << 'A'; }
+});
+std::thread B([&barrier_future]() {
+    barrier_future.wait();
+    for (int i = 0; i < 3; i++) { std::cout << 'B'; }
+});
+std::thread C([&barrier_future]() {
+    barrier_future.wait();
+    for (int i = 0; i < 3; i++) { std::cout << 'C'; }
+});
+std::this_thread::sleep_for(std::chrono::milliseconds(10));
+barrier.set_value();
+A.join();
+B.join();
+C.join();
+```
+
+In the code above, we make every thread wait the barrier at their beginning.
+And we make the barrier ready after `10ms` to make sure every thread have been started.
+
 ## References
 
 * [std::function cppreference](https://en.cppreference.com/w/cpp/utility/functional/function)
