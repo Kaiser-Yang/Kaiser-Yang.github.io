@@ -21,7 +21,7 @@ In this post, those concepts will be introduced:
 * Move and Copy Semantics
 * Reference collapsing, universal reference and perfect forwarding
 
-These contents are core feature in `C++11`.
+These contents are core features in `C++11`.
 
 ## Value Categories
 
@@ -45,7 +45,7 @@ After I introduce lvalue and xvalue, you will know what glvalue is.
 
 ### lvalue (left value)
 
-There is very detailed definition of lvalue in `cppreference`, but it's too detailed to remember.
+There is a very detailed definition of lvalue in `cppreference`, but it's too detailed to remember.
 We can simply understand lvalue as those whose address can be obtained by `&`.
 
 There are some cases of lvalue:
@@ -83,7 +83,7 @@ prvalue has no identity, and you can not get its address by `&`.
 There are some cases of prvalue:
 
 * The built-in post-increment and post-decrement operations, e.g. `a++, a--`;
-* The built-in logical expressionC, e.g. `a && b`, `a || b`;
+* The built-in logical expression, e.g. `a && b`, `a || b`;
 * The built-in arithmetic expression, e.g. `a + b`, `a - b`;
 * The built-in comparison expression, e.g. `a == b`, `a != b`;
 * The built-in address-of expression, e.g. `&a`;
@@ -212,7 +212,7 @@ but the above code needs extra space to store the address of the pointer.
 rvalue reference is for move semantics. Before `C++11`, there is no move semantics,
 only copy semantics (copy constructor and copy assignment operator).
 For the class whose member variable contains pointers or user-defined types,
-we often need to implement copy constructor and copy assignment operator by ourselves
+we often need to implement a copy constructor and copy assignment operator by ourselves
 so that the data can be successfully copied (usually called deep copy), rather than just
 let the pointer point to the same memory (usually called shallow copy).
 
@@ -254,8 +254,8 @@ A(BigData{"a.txt"}); // read big data from data.txt
 ```
 
 You may think this is good, and no need for rvalue reference. But NO!
-For const lvalue reference, we can not modify the parameter in the function.
 In some situations, we may need to update the parameter in the function.
+However, for this code, we can not.
 
 rvalue reference can be binded to any rvalue and also can be modified.
 
@@ -280,8 +280,8 @@ ClassType(ClassType &&other);
 ClassType& operator=(ClassType &&other);
 ```
 
-The compilor will automatically generate the move constructor and move assignment operator
-if you don't define any copy constructor, copy assignment operator,
+The compiler will automatically generate a move constructor and move assignment operator
+if you don't define any of a copy constructor, copy assignment operator,
 move constructor or move assignment operator.
 The default move constructor and move assignment operator are same with the default copy constructor
 and copy assignment operator. So in most cases, we need to implement our own move constructor
@@ -294,7 +294,8 @@ then it will trigger the move constructor:
 
 ```cpp
 // std::string("HelloWorld") is rvalue, this will trigger move constructor
-std::string value = std::string("HelloWorld");
+std::string temp = std::string("HelloWorld");
+std::string value{std::move(temp)};
 ```
 
 Without move semantics, the above code will create a temporary object
@@ -441,8 +442,8 @@ f(std::move(rRef)); // call f(int &&t), T is int&&;
 ```
 
 In the code above, reference collapsing occurs unless the argument is a pure rvalue.
-We can find that when the actual parameter is an lvalue, the type of `T` is an lvalue reference,
-and when the actual parameter is an rvalue, the type of `T` is an rvalue reference.
+We can find that when the actual parameter is an lvalue, the type of `t` is an lvalue reference,
+and when the actual parameter is an rvalue, the type of `t` is an rvalue reference.
 
 ### What is Perfect Forwarding?
 
