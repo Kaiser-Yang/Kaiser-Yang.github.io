@@ -3,7 +3,7 @@ layout: post
 title: gcs 部署
 date: 2025-04-24 17:10:49+0800
 last_updated: 2025-04-24 17:10:49+0800
-description: 主要介绍如何部署 `gcs`。
+description: 主要介绍如何部署 gcs。
 tags:
   - Linux
   - Nginx
