@@ -18,6 +18,7 @@ pretty_table: true
 
 In order to utilize the RAII concept to the fullest,
 `C++ 11` introduced smart pointers.
+
 This article will introduce RAII and three types of smart pointers:
 
 * `std::unique_ptr`
@@ -67,11 +68,11 @@ and `delete` to release the memory.
 However, We may forget to release the memory when we use `return` or `throw` to exit the function:
 
 ```cpp
-// memory leakage.
+// Memory leakage.
 int test() {
     Base *b = new Base;
-    if (!check()) { // do some check, but failed.
-        // delete b; // this may be forgotten easily.
+    if (!check()) { // Do some check, but failed.
+        // delete b; // This may be forgotten easily.
         return -1;
     }
     delete b;
@@ -89,7 +90,7 @@ We can use `std::unique_ptr` to substitute the original pointer:
 int test()
 {
     std::unique_ptr<Base> b(new Base);
-    if (!check()) { // do some check, but failed.
+    if (!check()) { // Do some check, but failed.
         return -1;
     }
     return 0;
@@ -130,8 +131,8 @@ int *p = new int{0};
     std::unique_ptr<int> up(p);
     std::cout << *up << std::endl;
 }
-// we cannot use p here, it's a dangling pointer.
-// the dereference of a dangling pointer is an UB.
+// We cannot use p here, it's a dangling pointer.
+// The dereference of a dangling pointer is an UB.
 ```
 
 We can also use `std::unique_ptr` to manage polymorphic types:
@@ -165,7 +166,7 @@ With the reason, it is not recommended to bind a `std::unique_ptr` to a raw poin
 the first template parameter is the type of the pointer,
 and the second template parameter is a deleter.
 
-The default deleter is like `delete` and `delete[]`.
+The default deleter is like `delete` or `delete[]`.
 
 You can also use a customized deleter to release the resource, for example:
 
@@ -178,10 +179,10 @@ void close_file(std::FILE* fp) {
 
 {
     using unique_file_t = std::unique_ptr<std::FILE, decltype(&close_file)>;
-    // make sure there is demo.txt in current directory.
-    // otherwise the fp is nullptr
+    // Make sure there is demo.txt in current directory.
+    // Otherwise the fp is nullptr
     unique_file_t fp(std::fopen("demo.txt", "r"), &close_file);
-} // here fp is finalized, so the close_file() will be called.
+} // Here fp is finalized, so the close_file() will be called.
 ```
 
 ### `std::shared_ptr`
@@ -206,10 +207,11 @@ There is an example for `std::shared_ptr`:
 int *p = new int;
 std::shared_ptr<int> sp1(p);
 {
-    // this is wrong, when we bind p with a shared_ptr, its ref_count is 1.
-    // so this will cause double free.
-    // only copy from a shared_ptr can make the ref_count increase correctly.
-    // sdt::shared_ptr<int> sp2(p);
+    // This is wrong, when we bind p with a shared_ptr, its ref_count is 1.
+    // So this will cause double free.
+    // Only copy from a shared_ptr can make the ref_count increase correctly.
+    // std::shared_ptr<int> sp2(p);
+
     std::shared_ptr<int> sp2(sp1);
     std::cout << sp2.use_count() << std::endl; // 2
     std::cout << sp1.use_count() << std::endl; // 2
