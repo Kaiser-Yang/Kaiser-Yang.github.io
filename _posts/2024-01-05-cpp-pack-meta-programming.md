@@ -150,7 +150,7 @@ struct Sum<t0, args...> {
     static constexpr int value = t0 + Sum<args...>::value;
 };
 
-// usage:
+// Usage:
 Sum<1, 2, 3, 4>::value; // 10
 ```
 
@@ -216,7 +216,7 @@ constexpr void staticFor(Lambda lambda) {
     staticFor(lambda, std::make_index_sequence<N>{});
 }
 
-// usage:
+// Usage:
 staticFor<100>([] (auto i) {
     std::cout << i.value << std::endl;
 });
@@ -258,7 +258,7 @@ struct AnyZero<Type, number0, number...> {
     static constexpr bool value = (number0 == 0 || AnyZero<Type, number...>::value);
 };
 
-// usage:
+// Usage:
 AnyZero<int, 0, 1, 2, 3>::value; // true
 AnyZero<int, 1, 2, 3, 4>::value; // false
 ```
@@ -284,7 +284,7 @@ constexpr bool isPrime()
     return isPrimeImpl(std::make_index_sequence<Number>{});
 }
 
-// usage:
+// Usage:
 isPrime<10>(); // false;
 isPrime<7>(); // true;
 ```
