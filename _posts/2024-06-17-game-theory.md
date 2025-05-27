@@ -37,7 +37,7 @@ No matter $$ 1 $$, $$ 2 $$, or $$ 3 $$ stones you remove,
 the last stone will always be removed by your friend.
 Another example: If there are $$ 5 $$ stones in the heap and now it's your turn,
 you will win the game.
-You can remove $$ 1 $$stone, then no matter how many stones your friend remove,
+You can remove $$ 1 $$ stone, then no matter how many stones your friend remove,
 you can remove the last stone and win the game.
 
 #### Solution
@@ -132,7 +132,8 @@ When this number is $$ 0 $$, $$ x $$ must be $$ 0 $$, which is not a legal move.
 **NOTE**: You may ask why the `Nim Sum` of the rest numbers is $$ (x + r) \oplus r $$.
 This is because the `XOR` operation is associative and commutative.
 After removing $$ x $$ stones, we change the number from $$ x + r $$ to $$ r $$.
-We can use the origin `Nim Sum` $$ 0 $$ to calculate the new `Nim Sum`: $0 \oplus (x + r) \oplus r$.
+We can use the origin `Nim Sum` $$ 0 $$ to calculate the new `Nim Sum`:
+$$ 0 \oplus (x + r) \oplus r $$.
 The $$ \oplus (x + r) $$ means we remove the whole pile,
 and the $$ \oplus r $$ means we add new pile of $$ r $$ stones.
 By the two steps, we can make a pile from $$ x + r $$ stones to $$ r $$ stones.
@@ -145,7 +146,6 @@ and the left most bit is $$ b_m $$.
 Note that $$ b_m = 1 $$.
 Then we can find at least one pile of stones whose $$ m $$-th bit is $$ 1 $$.
 Now we try to remove some stones from this pile to make the `Nim Sum` of the rest numbers $$ 0 $$.
-We just need to consider the rightmost $$ m $$ bits of the pile.
 We consider each bit of the rightmost $$ m $$ bits of the pile,
 if the corresponding `Nim Sum` bit is $$ 1 $$,
 we must make the bit of the rest number changed to change the `Nim Sum`'s bit to $$ 0 $$;
@@ -168,14 +168,14 @@ There are three piles of stones: $$ 1 $$, $$ 10 $$, $$ 13 $$.
 The binary representations: $$ 1 $$, $$ 1010 $$, $$ 1101 $$.
 
 The `Nim Sum` is $$ 110 $$, we can find $$ 1101 $$ is the pile
-whose 3rd bit is $$ 1 $$: $$ 1(1)01 $$.
+whose $$ 3 $$-rd bit is $$ 1 $$: $$ 1(1)01 $$.
 Now we consider each bit of the right $$ 3 $$ bits of the pile $$ 1101 $$,
 the first one is $$ 1 $$: $$ 110(1) $$,
 and the corresponding `Nim Sum` bit is $$ 0 $$: $$ 11(0) $$, we keep this;
 the second one is $$ 0 $$: $$ 11(0)1 $$,
 and the corresponding `Nim Sum` bit is $$ 1 $$: $$ 1(1)0 $$, we change this;
 the third one is $$ 1 $$: $$ 1(1)01 $$,
-and the corresponding `Nim Sum` bit is $$ 1 $$: $$ 1(1)0 $$, we change this.
+and the corresponding `Nim Sum` bit is $$ 1 $$: $$ (1)10 $$, we change this.
 After the three steps, we get a number $$ 011 $$,
 then we use the rightmost $$ 3 $$ bits of pile $$ 1(101) $$ to subtract the number $$ 011 $$,
 then we get $$ 10 $$, which is $$ 2 $$ in decimal.
@@ -240,7 +240,7 @@ The one who moves the last cookie will be the winner
 
 #### Solution
 
-This one is the same as the [multiple piles](###multiple-piles) problem.
+This one is the same as the [Multiple Piles](#multiple-piles) problem.
 For each cookie, we can consider it as a pile of stones,
 and the number of the stones is the index of the bucket.
 Then we can use the `Nim Sum` to solve this problem.
@@ -262,9 +262,9 @@ We can calculate the difference between the adjacent piles.
 For example, the differences of $$ 1, 2, 2, 3 $$ are $$ 1, 1, 0, 1 $$.
 We can find that the differences are non-negative.
 For one move, supposed we remove $$ x $$ stones from the $$ i $$-th pile,
-then the difference between the $$ i $$-th pile and the $$ i+1 $$-th pile will increase by $$ x $$,
-and the difference between the $$ i $$-th pile and the $$ i-1 $$-th pile will decrease by $$ x $$.
-This is similar with the move in the [Staircase Nim](###staircase-nim) problem.
+then the difference between the $$ i $$-th pile and the $$ i\!+\!1 $$-th pile will increase by $$ x $$,
+and the difference between the $$ i $$-th pile and the $$ i\!-\!1 $$-th pile will decrease by $$ x $$.
+This is similar with the move in the [Staircase Nim](#staircase-nim) problem.
 The only difference in this case is that we move the stones to the one adjacent to its right side,
 rather than the left side.
 
@@ -280,10 +280,10 @@ but you can not jump over any buckets that contains cookies.
 The one who moves the last cookie will be the winner.
 You will take the first turn to move the cookie.
 
-This one is similar with [variation 2](###variation-2).
+This one is similar with [variation 2](#variation-2).
 For each cookie, we just need to consider it as a pile of stones,
-and the number of the stones is the index of the bucket.
-Then this one becomes exactly the same as `variation 2`.
+and the number of the stones is the indices of the bucket.
+Then this one becomes exactly the same as [variation 2](#variation-2).
 
 ### Variation 4
 
@@ -298,15 +298,15 @@ You will take the first turn to flip the coins.
 
 #### Solution
 
-This one is similar with the [multiple piles](###multiple-piles) problem.
+This one is similar with the [Multiple Piles](#multiple-piles) problem.
 We consider the head-up coins as the stones,
-and the number of the stones are the index of the coins.
+and the number of the stones are the indices of the coins.
 For the chosen two head-up coins, it is same with removing the whole two piles of stones.
 If the left chosen coin is tail-up, the result is we remove some stones from a pile.
 
 With this conversion,
 we can find that we can not make any two piles of stones with the same number.
-This looks different from [multiple piles](###multiple-piles),
+This looks different from [Multiple Piles](#multiple-piles),
 but actually they are the same, we have two claims below:
 
 * `Claim 7`: If the `Nim Sum` of a set of numbers is $$ 0 $$,
@@ -332,7 +332,7 @@ What is the waiting move? Let me show you by a simple example:
 There are $$ n $$ numbers,
 and they are $$ 1, 2, 3, ..., n $$ from left to right.
 You and your friend take turn to remove one number and remove all its divisors.
-For example, if you remove $6$, the $1, 2 ,3$ will be removed too.
+For example, if you remove $$ 6 $$, the $$ 1, 2 ,3 $$ will be removed too.
 The one who can not move will lose.
 
 In this example,
@@ -379,9 +379,9 @@ obvious is the fact that I am not the one.
 
 ### The Mex
 
-The `Mex` is a function whose domain of definition are sets consists of natural numbers.
+The `Mex` is a function whose domain of definition is sets consists of natural numbers.
 The `Mex` of a set is the smallest natural number that is not in the set.
-For example, the `Mex` of $\{0, 1, 2, 4\}$ is $3$.
+For example, the `Mex` of $$ \{0, 1, 2, 4\} $$ is $$ 3 $$.
 
 With this we can converting any game to a `DAG` and solve the game by calculation the `SG` value.
 
@@ -394,13 +394,15 @@ and then we can get a `DAG` which is the state machine of the game.
 
 With this graph, we define the `SG` value of a state as
 the `Mex` of the `SG` values of all the states that can be reached from the current state.
-And the `SG` value of the final state is $0$.
+And the `SG` value of the final state is $$ 0 $$.
 We have the statement that the first player will win
-if the `SG` value of the initial state is not $0$.
+if the `SG` value of the initial state is not $$ 0 $$.
 The proof of this is very simple, we just need prove the following claims:
 
-* `Claim 9 `: If the `SG` value of a state is $0$, we can not reach a state whose `SG` value is $0$.
-* `Claim 10`: If the `SG` value of a state is not $0$, we can reach a state whose `SG` value is $0$.
+* `Claim 9`: If the `SG` value of a state is $$ 0 $$,
+we can not reach a state whose `SG` value is $$ 0 $$.
+* `Claim 10`: If the `SG` value of a state is not $$ 0 $$,
+we can reach a state whose `SG` value is $$ 0 $$.
 
 The proofs of the two claims are simple, so I'm not going to prove them.
 But I recommend you to prove them by yourself.
@@ -420,6 +422,7 @@ We must know that for every state whose `SG` value is $$ k $$,
 we can reach $$ k $$ states whose `SG` value are $$ 0, 1, 2, ..., k-1 $$ separately.
 For every move, we actually find one sub-game and change the `SG` value of the chosen sub-game.
 This is same with removing some stones from a pile.
+
 But you may ask how about a move make the `SG` value of the sub-game greater than $$ k $$?
 Yes, this is possible, but this really does not matter. Let me explain this for you by a simple way:
 
@@ -446,7 +449,7 @@ The one who can not move will lose.
 For example, if the length of the chain is $$ 6 $$.
 At first, there is no node removed, the first player can remove any one.
 Let the first player remove the third node.
-Now the chain is $$ 1 -> 2 -> 4 -> 5 -> 6 $$,
+Now the chain is $$ 1 -\!\!> 2 -\!\!> 4 -\!\!> 5 -\!\!> 6 $$,
 then the second player can remove the one connected to the moved one,
 $$ 2 $$ or $$ 4 $$ can be removed,
 or remove two connected nodes meeting any of them connected to a removed one,
@@ -474,9 +477,8 @@ and $$ SG_B(n) $$ as the `SG` value of the game B with $$ n $$ stones,
 then we have the following:
 
 $$
-SG_A(n) = mex(\{SG_B(n-1),\
-    SG_B(1) \oplus SG_B(n - 2),\
-    SG_B(2) \oplus SG_B(n - 3),\
-    \dots,\
-    SG_B(\lfloor \frac{n}{2} \rfloor) \oplus SG_B(n - 1 - \lfloor \frac{n}{2} \rfloor)\})
+SG_A(n) = \operatorname{mex}\left(
+    \{ SG_B(n-1) \} \cup \left\{
+    SG_B(k) \oplus SG_B(n - 1 - k) \,\middle|\, 1 \le k \le \left\lfloor \frac{n}{2} \right\rfloor
+    \right\} \right)
 $$
