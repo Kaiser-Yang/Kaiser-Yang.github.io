@@ -464,16 +464,16 @@ There is a pile of $$ n $$ stones.
 You and your friend take turn to remove a stone or two stones.
 The one who can not move will lose.
 
-We now define the original game as game A, and the new one
-as game B.
+We now define the original game as game $$ A $$, and the new one
+as game $$ B $$.
 
-For the game A, if we remove one node from the end of the chain at beginning, the game will change to
-the game B with $$ n-1 $$ stones.
+For the game $$ A $$, if we remove one node from the end of the chain at beginning,
+the game will change to the game $$ B $$ with $$ n-1 $$ stones.
 
-If we remove one node from the middle of the chain at beginning, it will become two B games.
+If we remove one node from the middle of the chain at beginning, it will become two game $$ B $$s.
 
-If we define $$ SG_A(n) $$ as the `SG` value of the game A with $$ n $$ nodes,
-and $$ SG_B(n) $$ as the `SG` value of the game B with $$ n $$ stones,
+If we define $$ SG_A(n) $$ as the `SG` value of the game $$ A $$ with $$ n $$ nodes,
+and $$ SG_B(n) $$ as the `SG` value of the game $$ B $$ with $$ n $$ stones,
 then we have the following:
 
 $$
