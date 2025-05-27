@@ -599,8 +599,7 @@ which is not meet the `RAII` principle.
 
 `std::recursive_timed_mutex` is a recursive lock with time-out.
 It is very similar to `std::timed_mutex`,
-and the only difference is that it provides `try_lock_for` and `try_lock_until`.
-The usage is similar with `std::timed_mutex`.
+and the usage is similar with `std::timed_mutex`.
 
 ### `std::shared_mutex`
 
@@ -610,7 +609,7 @@ The usage is similar with `std::timed_mutex`.
 It allows multiple threads to read at the same time,
 but only one thread can write at a time.
 When a thread is writing, no other threads can read or write (`std::shared_mutex::lock`).
-When a thread is reading, other threads can read but not write (`std::shared_mutex::shared_lock`).
+When a thread is reading, other threads can read (`std::shared_mutex::shared_lock`) but not write.
 
 We can use `std::shared_mutex::lock` to implement the produce-consume model.
 
@@ -665,9 +664,8 @@ int main() {
 
 There is an important point to note when using `std::shared_mutex`.
 When a write thread is blocked by a read thread that has acquired `lock_shared`,
-the write thread will be blocked.
-And during the time the write thread is blocked,
-if there are many new read threads that acquire `lock_shared` to perform read operations,
+and during this time,
+if there are many other read threads that acquire `lock_shared` to perform read operations,
 the write thread must wait for all read threads to finish their operations
 and release all read locks before it can acquire the write lock.
 This can cause serious delays in write operations.
@@ -678,8 +676,8 @@ Regardless of whether it is a read operation or a write operation,
 before acquiring the lock, we need to acquire this `std::mutex`.
 At the same time, after acquiring the read lock (or write lock),
 we release this `std::mutex`.
-This ensures that the read thread and write thread will first compete for the lock
-before acquiring the lock.
+This ensures that the read thread and write thread will first compete for the unique lock
+before acquiring the shared lock.
 This way, we can ensure that the semantics are not violated
 while preventing writer starvation.
 However, this will add some overhead.
@@ -858,7 +856,7 @@ int sum = -1;
 std::mutex mu;
 std::condition_variable cv;
 void acc(std::vector<int>::iterator first,
-                std::vector<int>::iterator last) {
+         std::vector<int>::iterator last) {
     std::unique_lock<std::mutex> locker{mu};
     sum = std::accumulate(first, last, 0);
     cv.notify_all(); // we usually use notify_all, cause we don't know who are waiting.
@@ -877,10 +875,10 @@ int main() {
 
 When using `std::condition_variable::wait`, we usually use `notify_all`
 to wake up all blocked threads.
-This is because we don't know which thread is waiting.
+This is because we don't know which threads are waiting and for what are they waiting.
 When we wake up all blocked threads,
 the threads that do not meet the exit condition of `wait`
-will continue to be blocked.
+will be blocked again.
 At the same time, it is worth noting that `wait` will first check
 whether the exit condition is met,
 rather than blocking first and then waking up to check again,
@@ -908,7 +906,7 @@ int sum = -1;
 std::mutex mu;
 std::condition_variable cv;
 void acc(std::vector<int>::iterator first,
-                std::vector<int>::iterator last) {
+         std::vector<int>::iterator last) {
     std::unique_lock<std::mutex> locker{mu};
     sum = std::accumulate(first, last, 0);
     locker.unlock();
@@ -936,6 +934,8 @@ How to control the sequence of the threads to print their names?
 * Serialization. We hope get the output `AAABBBCCC`.
 * Interlace. We hope get the output `ABCABCABC`.
 * Start at same time.
+* Start at same time for each turn.We hope there is only one `A`, one `B`, and one `C`
+for every three letters.
 
 For serialisation, we can use three `std::mutex` to implement:
 
@@ -1034,6 +1034,65 @@ C.join();
 
 In the code above, we make every thread wait the barrier at their beginning.
 And we make the barrier ready after `10ms` to make sure every thread have been started.
+
+For the last requirement, we can use `std::condition_variable` to implement:
+
+```cpp
+bool canStart[] = { false, false, false };
+std::mutex mtx;
+std::condition_variable cv;
+std::thread A([&mtx, &cv, &canStart]() {
+    for (int i = 0; i < 3; i++) { 
+        {
+            std::unique_lock<std::mutex> lock(mtx);
+            cv.wait(lock, [&canStart]() { return canStart[0]; });
+        }
+        std::cout << 'A';
+        canStart[0] = false;
+        cv.notify_all();
+    }
+});
+std::thread B([&mtx, &cv, &canStart]() {
+    for (int i = 0; i < 3; i++) { 
+        {
+            std::unique_lock<std::mutex> lock(mtx);
+            cv.wait(lock, [&canStart]() { return canStart[1]; });
+        }
+        std::cout << 'B';
+        canStart[1] = false;
+        cv.notify_all();
+    }
+});
+std::thread C([&mtx, &cv, &canStart]() {
+    for (int i = 0; i < 3; i++) {
+        {
+            std::unique_lock<std::mutex> lock(mtx);
+            cv.wait(lock, [&canStart]() { return canStart[2]; });
+        }
+        std::cout << 'C';
+        canStart[2] = false;
+        cv.notify_all();
+    }
+});
+std::this_thread::sleep_for(std::chrono::milliseconds(10));
+for (size_t i = 0; i < 3; i++) {
+    canStart[0] =canStart[1] = canStart[2] = true;
+    cv.notify_all();
+    {
+        std::unique_lock<std::mutex> lock(mtx);
+        cv.wait(lock, [&canStart]() { return !canStart[0] && !canStart[1] && !canStart[2]; });
+    }
+}
+A.join();
+B.join();
+C.join();
+```
+
+In the code above, we use a boolean array `canStart` to control whether the thread can start.
+When the main thread sets `canStart[i]` to `true`, it will notify all threads to wake up.
+When a thread wakes up, it will check whether `canStart[i]` is `true`.
+If it is `true`, the thread will print its name and set `canStart[i]` to `false`,
+then notify all threads to wake up again.
 
 ## References
 
