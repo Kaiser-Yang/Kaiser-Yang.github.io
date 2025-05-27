@@ -108,7 +108,7 @@ copy_f_add_display(foo, 1); // same as Foo(foo).print_add(1);
 std::cout << foo.num_ << std::endl; // 314160
 
 std::function<void(Foo*, int)> ptr_f_add_display = &Foo::print_add;
-ptr_f_add_display(foo, 1); // same as (&foo)->print_add(1);
+ptr_f_add_display(&foo, 1); // same as (&foo)->print_add(1);
 std::cout << foo.num_ << std::endl; // 314161
 ```
 
@@ -432,8 +432,8 @@ The example from `cppreference`:
 
 ```cpp
 void acc(std::vector<int>::iterator first,
-                std::vector<int>::iterator last,
-                std::promise<int> accumulate_promise) {
+         std::vector<int>::iterator last,
+         std::promise<int> accumulate_promise) {
     int sum = std::accumulate(first, last, 0);
     accumulate_promise.set_value(sum); // Notify future
 }
