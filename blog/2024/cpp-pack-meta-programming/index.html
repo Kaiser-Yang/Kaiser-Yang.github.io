@@ -61,7 +61,7 @@
     <span class="k">static</span> <span class="k">constexpr</span> <span class="kt">int</span> <span class="n">value</span> <span class="o">=</span> <span class="n">t0</span> <span class="o">+</span> <span class="n">Sum</span><span class="o">&lt;</span><span class="n">args</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
 <span class="p">};</span>
 
-<span class="c1">// usage:</span>
+<span class="c1">// Usage:</span>
 <span class="n">Sum</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span> <span class="c1">// 10</span>
 </code></pre></div></div> <p>The code above make the time complexity of the <code class="language-plaintext highlighter-rouge">sum</code> function possible to be <code class="language-plaintext highlighter-rouge">O(1)</code>. This is because the compiler may optimize <code class="language-plaintext highlighter-rouge">1 + 2 + 3 + 4</code> into <code class="language-plaintext highlighter-rouge">10</code> at compile time.</p> <p>This is the concept of <code class="language-plaintext highlighter-rouge">Meta Programming</code>, we let the compiler do some computations at compile time to improve the performance of the program.</p> <h3 id="static-loop">Static Loop</h3> <p>The static loop refers to the loop that only uses compile-time constants.</p> <p>We can check if an expression is a compile-time constant by checking if it is possible to assign it to a <code class="language-plaintext highlighter-rouge">constexpr</code> variable.</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
 <span class="k">constexpr</span> <span class="kt">int</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>  <span class="c1">// WRONG, x is not constexpr</span>
@@ -101,7 +101,7 @@
     <span class="n">staticFor</span><span class="p">(</span><span class="n">lambda</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">make_index_sequence</span><span class="o">&lt;</span><span class="n">N</span><span class="o">&gt;</span><span class="p">{});</span>
 <span class="p">}</span>
 
-<span class="c1">// usage:</span>
+<span class="c1">// Usage:</span>
 <span class="n">staticFor</span><span class="o">&lt;</span><span class="mi">100</span><span class="o">&gt;</span><span class="p">([]</span> <span class="p">(</span><span class="k">auto</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">.</span><span class="n">value</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 <span class="p">});</span>
@@ -126,7 +126,7 @@
     <span class="k">static</span> <span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">value</span> <span class="o">=</span> <span class="p">(</span><span class="n">number0</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">AnyZero</span><span class="o">&lt;</span><span class="n">Type</span><span class="p">,</span> <span class="n">number</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">);</span>
 <span class="p">};</span>
 
-<span class="c1">// usage:</span>
+<span class="c1">// Usage:</span>
 <span class="n">AnyZero</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span> <span class="c1">// true</span>
 <span class="n">AnyZero</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span> <span class="c1">// false</span>
 </code></pre></div></div> <p>Now we can use the implemented static loop to calculate the remainder of the number:</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">constexpr</span> <span class="kt">int</span> <span class="n">MAX_NUMBER</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
@@ -147,7 +147,7 @@
     <span class="k">return</span> <span class="nf">isPrimeImpl</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_index_sequence</span><span class="o">&lt;</span><span class="n">Number</span><span class="o">&gt;</span><span class="p">{});</span>
 <span class="p">}</span>
 
-<span class="c1">// usage:</span>
+<span class="c1">// Usage:</span>
 <span class="n">isPrime</span><span class="o">&lt;</span><span class="mi">10</span><span class="o">&gt;</span><span class="p">();</span> <span class="c1">// false;</span>
 <span class="n">isPrime</span><span class="o">&lt;</span><span class="mi">7</span><span class="o">&gt;</span><span class="p">();</span> <span class="c1">// true;</span>
 </code></pre></div></div> <p>We can use this function with static loop to output the prime numbers between <code class="language-plaintext highlighter-rouge">1~100</code>:</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">template</span><span class="o">&lt;</span><span class="kt">size_t</span> <span class="p">...</span><span class="n">Index</span><span class="p">,</span> <span class="k">class</span> <span class="nc">Lambda</span><span class="p">&gt;</span>
