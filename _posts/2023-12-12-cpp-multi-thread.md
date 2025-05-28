@@ -946,18 +946,24 @@ mC.lock();
 std::thread A([&mA, &mB]() {
     mA.lock();
     for (int i = 0; i < 3; i++) { std::cout << 'A'; }
+    // BUG:
+    // Releasing locks acquired by other threads is an UB
     mA.unlock();
     mB.unlock();
 });
 std::thread B([&mB, &mC]() {
     mB.lock();
     for (int i = 0; i < 3; i++) { std::cout << 'B'; }
+    // BUG:
+    // Releasing locks acquired by other threads is an UB
     mB.unlock();
     mC.unlock();
 });
 std::thread C([&mC]() {
     mC.lock();
     for (int i = 0; i < 3; i++) { std::cout << 'C'; }
+    // BUG:
+    // Releasing locks acquired by other threads is an UB
     mC.unlock();
 });
 A.join();
@@ -969,6 +975,30 @@ In the code above, `A`, `B` and `C` must acquire their locks to start. At very b
 we lock `mB` and `mC` in the main thread, so only thread `A` can start. When `A` finishes,
 it will release `B`'s lock, so that `B` can start;
 When `B` finishes, it will release `C`'s lock, so that `C` can start.
+However, the code above has a bug: releasing locks acquired by other threads is an UB.
+We can re-implement it with `std::counting_semaphore` (since `C++20`):
+
+```cpp
+std::counting_semaphore<1> semA(1), semB(0), semC(0);
+std::thread A([&semA, &semB]() {
+    semA.acquire();
+    for (int i = 0; i < 3; i++) { std::cout << 'A'; }
+    semB.release();
+});
+std::thread B([&semB, &semC]() {
+    semB.acquire();
+    for (int i = 0; i < 3; i++) { std::cout << 'B'; }
+    semC.release();
+});
+std::thread C([&semC, &semA]() {
+    semC.acquire();
+    for (int i = 0; i < 3; i++) { std::cout << 'C'; }
+    semA.release();
+});
+A.join();
+B.join();
+C.join();
+```
 
 For interlace, we still can use the `std::mutex` to implement:
 
@@ -980,6 +1010,8 @@ std::thread A([&mA, &mB]() {
     for (int i = 0; i < 3; i++) {
         mA.lock();
         std::cout << 'A';
+        // BUG:
+        // Releasing locks acquired by other threads is an UB
         mB.unlock();
     }
 });
@@ -987,6 +1019,8 @@ std::thread B([&mB, &mC]() {
     for (int i = 0; i < 3; i++) {
         mB.lock();
         std::cout << 'B'; 
+        // BUG:
+        // Releasing locks acquired by other threads is an UB
         mC.unlock();
     }
 });
@@ -994,6 +1028,8 @@ std::thread C([&mC, &mA]() {
     for (int i = 0; i < 3; i++) {
         mC.lock();
         std::cout << 'C'; 
+        // BUG:
+        // Releasing locks acquired by other threads is an UB
         mA.unlock();
     }
 });
@@ -1006,6 +1042,35 @@ mC.unlock();
 
 In the code above, we just move the lock into the `for` loop. And `A` will unlock `B`'s lock,
 `B` will unlock `C`'s lock and `C` will unlock `A`'s lock.
+Similarly, we can re-implement it with `std::counting_semaphore`:
+
+```cpp
+std::counting_semaphore<1> semA(1), semB(0), semC(0);
+std::thread A([&semA, &semB]() {
+    for (int i = 0; i < 3; i++) {
+        semA.acquire();
+        std::cout << 'A';
+        semB.release();
+    }
+});
+std::thread B([&semB, &semC]() {
+    for (int i = 0; i < 3; i++) {
+        semB.acquire();
+        std::cout << 'B';
+        semC.release();
+    }
+});
+std::thread C([&semC, &semA]() {
+    for (int i = 0; i < 3; i++) {
+        semC.acquire();
+        std::cout << 'C';
+        semA.release();
+    }
+});
+A.join();
+B.join();
+C.join();
+```
 
 For starting at the same time, we can use `std::condition_variable` or `std::promise` to implement,
 there is an example using `std::promise`:
@@ -1043,10 +1108,8 @@ std::mutex mtx;
 std::condition_variable cv;
 std::thread A([&mtx, &cv, &canStart]() {
     for (int i = 0; i < 3; i++) { 
-        {
-            std::unique_lock<std::mutex> lock(mtx);
-            cv.wait(lock, [&canStart]() { return canStart[0]; });
-        }
+        std::unique_lock<std::mutex> lock(mtx);
+        cv.wait(lock, [&canStart]() { return canStart[0]; });
         std::cout << 'A';
         canStart[0] = false;
         cv.notify_all();
@@ -1054,10 +1117,8 @@ std::thread A([&mtx, &cv, &canStart]() {
 });
 std::thread B([&mtx, &cv, &canStart]() {
     for (int i = 0; i < 3; i++) { 
-        {
-            std::unique_lock<std::mutex> lock(mtx);
-            cv.wait(lock, [&canStart]() { return canStart[1]; });
-        }
+        std::unique_lock<std::mutex> lock(mtx);
+        cv.wait(lock, [&canStart]() { return canStart[1]; });
         std::cout << 'B';
         canStart[1] = false;
         cv.notify_all();
@@ -1065,10 +1126,8 @@ std::thread B([&mtx, &cv, &canStart]() {
 });
 std::thread C([&mtx, &cv, &canStart]() {
     for (int i = 0; i < 3; i++) {
-        {
-            std::unique_lock<std::mutex> lock(mtx);
-            cv.wait(lock, [&canStart]() { return canStart[2]; });
-        }
+        std::unique_lock<std::mutex> lock(mtx);
+        cv.wait(lock, [&canStart]() { return canStart[2]; });
         std::cout << 'C';
         canStart[2] = false;
         cv.notify_all();
@@ -1076,12 +1135,10 @@ std::thread C([&mtx, &cv, &canStart]() {
 });
 std::this_thread::sleep_for(std::chrono::milliseconds(10));
 for (size_t i = 0; i < 3; i++) {
+    std::unique_lock<std::mutex> lock(mtx);
     canStart[0] =canStart[1] = canStart[2] = true;
     cv.notify_all();
-    {
-        std::unique_lock<std::mutex> lock(mtx);
-        cv.wait(lock, [&canStart]() { return !canStart[0] && !canStart[1] && !canStart[2]; });
-    }
+    cv.wait(lock, [&canStart]() { return !canStart[0] && !canStart[1] && !canStart[2]; });
 }
 A.join();
 B.join();
