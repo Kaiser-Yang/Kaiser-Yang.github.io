@@ -46,6 +46,7 @@ Those below are included:
 * `std::try_lock`
 * `std::lock`
 * `std::condition_variable`
+* `std::counting_semaphore / std::binary_semaphore`
 
 **NOTE**: Unless otherwise noted, all methods and types are supported since `C++11`.
 
@@ -924,6 +925,31 @@ int main() {
 }
 ```
 
+## `std::counting_semaphore / std::binary_semaphore`
+
+`std::counting_semaphore` and `std::binary_semaphore` are introduced in `C++20`.
+`std::counting_semaphore` is a counting semaphore,
+which can be used to control the number of threads that can access a resource at the same time.
+`std::binary_semaphore` is a binary semaphore,
+which is a special case of `std::counting_semaphore` with a maximum count of `1`.
+`std::binary_semaphore` is the same as `std::counting_semaphore<1>`.
+
+You can use `std::counting_semaphore::acquire`,
+`std::counting_semaphore::try_acquire`,
+`std::counting_semaphore::try_acquire_for`
+or `std::counting_semaphore::try_acquire_until` to acquire the semaphore.
+You can use `std::counting_semaphore::release` to release the semaphore.
+
+Every time you acquire the semaphore, the count will be decreased by `1`.
+When the count is `0`, the next thread that tries to acquire the semaphore will be blocked
+(or failed with try semantics).
+When you release the semaphore, the count will be increased by `1`,
+and if there are any threads waiting for the semaphore,
+they will be woken up and can acquire the semaphore.
+
+You should note that if the semaphore is already at its maximum count,
+calling `release` will be an UB.
+
 ## Example
 
 ### Control the Sequence of Threads
@@ -1174,3 +1200,4 @@ then notify all threads to wake up again.
 * [std::shared_lock cppreference](https://en.cppreference.com/w/cpp/thread/shared_lock)
 * [std::condition_variable cppreference](https://en.cppreference.com/w/cpp/thread/condition_variable)
 * [The Answer from Stack Overflow](https://stackoverflow.com/a/22804813)
+* [std::counting_semaphore](https://en.cppreference.com/w/cpp/thread/counting_semaphore.html)
