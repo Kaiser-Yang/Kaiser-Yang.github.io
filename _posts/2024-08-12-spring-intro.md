@@ -70,7 +70,7 @@ into a single context.
 We rarely use this annotation in Spring Boot,
 because Spring Boot automatically scans the package of the class
 where `@SpringBootApplication` is located and its sub-packages.
-We usually use `@Configuration` or `Component` to register those classes as beans.
+We usually use `@Configuration` or `@Component` to register those classes as beans.
 
 ### `@Bean`
 
@@ -83,17 +83,22 @@ the name of the bean defaults to the method name.
 
 ### `@Named` and `@ManagedBean`
 
-These two annotations are used to specify that the current class is a bean,
+These two annotations are used to specify that the current **class** is a bean,
 which are similar to `@Bean` but from `JSR330`.
 
-### `@Order`, `@Priority`
+### `@Order`
 
-Annotations for specifying the priorities of beans.
+This is used to specify the order of beans in the IoC container.
 
-For `@Order` and `@Priority`, lower value means higher priority.
+**NOTE**: `@Order` can not be used to specify the injection priority of beans.
 
-When injecting beans to collections, the beans with higher priorities will appear
-at the beginning part.
+### `@Priority`
+
+This is used to specify the priority of a bean.
+Smaller values indicate higher priority.
+
+When injecting beans,
+the bean with the highest priority will be injected first.
 
 ### `@Primary` and `@Fallback`
 
@@ -104,6 +109,8 @@ the bean marked with `@Primary` will be injected.
 `@Fallback` is used to specify that the current bean is a fallback bean,
 which means that when there are multiple beans of the same type,
 the bean marked with `@Fallback` will not be injected.
+
+**NOTE**: `@Primary` is higher priority than `@Priority`.
 
 ### `@DependsOn`
 
@@ -185,7 +192,7 @@ You can use those annotations below to specify the scope of a bean:
 * `@Scope("prototype")` or `@Prototype`
 * `@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)`
 or `@RequestScope`
-* `@Scope("session", proxyMode = ScopedProxyMode.TARGET_CLASS)`
+* `@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)`
 or `@SessionScope`
 * `@Scope(value = "application", proxyMode = ScopedProxyMode.TARGET_CLASS)`
 or `@ApplicationScope`
@@ -393,7 +400,7 @@ which means it will not be executed if the target method throws an exception.
 
 This advice will be executed after the target method throws an exception.
 
-**NOTE**: When there are multiple aspects for the same join point,
+**NOTE**: When there is multiple advice for the same join point,
 The order of execution is shown below:
 
 * `@Around` (before `proceed()`)
