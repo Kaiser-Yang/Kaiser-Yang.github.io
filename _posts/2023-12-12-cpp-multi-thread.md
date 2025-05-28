@@ -1135,29 +1135,41 @@ bool canStart[] = { false, false, false };
 std::mutex mtx;
 std::condition_variable cv;
 std::thread A([&mtx, &cv, &canStart]() {
-    for (int i = 0; i < 3; i++) { 
-        std::unique_lock<std::mutex> lock(mtx);
-        cv.wait(lock, [&canStart]() { return canStart[0]; });
-        std::cout << 'A';
-        canStart[0] = false;
+    for (int i = 0; i < 3; i++) {
+        {
+            std::unique_lock<std::mutex> lock(mtx);
+            cv.wait(lock, [&canStart]() { return canStart[0]; });
+            std::cout << 'A';
+            canStart[0] = false;
+        }
+        // We can notify with no lock here,
+        // and this is recommended.
         cv.notify_all();
     }
 });
 std::thread B([&mtx, &cv, &canStart]() {
-    for (int i = 0; i < 3; i++) { 
-        std::unique_lock<std::mutex> lock(mtx);
-        cv.wait(lock, [&canStart]() { return canStart[1]; });
-        std::cout << 'B';
-        canStart[1] = false;
+    for (int i = 0; i < 3; i++) {
+        {
+            std::unique_lock<std::mutex> lock(mtx);
+            cv.wait(lock, [&canStart]() { return canStart[1]; });
+            std::cout << 'B';
+            canStart[1] = false;
+        }
+        // We can notify with no lock here,
+        // and this is recommended.
         cv.notify_all();
     }
 });
 std::thread C([&mtx, &cv, &canStart]() {
     for (int i = 0; i < 3; i++) {
-        std::unique_lock<std::mutex> lock(mtx);
-        cv.wait(lock, [&canStart]() { return canStart[2]; });
-        std::cout << 'C';
-        canStart[2] = false;
+        {
+            std::unique_lock<std::mutex> lock(mtx);
+            cv.wait(lock, [&canStart]() { return canStart[2]; });
+            std::cout << 'C';
+            canStart[2] = false;
+        }
+        // We can notify with no lock here,
+        // and this is recommended.
         cv.notify_all();
     }
 });
