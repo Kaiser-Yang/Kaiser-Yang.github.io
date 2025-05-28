@@ -979,7 +979,8 @@ However, the code above has a bug: releasing locks acquired by other threads is 
 We can re-implement it with `std::counting_semaphore` (since `C++20`):
 
 ```cpp
-std::counting_semaphore<1> semA(1), semB(0), semC(0);
+// Same with std::counting_semaphore<1> semA(1), semB(0), semC(0);
+std::binary_semaphore semA(1), semB(0), semC(0);
 std::thread A([&semA, &semB]() {
     semA.acquire();
     for (int i = 0; i < 3; i++) { std::cout << 'A'; }
@@ -1045,7 +1046,8 @@ In the code above, we just move the lock into the `for` loop. And `A` will unloc
 Similarly, we can re-implement it with `std::counting_semaphore`:
 
 ```cpp
-std::counting_semaphore<1> semA(1), semB(0), semC(0);
+// Same with std::counting_semaphore<1> semA(1), semB(0), semC(0);
+std::binary_semaphore semA(1), semB(0), semC(0);
 std::thread A([&semA, &semB]() {
     for (int i = 0; i < 3; i++) {
         semA.acquire();
