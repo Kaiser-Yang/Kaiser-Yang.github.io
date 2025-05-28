@@ -331,7 +331,7 @@ What is the waiting move? Let me show you by a simple example:
 
 There are $$ n $$ numbers,
 and they are $$ 1, 2, 3, ..., n $$ from left to right.
-You and your friend take turn to remove one number and remove all its divisors.
+You and your friend take turns to remove one number and remove all its divisors.
 For example, if you remove $$ 6 $$, the $$ 1, 2 ,3 $$ will be removed too.
 The one who can not move will lose.
 
@@ -353,7 +353,7 @@ In this case, removing number $$ 1 $$ is the waiting move.
 ### The Tree
 
 There is a tree with $$ n $$ nodes.
-You and your friend take turn to choose a node
+You and your friend take turns to choose a node
 and mark all the nodes of the path from the chosen nodes to the root.
 When all the nodes are marked, the game is over. The one who can not move will lose.
 
@@ -362,7 +362,7 @@ In this case marking the root is the waiting move, so the first player will alwa
 ### The Chocolate
 
 There is a chocolate whose shape is a $$ n \times m $$ rectangle.
-You and your friend take turn to chose a piece of chocolate,
+You and your friend take turns to chose a piece of chocolate,
 and eat all the pieces that are in the rectangle whose right top corner is the chosen piece,
 and the bottom left corner is the bottom left corner of the chocolate.
 The one who eat the last piece will lose.
@@ -441,7 +441,7 @@ You may prove this by a formal one if you like. Bur for most, this simple one is
 #### Description
 
 There is a chain with $$ n $$ nodes.
-You and your friend take turn to remove a node connected to any removed one
+You and your friend take turns to remove a node connected to any removed one
 or remove two connected nodes meeting any of them connected to a removed one.
 At first, any node can be removed.
 The one who can not move will lose.
@@ -461,7 +461,7 @@ or $$ (4, 5) $$ ($$ 4 $$ is connected with $$ 3 $$) can be removed at same time.
 To solve the problem, we can define a new game:
 
 There is a pile of $$ n $$ stones.
-You and your friend take turn to remove a stone or two stones.
+You and your friend take turns to remove a stone or two stones.
 The one who can not move will lose.
 
 We now define the original game as game $$ A $$, and the new one
@@ -478,7 +478,7 @@ then we have the following:
 
 $$
 SG_A(n) = \operatorname{mex}\left(
-    \{ SG_B(n-1) \} \cup \left\{
+    \left\{ SG_B(n-1) \right\} \cup \left\{
     SG_B(k) \oplus SG_B(n - 1 - k) \,\middle|\, 1 \le k \le \left\lfloor \frac{n}{2} \right\rfloor
     \right\} \right)
 $$
