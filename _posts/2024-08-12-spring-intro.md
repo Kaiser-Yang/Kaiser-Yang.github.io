@@ -131,6 +131,14 @@ The default name of the bean is the class name with the first letter in lowercas
 
 `@Controller` is similar to `@Component`, but it indicates a controller.
 
+### `@RestController`
+
+`@RestController` is a specialized version of `@Controller`.
+It is used to indicate that the class is a controller
+and that the methods in the class will return JSON or XML data.
+
+This annotation is a combination of `@Controller` and `@ResponseBody`.
+
 ### `@Service`
 
 `@Service` is similar to `@Component`, but it indicates a service.
