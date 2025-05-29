@@ -418,3 +418,88 @@ The order of execution is shown below:
 * `@AfterReturning` or `@AfterThrowing`
 * `@Around` (after `proceed()`)
 
+## Transaction
+
+### ACID
+
+ACID is a set of properties that guarantee that database transactions are processed reliably.
+ACID stands for:
+
+* Atomicity: The transaction is all-or-nothing.
+* Consistency: The transaction brings the database from one valid state to another.
+* Isolation: The transaction is isolated from other transactions.
+* Durability: Once a transaction is committed, its changes persist permanently
+even after system failures.
+
+### Problems
+
+There are four types of problems that may occur:
+
+* Dirty Read: A transaction reads uncommitted data from another transaction.
+* Non-Repeatable Read: A transaction reads the same data multiple times,
+but gets different results because another transaction modified/deleted it.
+* Phantom Read: A transaction re-runs a range query and gets new rows
+inserted by another committed transaction.
+* Lost Update or Serialization Anomaly: Two transactions read the same data and modify it,
+but one transaction's changes are lost due to the other transaction's changes
+
+### Isolation Level
+
+There are different isolation levels in transaction management to solve these problems.
+
+From the standard SQL perspective, the isolation levels and their properties are:
+
+| Isolation Level  | Dirty Read   | Non-Repeatable Read | Phantom Read | Serialization Anomaly |
+| ---------------- | ----------   | ------------------- | ------------ | --------------------- |
+| Read Uncommitted | Possible     | Possible            | Possible     | Possible              |
+| Read Committed   | Not Possible | Possible            | Possible     | Possible              |
+| Repeatable Read  | Not Possible | Not Possible        | Possible     | Possible              |
+| Serializable     | Not Possible | Not Possible        | Not Possible | Not Possible          |
+
+In PostgreSQL, Dirty Read will not happen even in Read Uncommitted isolation level,
+Phantom Read will not happen in Read Committed isolation level,
+and the default isolation level is Read Committed.
+
+In MySQL (InnoDB), Pantom Read will not happen even in Repeatable Read isolation level,
+the default isolation level is Repeatable Read.
+
+### `@Transactional`
+
+`@Transactional` is an annotation used to specify that a method or class is transactional.
+
+You can specify the isolation level of the transaction using the `isolation` attribute.
+
+There is a `propagation` attribute that specifies the transaction propagation behavior.
+This attribute is used to specify how the transaction should behave
+when it is called from another transaction. The possible values are:
+
+* Required: The default behavior, if a transaction already exists,
+the method will run within that transaction; otherwise, a new transaction will be created.
+In this options, no matter the caller or callee throws an exception
+(even you have catch the exception thrown by the callee in the caller),
+the whole transaction will be rolled back.
+* Requires New: A new transaction will always be created,
+and it is independent of the caller's transaction.
+In this options, if the caller throws an exception,
+the callee's transaction will not be affected;
+if the callee throws an exception and the caller catches it,
+the callee's transaction will be rolled back,
+but the caller's transaction will not be affected;
+if the callee throws an exception and the caller does not catch it,
+both the callee's and caller's transactions will be rolled back.
+* Nested: A new transaction will be created,
+and it will be a nested transaction of the caller's transaction.
+In this options, if the caller throws an exception,
+both the callee's and caller's transactions will be rolled back;
+if the callee throws an exception and the caller catches it,
+the callee's transaction will be rolled back,
+but the caller's transaction will not be affected;
+if the callee throws an exception and the caller does not catch it,
+both the callee's and caller's transactions will be rolled back.
+* Supports: If a transaction already exists, the method will run within that transaction;
+otherwise, it will run without a transaction.
+* Mandatory: If a transaction already exists, the method will run within that transaction;
+Otherwise, an exception will be thrown.
+* Not Supported: If a transaction already exists, it will be suspended,
+and the method will run without a transaction.
+* Never: If a transaction already exists, an exception will be thrown;
