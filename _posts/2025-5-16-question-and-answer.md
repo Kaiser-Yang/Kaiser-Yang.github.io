@@ -221,6 +221,42 @@ the browser level. Therefore, we can use reverse proxy to bypass the SOP.
 For example, we can use `nginx` to set up a reverse proxy to forward requests to the target server.
 This way, the browser will only see the requests going to the same origin.
 
+## What is memory alignment?
+
+Memory alignment refers to the way data is arranged and accessed in memory. For example,
+the 1-byte data type can be stored at any address,
+while the 4-byte data type should be stored at an address that is a multiple of 4.
+
+In `C/C++`, you can not convert pointers of different memory alignment.
+However, you can convert any types of pointers to `void*` or `char*` pointers,
+because they are 1-byte aligned.
+
+You can use the `alignof` operator in `C++` to get the alignment of a type. There is a function
+that can check if a pointer can be safely cast to a pointer of a different type:
+
+```cpp
+bool is_aligned(void* ptr, size_t alignment) {
+    return reinterpret_cast<uintptr_t>(ptr) % alignment == 0;
+}
+
+// Usage
+is_aligned(ptr, alignof(int)); // Check if ptr is aligned for int
+is_aligned(ptr, alignof(long long)); // Check if ptr is aligned for long long
+```
+
+When `is_aligned` returns `true`, it means that the pointer can be safely cast to the target type.
+
+In some cases, you may be asked how to implement `memcpy` effectively.
+One common approach is to copy multiple bytes at a time, you may think of trying to
+convert the `void *` to `long long *` and copy 8 bytes at a time. Before doing that,
+you should check if the pointer is aligned for `long long` type. If it is not aligned,
+you can copy the data byte by byte until the pointer is aligned, and then copy the rest of the data
+in chunks of 8 bytes.
+
+Actually, there are SIMD (Single Instruction, Multiple Data) instructions, with which you can
+loading and storing data in larger chunks, such as 128 bits or 256 bits.
+But using SIMD is not portable.
+
 ## What is ORM?
 
 ORM stands for Object-Relational Mapping.
