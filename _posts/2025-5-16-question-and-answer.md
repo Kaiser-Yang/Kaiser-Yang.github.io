@@ -257,6 +257,72 @@ Actually, there are SIMD (Single Instruction, Multiple Data) instructions, with 
 loading and storing data in larger chunks, such as 128 bits or 256 bits.
 But using SIMD is not portable.
 
+## What is the process of SSL/TLS handshake?
+
+1. The TLS client sends a `Client Hello` message that lists cryptographic information
+such as the TLS version and, in the client's order of preference,
+the Cipher Suites supported by the client.
+The message also contains a random byte string that is used in subsequent computations.
+2. The TLS server responds with a `Server Hello` message that contains the Cipher Suite
+chosen by the server from the list provided by the client,
+and another random byte string.
+3. The server also sends its digital certificate (including the public key) to the client.
+4. The server sends a `Server Hello Done` message.
+5. The TLS client verifies the server's digital certificate.
+The TLS client generate another random byte string, then generate a secret key
+by all the three random byte strings. The client sends the third random string the server,
+and this package will be encrypted with the public key of the server. This is a `Finished`
+message, indicating that the client part of the handshake is complete.
+6. The TLS server sends can decrypt the `Finished` message using its private key.
+Then it can generate the same secret key using the three random byte strings.
+The server then sends its own `Finished` message, encrypted with the secret key.
+7. Now both the client and server have the same secret key,
+and they can start exchanging application data securely.
+
+```txt
++------------+                                      +------------+
+| TLS Client |                                      | TLS Server |
++------------+                                      +------------+
+       |                                                   |
+       | 1. Client Hello                                   |
+       |    (Version, Cipher Suites, Random1)              |
+       |-------------------------------------------------->|
+       |                                                   |
+       |                       2. Server Hello             |
+       |                          (Chosen Cipher, Random2) |
+       |<--------------------------------------------------|
+       |                                                   |
+       |                            3. Digital Certificate |
+       |                               (PubKey)            |
+       |<--------------------------------------------------|
+       |                                                   |
+       |                              4. Server Hello Done |
+       |<--------------------------------------------------|
+       |                                                   |
+       | 5. Verify Cert                                    |
+       |    Generate Random3                               |
+       |    Derive Secret Key                              |
+       |    (Random1 + Random2 + Random3)                  |
+       |    Finished                                       |
+       |    (Encrypted with Server's PubKey)               |
+       |    [Contains Random3]                             |
+       |-------------------------------------------------->|
+       |                                                   |
+       |           6. Decrypt with Private Key             |
+       |              Derive Secret Key                    |
+       |              (Random1 + Random2 + Random3)        |
+       |              Finished (Encrypted with Secret Key) |
+       |<--------------------------------------------------|
+       |                                                   |
+       |      7. Secure Application Data Exchange          |
+       |<=================================================>|
+       |                                                   |
+```
+
 ## What is ORM?
 
 ORM stands for Object-Relational Mapping.
+
+## References
+
+- [An overview of the SSL/TLS handshake](https://www.ibm.com/docs/en/ibm-mq/9.3.x?topic=tls-overview-ssltls-handshake)
