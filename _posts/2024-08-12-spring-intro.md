@@ -473,12 +473,12 @@ There is a `propagation` attribute that specifies the transaction propagation be
 This attribute is used to specify how the transaction should behave
 when it is called from another transaction. The possible values are:
 
-* Required: The default behavior, if a transaction already exists,
+* `Required`: The default behavior, if a transaction already exists,
 the method will run within that transaction; otherwise, a new transaction will be created.
 In this options, no matter the caller or callee throws an exception
 (even you have catch the exception thrown by the callee in the caller),
 the whole transaction will be rolled back.
-* Requires New: A new transaction will always be created,
+* `Requires New`: A new transaction will always be created,
 and it is independent of the caller's transaction.
 In this options, if the caller throws an exception,
 the callee's transaction will not be affected;
@@ -487,7 +487,7 @@ the callee's transaction will be rolled back,
 but the caller's transaction will not be affected;
 if the callee throws an exception and the caller does not catch it,
 both the callee's and caller's transactions will be rolled back.
-* Nested: A new transaction will be created,
+* `Nested`: A new transaction will be created,
 and it will be a nested transaction of the caller's transaction.
 In this options, if the caller throws an exception,
 both the callee's and caller's transactions will be rolled back;
@@ -496,10 +496,10 @@ the callee's transaction will be rolled back,
 but the caller's transaction will not be affected;
 if the callee throws an exception and the caller does not catch it,
 both the callee's and caller's transactions will be rolled back.
-* Supports: If a transaction already exists, the method will run within that transaction;
+* `Supports`: If a transaction already exists, the method will run within that transaction;
 otherwise, it will run without a transaction.
-* Mandatory: If a transaction already exists, the method will run within that transaction;
+* `Mandatory`: If a transaction already exists, the method will run within that transaction;
 Otherwise, an exception will be thrown.
-* Not Supported: If a transaction already exists, it will be suspended,
+* `Not Supported`: If a transaction already exists, it will be suspended,
 and the method will run without a transaction.
-* Never: If a transaction already exists, an exception will be thrown;
+* `Never`: If a transaction already exists, an exception will be thrown;
