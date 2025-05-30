@@ -45,10 +45,15 @@ Different shells may have different wildcard symbols,
 there are some wildcards in the `bash` shell:
 
 * `*`: matches any number of characters (including 0).
-* `?`: matches a single character (excluding `/`).
+* `**`: matches all files and directories recursively.
+* `**/`: matches all directories recursively.
+* `?`: matches a single character.
 * `[]`：matches any character in the brackets. For example, `[abc]` matches `a` or `b` or `c`.
 * `[!]` or `[^]`: matches any character not in the brackets. For example, `[!abc]` matches any
 character except `a`, `b` and `c`.
+
+**NOTE**: `**` and `**/` are only available when `globstar` shell option is enabled
+(use `shopt | grep globstar` to check). You can use `shopt -s globstar` to enable it.
 
 In the square brackets, you can use `-` to represent a range, for example, `[0-9]`
 matches any digit, and `[a-z]` matches any lowercase letter.
@@ -189,7 +194,7 @@ echo "${!arr[@]}" # 0 2 3 (indexes of the array)
 # which is similar with a dictionary or map
 declare -A aarr
 aarr=([name]="Alice" [age]=30)
-aarr+=([city]="Paris" [job]="Engineer") # Add new keys
+aarr+=([city]="Paris" [job]="Engineer") # Add new key-value pairs
 echo "${aarr[@]}" # Alice 30 Paris Engineer (unordered)
 ```
 
@@ -294,9 +299,9 @@ If subscript is `*` or `@`, the expansion is the number of elements in the array
 
 `$name` is equivalent to `${name[0]}`.
 
-`unset name[0]` can destroy the first element of the array.
+`unset ${name[0]}` can destroy the first element of the array.
 
-`unset name` or `unset name[@]` or `unset name[*]` will removes the entire array.
+`unset name` or `unset ${name[@]}` or `unset ${name[*]}` will removes the entire array.
 
 You can use `declare -a name` to create an array called `name`.
 
