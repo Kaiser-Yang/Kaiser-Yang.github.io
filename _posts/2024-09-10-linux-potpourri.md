@@ -575,6 +575,40 @@ After the preceding expansions,
 all unquoted occurrences of the characters `\`, `'`, and `"`
 that did not result from one of the above expansions are removed.
 
+## Commands
+
+### `cat`
+
+| Option | Description |
+| ---  | --- |
+| `-n` | Show line numbers |
+| `-b` | Only show non-empty lines numbers |
+| `-s` | Suppress repeated empty lines |
+| `-v` | Use `^` and `M-` to display non-printable characters, except for tab and newline |
+| `-E` | Display `$` at the end of each line |
+| `-T` | Display `^I` for tab characters |
+| `-A` | Equivalent to `-vET` |
+| `-e` | Equivalent to `-vE` |
+| `-t` | Equivalent to `-vT` |
+
+You can use `cat` to read from standard input then output to a file.
+For example, `cat > file` will read from standard input and write to `file`
+(use `^D` to send `EOF`); `cat >> file` can be used to append content to `file`.
+
+You can put `-` as a file name to read from standard input.
+For example, `cat file1 - file2` will read from standard input and output the content of `file1`,
+then the content of standard input, and finally the content of `file2`;
+`cat file1 - file2 - file3` will read from standard input and output the content of `file1`,
+then the content of standard input, then the content of `file2`, and finally the content of `file3`.
+In this process, you will be required to input the content twice,
+you can use `^D` to end the first input,
+then input the second content and use `^D` to end it again.
+
+**NOTE**: `tac` is a command that is similar to `cat`,
+but it outputs the contents of files in reverse order.
+
+**Digression**: The name `cat` comes from concatenate.
+
 ## `git`
 
 ### `.gitignore`
