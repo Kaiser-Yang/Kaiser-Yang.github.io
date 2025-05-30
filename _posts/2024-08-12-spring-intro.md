@@ -457,7 +457,7 @@ From the standard SQL perspective, the isolation levels and their properties are
 | Serializable     | Not Possible | Not Possible        | Not Possible | Not Possible          |
 
 In PostgreSQL, Dirty Read will not happen even in Read Uncommitted isolation level,
-Phantom Read will not happen in Read Committed isolation level,
+Phantom Read will not happen in Repeatable Read isolation level,
 and the default isolation level is Read Committed.
 
 In MySQL (InnoDB), Pantom Read will not happen even in Repeatable Read isolation level,
