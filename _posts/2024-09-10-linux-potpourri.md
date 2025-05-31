@@ -609,6 +609,48 @@ but it outputs the contents of files in reverse order.
 
 **Digression**: The name `cat` comes from concatenate.
 
+### `grep`
+
+| Option | Description |
+| --- | --- |
+| `-A 2` | Show matching lines and the next two lines |
+| `-B 2` | Show matching lines and the previous two lines |
+| `-C 2` | Show matching lines and two lines before and after |
+| `-r`   | Recursively search directories |
+| `-n`   | Show line numbers |
+| `-i`   | Ignore case |
+| `-v`   | Invert match |
+| `--include "*.py"` | Search only in files matching the pattern |
+| `--exclude "test*"` | Skip files matching the pattern |
+| `--exclude-dir "test*"` | Skip directories matching the pattern |
+| `-c` | Show the count of match in each file instead of the matching lines |
+| `-o` | Only show the matching part |
+| `-l` | Show the names of files with matches instead of the matching lines |
+| `-L` | Show the names of files without matches instead of the matching lines |
+| `-e` | Specify a pattern explicityly, useful when the pattern starts with `-` |
+| `-w` | Only match whole words |
+| `-x` | Only match whole lines |
+| `-F` | Interpret the pattern as a fixed string, not a regex |
+| `-H` | Show file names in output (default when multiple files are searched) |
+| `-h` | Do not show file names in output (default when a single file is searched) |
+| `-m` | Stop after N matches for each file |
+| `--color=auto,always,never` | Highlight rules |
+| `-f` | Read patterns from a file, one pattern per line |
+| `-E` | Interpret the pattern as an extended regular expression (ERE) |
+
+The difference between extended regular expressions (ERE) and basic regular expressions (BRE)
+is that in ERE, `?`, `+`, `{`, `|`, `(`, and `)` are special characters,
+while in BRE, they are not special characters unless escaped with a backslash (`\`).
+
+**NOTE**: We usually use `egrep` as an alias for `grep -E`, and `fgrep` as an alias for `grep -F`.
+
+**NOTE**: Word-constituent characters are letters, digits, and underscores.
+
+**NOTE**: In shell command, you usually need to quote the pattern to prevent pathname expansion.
+
+**Regression**: `grep` comes from the command `g/re/p`,
+where `g` stands for `global`, `re` stands for `regular expression`, and `p` stands for `print`.
+
 ## `git`
 
 ### `.gitignore`
@@ -641,4 +683,7 @@ and the global ignore file has the lowest priority.
 
 * [10 Practical Examples Using Wildcards to Match Filenames in Linux](https://www.tecmint.com/use-wildcards-to-match-filenames-in-linux/)
 * [Man Page of Bash](https://www.gnu.org/software/bash/manual/bash.html)
+* [cat command examples for beginners](https://www.golinuxcloud.com/cat-command-examples/)
+* [Linux Tutorial - Cheat Sheet - grep](https://ryanstutorials.net/linuxtutorial/cheatsheetgrep.php)
+* [20 grep command examples in Linux](https://www.golinuxcloud.com/grep-command-in-linux/)
 * [Ignoring files](https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files)
