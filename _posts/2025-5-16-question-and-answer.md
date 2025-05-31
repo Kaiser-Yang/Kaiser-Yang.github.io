@@ -319,6 +319,22 @@ and they can start exchanging application data securely.
        |                                                   |
 ```
 
+## What does `:(){:|:&};:` do in Bash?
+
+For better understanding, we can substitute the colon `:` with a more descriptive name,
+such as `forkbomb` and format it as follows:
+
+```bash
+forkbomb() {
+    forkbomb | forkbomb &
+};
+forkbomb
+```
+
+From the above code, it is clear that the function `forkbomb` calls itself twice
+and runs in the background. This will create an infinite number of processes,
+eventually consuming all system resources and causing the system to become unresponsive.
+
 ## What is ORM?
 
 ORM stands for Object-Relational Mapping.
