@@ -466,6 +466,79 @@ In MySQL (InnoDB), Pantom Read will not happen in Repeatable Read isolation leve
 with consistent non-locking reads,
 the default isolation level is Repeatable Read.
 
+### Types of Lock-Based Protocols
+
+Lock-based protocols are used to implement transaction isolation levels.
+
+There are two types of lock:
+
+* Shared Lock: Also known as read lock and S-lock.
+It can be acquired when no other transaction holds a write lock on the same data.
+* Exclusive Lock: Also known as write lock and X-lock.
+It can be acquired when no other transaction holds a shared or write lock on the same data.
+
+#### First-Level Locking Protocol
+
+The first-level locking protocol requires that a transaction must acquire an X-lock
+before modifying a data item,
+and release the lock after the transaction is committed or rolled back.
+
+This is roughly equivalent to `Read Uncommitted` isolation level,
+which means that dirty reads, non-repeatable reads, and phantom reads may occur,
+but lost updates will not occur.
+
+#### Second-Level Locking Protocol
+
+The second-level locking protocol extends the first-level locking protocol by requiring S-locks
+for read operations. S-locks are acquired before reading a data item, and released
+immediately after the read operation is completed.
+
+This protocol is equivalent to `Read Committed` isolation level,
+which means that dirty reads and lost updates will not occur,
+but non-repeatable reads and phantom reads may occur.
+
+#### Third-Level Locking Protocol
+
+The third-level locking protocol extends the second-level locking protocol
+by requiring that a transaction must hold all S-locks until it commits or rolls back,
+which means that once a transaction reads a data item,
+it will hold the S-lock until the transaction is completed.
+
+This protocol is equivalent to `Repeatable Read` isolation level,
+which means that dirty reads, non-repeatable reads, and lost updates will not occur,
+but phantom reads may occur.
+
+The third-level locking protocol can not prevent phantom reads,
+because transactions only hold locks for existing data items.
+For example,
+if a transaction reads a range of data items
+another transaction inserts a new data item then commits,
+and after that the first transaction may read the new data item.
+
+### Two-Phase Locking
+
+The two-phase locking is a locking protocol
+that guarantees conflict-serializable.
+
+**NOTE**: If a schedule is conflict-serializable,
+the schedule is equivalent to some serial schedule based solely on conflicting operations.
+
+The core idea of the two-phase locking is that
+transactions must follow two strict phases for lock management:
+
+* Growing Phase: In this phase, a transaction can acquire locks but cannot release any locks.
+* Shrinking Phase: In this phase, a transaction can release locks but cannot acquire any new locks.
+
+There are some variants of the two-phase locking protocol:
+
+* Conservative Two-Phase Locking: In this variant,
+a transaction must acquire all locks (at one time) before it starts executing.
+This can prevent deadlocks.
+* Strict Two-Phase Locking: In this variant, a transaction must hold  X-locks
+until it commits or rolls back.
+* Rigorous Two-Phase Locking: In this variant, a transaction must hold all locks
+until it commits or rolls back.
+
 ### `@Transactional`
 
 `@Transactional` is an annotation used to specify that a method or class is transactional.
