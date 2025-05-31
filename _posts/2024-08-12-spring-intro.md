@@ -440,8 +440,10 @@ There are four types of problems that may occur:
 but gets different results because another transaction modified/deleted it.
 * Phantom Read: A transaction re-runs a range query and gets new rows
 inserted by another committed transaction.
-* Lost Update or Serialization Anomaly: Two transactions read the same data and modify it,
+* Lost Update: Two transactions read the same data and modify it,
 but one transaction's changes are lost due to the other transaction's changes
+* Serialization Anomaly: The result of successfully committing a group of transactions is
+inconsistent with all possible orderings of running those transactions one at a time.
 
 ### Isolation Level
 
