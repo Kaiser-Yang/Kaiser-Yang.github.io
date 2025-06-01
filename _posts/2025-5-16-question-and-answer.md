@@ -360,6 +360,80 @@ ORM stands for Object-Relational Mapping, which is a programming technique
 that allows developers to interact with a relational database
 using object-oriented programming languages.
 
+## How to read pointers in C/C++?
+
+The most common and easy way to read pointers in `C/C++` is the Right-Left Rule.
+The Right-Left Rule states that you should start at the identifier, move right when possible,
+then left, and repeat. During each step, you should stop when you reach a parenthesis.
+
+For example, we can use it to tell apart `const char * p1`, `char const * p2`, `char * const p3`,
+`const char * const p4` and `const * char p5`:
+
+For `const char * p1`:
+
+1. Start at `p1`.
+1. Move right. There is nothing on the right, so we stop.
+1. Move left. We see `*`, so we stop and get that `p1` is a pointer to something.
+1. Move right. There is nothing on the right, so we stop.
+1. Move left. We see `const char`, so we stop and get that `p1` is a pointer to a `const char`.
+
+For `char const * p2`:
+
+1. Start at `p2`.
+1. Move right. There is nothing on the right, so we stop.
+1. Move left. We see `*`, so we stop and get that `p2` is a pointer to something.
+1. Move right. There is nothing on the right, so we stop.
+1. Move left. We see `char const`, so we stop and get that `p2` is a pointer to a `char const`.
+
+For `char * const p3`:
+
+1. Start at `p3`.
+1. Move right. There is nothing on the right, so we stop.
+1. Move left. We see `const`, so we stop and get that `p3` is constant.
+1. Move right. There is nothing on the right, so we stop.
+1. Move left. We see `*`, so we stop and get that `p3` is a constant pointer to something.
+1. Move right. There is nothing on the right, so we stop.
+1. Move left. We see `char`, so we stop and get that `p3` is a constant pointer to a `char`.
+
+For `const char * const p4`:
+
+1. Start at `p4`.
+1. Move right. There is nothing on the right, so we stop.
+1. Move left. We see `const`, so we stop and get that `p4` is constant.
+1. Move right. There is nothing on the right, so we stop.
+1. Move left. We see `*`, so we stop and get that `p4` is a constant pointer to something.
+1. Move right. There is nothing on the right, so we stop.
+1. Move left. We see `const char`,
+so we stop and get that `p4` is a constant pointer to a `const char`.
+
+For `const * char p5`:
+
+1. Start at `p5`.
+1. Move right. We see `*`, so we stop and get that `p5` is a pointer to something.
+1. Move left. We see `char`, so we stop and get that `p5` is a `char`.
+1. Error occurs, `p5` can not be a pointer and a `char` at the same time.
+Therefore, this is not a valid declaration.
+
+There are some complicated examples you can try to practice the Right-Left Rule:
+
+* `int (*(*foo)(int))[5]`
+* `int (*(*foo)(int, int))(int, int)`
+* `int (*(*foo)(int, int))(int, int) const`
+
+I'll explain `int (*(*foo)(int))[5]`:
+
+1. Start at `foo`.
+1. Move right. We see `)` so we stop.
+1. Move left. We see `*`, so we stop and get that `foo` is a pointer to something.
+1. Move right. We see `(int)`, so we stop and get that `foo` is a pointer to a function
+that takes an `int` as an argument.
+1. Move left. We see `*`, so we stop and get that `foo` is a pointer to a function
+that takes an `int` as an argument and returns a pointer to something.
+1. Move right. We see `[5]`, so we stop and get that `foo` is a pointer to a function
+that takes an `int` as an argument and returns a pointer to an array of 5 elements.
+1. Move left. We see `int`, so we stop and get that `foo` is a pointer to a function
+that takes an `int` as an argument and returns a pointer to an array of 5 `int` elements.
+
 ## References
 
 - [An overview of the SSL/TLS handshake](https://www.ibm.com/docs/en/ibm-mq/9.3.x?topic=tls-overview-ssltls-handshake)
