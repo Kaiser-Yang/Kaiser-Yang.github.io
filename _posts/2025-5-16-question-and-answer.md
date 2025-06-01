@@ -335,6 +335,25 @@ From the above code, it is clear that the function `forkbomb` calls itself twice
 and runs in the background. This will create an infinite number of processes,
 eventually consuming all system resources and causing the system to become unresponsive.
 
+## What are debounce and throttle?
+
+Debounce and throttle are techniques used to control the rate at which a function is executed,
+especially in response to events like scrolling, resizing, or key presses.
+
+- **Debounce**: This technique ensures
+that a function is only executed after a certain period of time,
+and every time the event is triggered, the timer is reset.
+- **Throttle**: This technique ensures that a function is executed at most once
+within a specified time interval, regardless of how many times the event is triggered.
+
+Debounce is useful for scenarios
+where you want to wait until the user has stopped performing an action,
+such as typing in a search box or resizing a window.
+
+Throttle is useful for scenarios
+where you want to limit the frequency of function execution,
+such as handling scroll events or API requests.
+
 ## What is ORM?
 
 ORM stands for Object-Relational Mapping.
@@ -342,3 +361,4 @@ ORM stands for Object-Relational Mapping.
 ## References
 
 - [An overview of the SSL/TLS handshake](https://www.ibm.com/docs/en/ibm-mq/9.3.x?topic=tls-overview-ssltls-handshake)
+- [Debounce vs throttle](https://www.kaidohussar.dev/posts/debounce-vs-throttle)
