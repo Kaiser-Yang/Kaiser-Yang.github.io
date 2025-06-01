@@ -2,7 +2,7 @@
 layout: post
 title: Q&A
 date: 2025-05-16 21:16:38+0800
-last_updated: 2025-05-16 21:16:38+0800
+last_updated: 2025-06-01 14:03:31+0800
 description: Some questions that I have encountered in my work.
 tags:
 categories: Potpourri
@@ -356,7 +356,9 @@ such as handling scroll events or API requests.
 
 ## What is ORM?
 
-ORM stands for Object-Relational Mapping.
+ORM stands for Object-Relational Mapping, which is a programming technique
+that allows developers to interact with a relational database
+using object-oriented programming languages.
 
 ## References
 
