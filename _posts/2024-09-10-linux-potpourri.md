@@ -654,6 +654,81 @@ want to specify multiple patterns or the pattern starts with a hyphen (`-`).
 **Regression**: `grep` comes from the command `g/re/p`,
 where `g` stands for `global`, `re` stands for `regular expression`, and `p` stands for `print`.
 
+### `sed`
+
+| Option | Description |
+| --- | --- |
+| `-i[SUFFIX]` | Edit files in place, optionally with a backup suffix |
+| `-e` | Add a script to the commands to be executed |
+| `-f` | Add a script file to the commands to be executed |
+| `-E` | Use extended regular expressions |
+| `-n` | Suppress automatic printing of pattern space |
+
+**NOTE**: With `-n`, `sed` will only print lines explicitly specified with the `p`, `P`, or `w`.
+
+#### Pattern Space and Hold Space
+
+`sed` uses two spaces: the pattern space and the hold space.
+
+The pattern space is where the current line is processed.
+`sed` will read one line at a time from the input into the pattern space.
+
+The hold space is a temporary storage area that can be used to store data between commands.
+It is empty until you explicitly use some commands to store data in it.
+And content in the hold space persists across multiple lines.
+
+#### Commands
+
+| Command | Description |
+| --- | --- |
+| `s` | Substitute a pattern in the pattern space |
+| `p` | Print the pattern space |
+| `P` | Print the first part of the pattern space (up to the first newline) |
+| `d` | Delete the pattern space |
+| `D` | Delete the first part of the pattern space (up to the first newline) |
+| `q` | Quit `sed` immediately |
+| `h` | Copy the pattern space to the hold space |
+| `H` | Append the pattern space to the hold space |
+| `g` | Copy the hold space to the pattern space |
+| `G` | Append the hold space to the pattern space |
+| `n` | Read the next line into the pattern space |
+| `N` | Append the next line to the pattern space |
+| `x` | Exchange the pattern space and the hold space |
+| `=` | Print current line number |
+| `w` | Write the pattern space to a file |
+| `W` | Write the first part of the pattern space (up to the first newline) to a file |
+| `a\` | Append text after the current line (use `\` to continue on the next line) |
+| `c\` | Change the current line to the specified text (use `\` to continue on the next line) |
+| `i\` | Insert text before the current line (use `\` to continue on the next line) |
+
+**NOTE**: The `a`, `c`, and `i` are GNU `sed` extensions. It can be used without `\` but only
+for a single line of text.
+
+#### Examples for `s` command
+
+```bash
+# Replace the first occurrence of "old" with "new" in each line
+sed 's/old/new/' file.txt
+ # Replace all occurrences of "old" with "new" in each line
+sed 's/old/new/g' file.txt
+# Replace all occurrences of "old" with "new" in each line, ignoring case
+sed 's/old/new/gi' file.txt
+# Replace the second occurrence of "old" with "new" in each line
+sed 's/old/new/2' file.txt
+# Use | as the delimiter instead of /
+# Some available delimiters are: /, |, #, @, !
+sed 's|/var/log|/var/logs|g' file.txt
+# Replace the first occurrence of "old" with "new" in the 5th line
+sed '5s/old/new/' file.txt
+# Replace the first occurrence of "old" with "new" in lines 5 to 10
+sed '5,10s/old/new/' file.txt
+# Replace all occurrences of "old" with "new" in lines matching "pattern"
+sed '/pattern/s/old/new/g' file.txt
+# Replace all occurrences of "old" with "new" in lines matching "pattern" and all following lines
+sed '/pattern/,$s/old/new/g' file.txt
+# Replace all occurrences of "old" with "new" in lines between "start_pattern" and "end_pattern"
+sed '/start_pattern/,/end_pattern/s/old/new/g' file.txt
+```
 ## `git`
 
 ### `.gitignore`
@@ -689,4 +764,6 @@ and the global ignore file has the lowest priority.
 * [cat command examples for beginners](https://www.golinuxcloud.com/cat-command-examples/)
 * [Linux Tutorial - Cheat Sheet - grep](https://ryanstutorials.net/linuxtutorial/cheatsheetgrep.php)
 * [20 grep command examples in Linux](https://www.golinuxcloud.com/grep-command-in-linux/)
+* [Sed Command Cheat Sheet: 30 Essential One-Liners for Text Processing](https://karandeepsingh.ca/posts/sed-command-cheat-sheet-30-essential-one-liners/)
+* [sed cheatsheet](https://devhints.io/sed)
 * [Ignoring files](https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files)
