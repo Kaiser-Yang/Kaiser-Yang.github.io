@@ -627,7 +627,7 @@ but it outputs the contents of files in reverse order.
 | `-o` | Only show the matching part |
 | `-l` | Show the names of files with matches instead of the matching lines |
 | `-L` | Show the names of files without matches instead of the matching lines |
-| `-e` | Specify a pattern explicityly, useful when the pattern starts with `-` |
+| `-e` | Specify a pattern explicityly |
 | `-w` | Only match whole words |
 | `-x` | Only match whole lines |
 | `-F` | Interpret the pattern as a fixed string, not a regex |
@@ -641,6 +641,9 @@ but it outputs the contents of files in reverse order.
 The difference between extended regular expressions (ERE) and basic regular expressions (BRE)
 is that in ERE, `?`, `+`, `{`, `|`, `(`, and `)` are special characters,
 while in BRE, they are not special characters unless escaped with a backslash (`\`).
+
+**NOTE**: `-e` is useful when you
+want to specify multiple patterns or the pattern starts with a hyphen (`-`).
 
 **NOTE**: We usually use `egrep` as an alias for `grep -E`, and `fgrep` as an alias for `grep -F`.
 
