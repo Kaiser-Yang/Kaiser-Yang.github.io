@@ -733,6 +733,30 @@ sed '/pattern/,$s/old/new/g' file.txt
 # Replace all occurrences of "old" with "new" in lines between "start_pattern" and "end_pattern"
 sed '/start_pattern/,/end_pattern/s/old/new/g' file.txt
 ```
+### `sort`
+
+| Option | Description |
+| --- | --- |
+| `-r` | Sort in reverse order |
+| `-n` | Sort numerically |
+| `-k` | Sort by a specific key (column) |
+| `-u` | Unique sort |
+| `-t` | Specify the field separator |
+| `-c` | Check if the input is already sorted |
+| `-f` | Ignore case when sorting |
+| `-h` | Sort by human-readable numbers (e.g., 1K, 2M) |
+| `-M` | Sort by month names (e.g., Jan, Feb) |
+| `--files0-from=-` | Read from standard input with `NUL` as the file name separator |
+| `--files0-from=filename` | Read from a file with `NUL` as the file name separator |
+
+**NOTE**: You can use `-k` to specify multiple keys for sorting.
+For example, `-k2,2 -k1,1` means sort by the second column first, then by the first column.
+And you can specify parts of a column for sorting,
+such as `-k2.2,2.3` to sort by the second column from the second character to the third character.
+Besides, you can specify the type of the column for sorting,
+such as `-k2n,2` to sort the second column numerically
+and `-k2r,2` to sort the second column in reverse order.
+
 ## `git`
 
 ### `.gitignore`
@@ -770,4 +794,8 @@ and the global ignore file has the lowest priority.
 * [20 grep command examples in Linux](https://www.golinuxcloud.com/grep-command-in-linux/)
 * [Sed Command Cheat Sheet: 30 Essential One-Liners for Text Processing](https://karandeepsingh.ca/posts/sed-command-cheat-sheet-30-essential-one-liners/)
 * [sed cheatsheet](https://devhints.io/sed)
+* [Linux Handbook: sort Command Examples](https://linuxhandbook.com/sort-command/)
+* [15+ Tips to PROPERLY sort files in Linux](https://www.golinuxcloud.com/linux-sort-files/#1_Sort_by_name)
+* [Linux and Unix sort command tutorial with examples](https://shapeshed.com/unix-sort/)
+* [Linux sort Command](https://www.baeldung.com/linux/sort-command)
 * [Ignoring files](https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files)
