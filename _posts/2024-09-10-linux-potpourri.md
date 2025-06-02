@@ -715,8 +715,12 @@ sed 's/old/new/g' file.txt
 sed 's/old/new/gi' file.txt
 # Replace the second occurrence of "old" with "new" in each line
 sed 's/old/new/2' file.txt
+# Replace "old" with "new" in each line from the second occurrence to the end of the line
+sed 's/old/new/2g' file.txt
+# Replace the first occurrence of "old" with "new" in every 10th line
+sed '1~10s/old/new/' file.txt
 # Use | as the delimiter instead of /
-# Some available delimiters are: /, |, #, @, !
+# Some available delimiters are: /, |, #, @, !, and +
 sed 's|/var/log|/var/logs|g' file.txt
 # Replace the first occurrence of "old" with "new" in the 5th line
 sed '5s/old/new/' file.txt
