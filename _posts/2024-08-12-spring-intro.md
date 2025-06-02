@@ -2,6 +2,7 @@
 layout: post
 title: The Brief Introduction of Spring
 date: 2024-08-12 11:59:00+0800
+last_updated: 2025-06-02 17:03:44+0800
 description:
 tags:
   - Spring
