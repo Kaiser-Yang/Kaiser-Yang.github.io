@@ -324,6 +324,7 @@ display_categories:
   - "Java"
   - "Python"
   - "Potpourri"
+  - "gcs"
 
 # -----------------------------------------------------------------------------
 # Jekyll Scholar
