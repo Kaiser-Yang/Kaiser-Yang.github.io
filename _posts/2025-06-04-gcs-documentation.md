@@ -33,3 +33,4 @@ Do not be afraid to contribute, even if you are not familiar with it,
 there will be someone to help you.
 
 * [Deploy gcs](/blog/2025/gcs-deploy)
+* [gcs-back-end Development](/blog/2025/gcs-back-end-development)
