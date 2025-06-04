@@ -2,7 +2,7 @@
 layout: post
 title: Linux Potpourri
 date: 2024-09-10 20:30:06+0800
-last_updated: 2025-05-19 19:42:51
+last_updated: 2025-06-04 17:39:00+0800
 description:
 tags:
   - Linux
@@ -733,6 +733,60 @@ sed '/pattern/,$s/old/new/g' file.txt
 # Replace all occurrences of "old" with "new" in lines between "start_pattern" and "end_pattern"
 sed '/start_pattern/,/end_pattern/s/old/new/g' file.txt
 ```
+
+### `find`
+
+| Option | Description |
+| --- | --- |
+| `-type` | Specify the type of file to search for |
+| `-readable` | Search for files or directories that are readable by the current user |
+| `-writable` | Search for files or directories that are writable by the current user |
+| `-executable` | Search for files or directories that are executable by the current user |
+| `-name` | Specify the file name to search for. Can use `wildcards` |
+| `-path` | Specify the path to search for. Can use `wildcards` |
+| `-iname` | Similar to `-name`, but ignores case |
+| `-ipath` | Similar to `-path`, but ignores case |
+| `-empty` | Search for empty files or directories |
+| `-perm` | Specify the permissions to search for |
+| `-user` | Specify the owner of the file or directory |
+| `-group` | Specify the group of the file or directory |
+| `-maxdepth` | Specify the maximum depth to search |
+| `-mindepth` | Specify the minimum depth to search |
+| `-depth` | Process each directory's contents before the directory itself |
+| `-delete` | Delete the found files or directories |
+| `-and` | Logic and |
+| `-or` | Logic or |
+| `-not` | Logic not |
+| `-regex` | Use a regular expression |
+| `-iregex` | Use a case-insensitive regular expression |
+| `-print0` | Print the found files or directories, separated by a null character |
+| `-samefile` | Search for files that are hard links to the specified file |
+| `-links` | Search for files with a specific number of hard links |
+| `-P` | Neever follow symbolic links (default) |
+| `-L` | Follow symbolic links |
+| `-H` | Follow symlinks only for the starting directories explicitly passed as arguments |
+| `-mtime` | Specify the modification time of the file or directory, the time is in days |
+| `-atime` | Specify the access time of the file or directory, the time is in days |
+| `-ctime` | Specify the creation time of the file or directory, the time is in days |
+| `-mmin` | Specify the modification time of the file or directory, the time is in minutes |
+| `-amin` | Specify the access time of the file or directory, the time is in minutes |
+| `-cmin` | Specify the creation time of the file or directory, the time is in minutes |
+
+The options for `-type`:
+
+* `b`: block device file
+* `c`: character device file
+* `p`: pipe file
+* `s`: socket file
+* `f`: regular file
+* `d`: directory
+* `l`: soft link file
+
+**NOTE**: When you use `-regex`, the pattern is matched against the entire file name,
+which is a little bit different from `grep`. If you want to match a specific part of the file name,
+you need to use `.*` to match any characters before and after the pattern. For example,
+`find . -regex ".*pattern.*"` will find files that contain `pattern` in their names.
+
 ### `sort`
 
 | Option | Description |
@@ -790,6 +844,12 @@ and the global ignore file has the lowest priority.
 * [10 Practical Examples Using Wildcards to Match Filenames in Linux](https://www.tecmint.com/use-wildcards-to-match-filenames-in-linux/)
 * [Man Page of Bash](https://www.gnu.org/software/bash/manual/bash.html)
 * [cat command examples for beginners](https://www.golinuxcloud.com/cat-command-examples/)
+* [25+ most used find commands in Linux](https://www.golinuxcloud.com/find-command-in-linux/)
+* [find Linux Command Cheatsheet](https://onecompiler.com/cheatsheets/find)
+* [Linux Find Cheatsheet](https://linuxtutorials.org/linux-find-cheatsheet/)
+* [Find files and directories on Linux with the find command](https://opensource.com/article/21/9/linux-find-command)
+* [10 ways to use the Linux find command](https://www.redhat.com/sysadmin/linux-find-command)
+* [Find cheatsheet](https://quickref.me/find)
 * [Linux Tutorial - Cheat Sheet - grep](https://ryanstutorials.net/linuxtutorial/cheatsheetgrep.php)
 * [20 grep command examples in Linux](https://www.golinuxcloud.com/grep-command-in-linux/)
 * [Sed Command Cheat Sheet: 30 Essential One-Liners for Text Processing](https://karandeepsingh.ca/posts/sed-command-cheat-sheet-30-essential-one-liners/)
