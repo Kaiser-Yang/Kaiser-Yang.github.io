@@ -43,7 +43,6 @@ The directory structure is as follows:
 ├── Dockerfile
 ├── database
 ├── docker-compose.yml
-├── gcs.tar.gz
 ├── nginx
 ├── start.sh
 ├── target
@@ -71,7 +70,7 @@ FRONT_END_REVERSE_PROXY_PORT=
 You can generate `JWT_SECRET` and `MD5_SALT` using the command `openssl rand -base64 32`
 (make sure they are different).
 `GCS_SSH_MAPPING_PORT` and `FRONT_END_REVERSE_PROXY_PORT` are the ports you want to expose.
-`GCS_SSH_MAPPING_PORT` is used for `ssh` cloning repositories,
+`GCS_SSH_MAPPING_PORT` is used for `ssh` cloning repositories.
 `FRONT_END_REVERSE_PROXY_PORT` is used for accessing the front end.
 
 **NOTE**: `MD5_SALT` should not be changed after it is set.
