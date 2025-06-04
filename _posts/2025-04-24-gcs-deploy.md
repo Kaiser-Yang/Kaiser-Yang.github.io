@@ -1,9 +1,9 @@
 ---
 layout: post
-title: gcs 部署
+title: Deploy gcs
 date: 2025-04-24 17:10:49+0800
-last_updated: 2025-04-24 17:10:49+0800
-description: 主要介绍如何部署 gcs。
+last_updated: 2025-06-04 19:59:07+0800
+description: This post introduces how to deploy gcs on a server using Docker.
 tags:
   - Linux
   - Nginx
@@ -17,24 +17,41 @@ related_posts: true
 pretty_table: true
 ---
 
-## 后端部署
+We only recommend deploying `gcs` by docker compose, which is the easiest way.
 
-从 [gcs-back-end](https://github.com/CMIPT/gcs-back-end/releases) 的 `Release` 页面下载最新的
-`gcs-back-end.tar.gz`，该压缩包中包含了编译后的 `jar` 包以及相关的配置文件，目录结构如下：
+## Prerequisites
+
+* `openssl`
+* `docker`
+* `docker-compose`
+
+## Deployment
+
+You should download the latest release from
+[gcs-front-end](https://github.com/CMIPT/gcs-front-end/releases).
+
+The downloaded file ia a compressed file named `gcs.tar.gz`,
+which contains the compiled `jar` package, `js` and `css` files, and related configuration files.
+
+The directory structure is as follows:
 
 ```
 .
 ├── .env
+├── .output
 ├── 3rdparty
 ├── Dockerfile
 ├── database
 ├── docker-compose.yml
+├── gcs.tar.gz
 ├── nginx
 ├── start.sh
-└── target
+├── target
 ```
 
-接下来需要修改 `.env` 文件，主要修改以下几个配置：
+Then you need to do some configurations for the deployment environment.
+You mainly need to modify the `.env` file in the root directory of the project.
+Those below are the environment variables you need to set:
 
 ```bash
 GIT_USER_PASSWORD=
@@ -47,31 +64,36 @@ SPRING_MAIL_PASSWORD=
 SPRING_MAIL_PROTOCOL=
 MD5_SALT=
 JWT_SECRET=
-GCS_SSH_MAPPING_PORT=10623
-FRONT_END_REVERSE_PROXY_PORT=45698
+GCS_SSH_MAPPING_PORT=
+FRONT_END_REVERSE_PROXY_PORT=
 ```
 
-其中 `JWT_SECRET` 以及 `MD5_SALT` 可以通过 `openssl rand -base64 32` 生成（请生成不同的值）。
-`GCS_SSH_MAPPING_PORT` 和 `FRONT_END_REVERSE_PROXY_PORT` 设置成要开放的端口，
-`GCS_SSH_MAPPING_PORT` 用于 `ssh` 克隆仓库，`FRONT_END_REVERSE_PROXY_PORT` 用于访问前端，
-在只部署后端的情况下该变量无效。
+You can generate `JWT_SECRET` and `MD5_SALT` using the command `openssl rand -base64 32`
+(make sure they are different).
+`GCS_SSH_MAPPING_PORT` and `FRONT_END_REVERSE_PROXY_PORT` are the ports you want to expose.
+`GCS_SSH_MAPPING_PORT` is used for `ssh` cloning repositories,
+`FRONT_END_REVERSE_PROXY_PORT` is used for accessing the front end.
 
-**注意**：`MD5_SALT` 指定后不可以修改。
+**NOTE**: `MD5_SALT` should not be changed after it is set.
 
-接下来你需要保证安装有 `openssl`, `docker` 和 `docker-compose`。
+Then, you should copy your certificates to make sure `HTTPS` works properly.
+You can use your own `ssl` certificate and make sure they are placed in the `nginx/ssl` directory
+with names `private.key` and `certificate.crt`.
 
-首先使用以下命令生成 `ssl` 自签名，如果你已经有了 `ssl` 证书，直接将证书放到 `nginx/ssl` 下，
-并命名成 `private.key` 和 `certificate.crt`。
+Or you can generate the `ssl` certificate by running the following command:
 
 ```bash
-openssl req -x509 -nodes -days 36500 -newkey rsa:2048 -keyout nginx/ssl/private.key -out nginx/ssl/certificate.crt
+openssl req -x509 -nodes -days 36500 -newkey rsa:2048 \
+  -keyout nginx/ssl/private.key -out nginx/ssl/certificate.crt
 ```
 
-接下来启动 `docker-compose`，依次执行：
+Now you can use the command below to start the `gcs` service:
 
 ```bash
 docker-compose build
 docker-compose up -d
 ```
 
-此时后端成功在后台启动，端口为 `8080`。
+After this, the `gcs` service is running in the background,
+you can browse the front end at `https://your-domain:FRONT_END_REVERSE_PROXY_PORT`.
+
