@@ -119,8 +119,9 @@ Now the `gcs-back-end` service is running in the background listening on port `8
 
 You can use `docker ps` to check if the service is running (named with `gcs`).
 
-Once the service is running, you can access the API documentation at
-`http://localhost:8080/swagger-ui/index.html`.
+Once the service is running, you can access the API documentation at:
+
+`http://localhost:8080/swagger-ui/index.html`
 
 If you want to update the `jar` package, you can use the following command:
 
@@ -181,7 +182,7 @@ The commit message should be clear and concise, those below are some examples:
 
 ```Bash
 # Example 1
-fix(repository): the repository name should not be empty
+fix(repository): empty repository name
 
 In this commit, we use @NotBlank to ensure the repository name
 is not empty. And add NOT NULL constraint to the repository
