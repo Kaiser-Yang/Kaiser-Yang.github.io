@@ -176,6 +176,7 @@ Now you can commit the code to the repository:
 ```bash
 git add .
 git commit -m "Your commit message"
+# Or you can use your own GUI to write the commit message
 ```
 
 The commit message should be clear and concise, those below are some examples:
@@ -231,7 +232,7 @@ you can pick up the main commit message as the title of the pull request.
 
 ## Wait for Code Review and Merge
 
-You can send a message to the `gcs-back-end` team to notify them that
+You can send a message to the `gcs-developers` team to notify them that
 you have opened a pull request.
 
 Once the pull request is opened, the team will review your code and give you feedback.
