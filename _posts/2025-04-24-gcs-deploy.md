@@ -30,7 +30,7 @@ We only recommend deploying `gcs` by docker compose, which is the easiest way.
 You should download the latest release from
 [gcs-front-end](https://github.com/CMIPT/gcs-front-end/releases).
 
-The downloaded file ia a compressed file named `gcs.tar.gz`,
+The downloaded file is a compressed file named `gcs.tar.gz`,
 which contains the compiled `jar` package, `js` and `css` files, and related configuration files.
 
 The directory structure is as follows:
