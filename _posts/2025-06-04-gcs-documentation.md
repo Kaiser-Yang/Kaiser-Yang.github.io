@@ -34,3 +34,4 @@ there will be someone to help you.
 
 * [Deploy gcs](/blog/2025/gcs-deploy)
 * [gcs-back-end Development](/blog/2025/gcs-back-end-development)
+* [gcs-front-end Development](/blog/2025/gcs-back-front-development)
