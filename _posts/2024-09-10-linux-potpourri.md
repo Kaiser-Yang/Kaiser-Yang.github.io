@@ -2,7 +2,7 @@
 layout: post
 title: Linux Potpourri
 date: 2024-09-10 20:30:06+0800
-last_updated: 2025-06-04 17:39:00+0800
+last_updated: 2025-06-05 22:02:12+0800
 description:
 tags:
   - Linux
@@ -811,6 +811,35 @@ Besides, you can specify the type of the column for sorting,
 such as `-k2n,2` to sort the second column numerically
 and `-k2r,2` to sort the second column in reverse order.
 
+## `tar`
+
+| Option | Description |
+| --- | --- |
+| `-c` | Create a new tar archive |
+| `-f` | Specify the name of the tar archive file |
+| `-v` | Verbose mode |
+| `-z` | Use `gzip` compression or decompression |
+| `-j` | Use `bzip2` compression or decompression |
+| `-J` | Use `xz` compression or decompression |
+| `-x` | Extract files from a tar archive |
+| `-C` | Change to a directory before performing operations |
+| `-t` | List the contents of a tar archive |
+| `--wildcards` | Enable wildcard matching for file names |
+| `--delete` | Delete files from a tar archive (only works with uncompressed archives) |
+| `--exclude` | Exclude files or directories from the tar archive |
+| `-r` | Append files to a tar archive |
+| `-A` | Append another tar archive to the current one |
+| `-u` | Update files in a tar archive, only adding newer files |
+
+**NOTE**: When using `--exclue`, you must use `=` to connect the option,
+and `--exclude` must appear before the files or directories to be packed.
+For example, `tar -cf a.tar --exclude=*.txt .` is correct,
+but `tar -cf a.tar . --exclude=*.txt` is incorrect.
+
+**NOTE**: When using `-u`, it will not overwrite old files, but will append new files directly,
+after which the tar archive may contain multiple files with the same name.
+But I have not found a way to extract the old files.
+
 ## `git`
 
 ### `.gitignore`
@@ -858,4 +887,6 @@ and the global ignore file has the lowest priority.
 * [15+ Tips to PROPERLY sort files in Linux](https://www.golinuxcloud.com/linux-sort-files/#1_Sort_by_name)
 * [Linux and Unix sort command tutorial with examples](https://shapeshed.com/unix-sort/)
 * [Linux sort Command](https://www.baeldung.com/linux/sort-command)
+* [Linux Audit: tar cheat sheet](https://linux-audit.com/cheat-sheets/tar/)
+* [15+ tar command examples in Linux](https://www.golinuxcloud.com/tar-command-in-linux/)
 * [Ignoring files](https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files)
