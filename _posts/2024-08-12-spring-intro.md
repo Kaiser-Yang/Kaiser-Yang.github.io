@@ -2,7 +2,7 @@
 layout: post
 title: The Brief Introduction of Spring
 date: 2024-08-12 11:59:00+0800
-last_updated: 2025-06-02 17:03:44+0800
+last_updated: 2025-06-05 17:11:58+0800
 description:
 tags:
   - Spring
@@ -580,3 +580,36 @@ Otherwise, an exception will be thrown.
 * `Not Supported`: If a transaction already exists, it will be suspended,
 and the method will run without a transaction.
 * `Never`: If a transaction already exists, an exception will be thrown;
+
+### Lock in Transaction
+
+When you want to use Java locks in Spring transaction,
+you should be careful.
+
+From Spring, we know that the Spring transaction is implemented by AOP,
+and AOP is implemented by dynamic proxy. Be more specific, if a class has implemented
+at least one interface, Spring will use JDK dynamic proxy to create a proxy object,
+otherwise, Spring will use CGLIB to create a proxy object.
+
+When you use `@Transactional` on a method, the method will be wrapped in a proxy object.
+You should be aware that the sequence of the method calls is important. The lock may be released
+before the transaction is committed, which may cause unexpected behavior.
+
+1. Start a transaction.
+1. Call the actual method.
+1. Acquire a lock in the actual method.
+1. Perform some operations on the database.
+1. Release the lock in the actual method. (Other methods may acquire the lock to update)
+1. Commit or rollback the transaction.
+
+However, in some situations, you can use lock in transaction. For example,
+if you want to update the shared data rather than the data in the database,
+you can use lock in transaction.
+
+1. Start a transaction.
+1. Call the actual method.
+1. Acquire a lock in the actual method.
+1. Perform some operations on the shared data (such as a shared object).
+1. Release the lock in the actual method. (It's OK)
+1. Perform some operations on the database.
+1. Commit or rollback the transaction.
