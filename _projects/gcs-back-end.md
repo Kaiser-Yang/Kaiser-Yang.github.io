@@ -31,7 +31,6 @@ related_posts: true
 * [`Spring Boot Filter` 异常处理](/blog/2024/exception-handler-intro)
 * [`JJWT` + `Spring Boot Filter` 实现认证与授权](/blog/2024/filter-jjwt-intro)
 * [`Spring Validation` 与错误代码自定义](/blog/2024/spring-validation-custom-error-code)
-* [`Spring Validation` 路径变量与请求参数校验](/blog/2024/spring-validation-path-variable-and-request-param)
 * [`Long` 在 `Swagger` 中精度丢失](/blog/2024/long-precision-lost-in-swagger)
 * [`Spring` 多次读取请求体](/blog/2024/spring-read-request-body-multiple-times)
 * [`Spring Boot Test` 自定义测试类顺序](/blog/2024/spring-boot-test-custom-test-class-order)
