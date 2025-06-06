@@ -787,6 +787,35 @@ which is a little bit different from `grep`. If you want to match a specific par
 you need to use `.*` to match any characters before and after the pattern. For example,
 `find . -regex ".*pattern.*"` will find files that contain `pattern` in their names.
 
+### `ln`
+
+| Option | Description |
+| --- | --- |
+| `-s` | Solf link |
+| `-f` | Force the creation of the link, removing existing files if necessary |
+| `-t` | Specify the target directory for the link |
+
+**NOTE**: When using `ln target link_name`, and `link_name` is an existing directory,
+it will create a file named `target` in that directory.
+
+**NOTE**: `rm` and `unlink` commands can both delete symbolic links or hard links.
+But `unlink` can only delete one file at a time,
+
+#### Hard Links and Soft Links
+
+You can use `ln` to create hard links and soft links (symbolic links) in `Linux`.
+Hard links are files that point to the same `inode` as the original file,
+while soft links are files that point to the original file by its path.
+Besides, hard links and soft links have the following differences:
+
+* Soft links can point to files in different file systems,
+while hard links can only point to files in the same file system.
+* Soft links can point to directories, while hard links cannot point to directories.
+* When the source file is deleted, hard links will still be valid,
+while soft links will become invalid.
+
+In Linux, you can use the `ls -l` command to view the number of hard links to a file.
+
 ### `sort`
 
 | Option | Description |
