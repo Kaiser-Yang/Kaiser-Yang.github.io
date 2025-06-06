@@ -329,6 +329,59 @@ public class UserControllerTest {
     }
 ```
 
+## Path Variable and Request Parameter Validation
+
+When we want to validate parameters obtained through `@PathVariable` and `@RequestParam`,
+we must add the `@Validated` annotation to the controller class. This annotation is provided by
+`Spring` to implement more flexible functionality than `JSR-303`.
+
+In the documentation of `@Validated`, it states that:
+
+> Applying this annotation at the method level allows for overriding the validation groups for
+a specific method but does not serve as a pointcut; a class-level annotation is nevertheless
+necessary to trigger method validation for a specific bean to begin with.
+
+After adding the `@Validated` annotation to the controller class, we can then use
+annotations such as `@Email`, `@NotBlank`, etc., to validate parameters obtained from
+`@PathVariable` and `@RequestParam`:
+
+```java
+@Validated
+@RestController
+public class UserController {
+    @Autowired private UserService userService;
+
+    @GetMapping(ApiPathConstant.USER_CHECK_EMAIL_VALIDITY_API_PATH)
+    public void checkEmailValidity(
+            @Email(message = "USERDTO_EMAIL_EMAIL {UserDTO.email.Email}")
+            @NotBlank(message = "USERDTO_EMAIL_NOTBLANK {UserDTO.email.NotBlank}")
+            @RequestParam("email")
+            String email) {
+        QueryWrapper<UserPO> wrapper = new QueryWrapper<UserPO>();
+        wrapper.eq("email", email);
+        if (userService.exists(wrapper)) {
+            throw new GenericException(ErrorCodeEnum.EMAIL_ALREADY_EXISTS, email);
+        }
+    }
+}
+```
+
+In the above code, when requests reach the `checkEmailValidity` method,
+Spring will automatically validate the `email` parameter.
+It is worth noting that if the validation fails,
+it will throw a `ConstraintViolationException` instead of a `MethodArgumentNotValidException`.
+To handle this exception globally, we can create a global exception handler as follows:
+
+```java
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorVO> handleConstraintViolationException(
+            ConstraintViolationException e, HttpServletRequest request) {
+        // do something
+    }
+}
+```
 ### Internationalization
 
 We can use `MessageSource` to support internationalization in our application.
@@ -341,3 +394,6 @@ When browsers send requests, they will include the `Accept-Language` header
 on which Spring will automatically select the appropriate `properties` file
 based.
 
+## References
+
+* [Validation with Spring Boot - the Complete Guide](https://reflectoring.io/bean-validation-with-spring-boot/#validating-path-variables-and-request-parameters)
