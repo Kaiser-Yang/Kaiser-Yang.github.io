@@ -1349,6 +1349,11 @@ you can use those options: `-n, --just-print, --dry-run, --recon`. The four opti
 * `m`: this is for debugging when remaking makefiles.
 * If you just use `-d`, this is same with `--debug=a`.
 
+You have learned a lot about `make`, why not to read the
+[Makefile](https://github.com/torvalds/linux/blob/master/Makefile)
+of
+[Linux Kernel](https://github.com/torvalds/linux).
+
 ## `git`
 
 ### `.gitignore`
