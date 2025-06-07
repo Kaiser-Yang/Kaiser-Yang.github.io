@@ -575,6 +575,36 @@ After the preceding expansions,
 all unquoted occurrences of the characters `\`, `'`, and `"`
 that did not result from one of the above expansions are removed.
 
+## Environment Variables
+
+### Locality
+
+| Variable | Description |
+| --- | --- |
+| `LC_ALL` | Overrides all locale settings |
+| `LC_CTYPE` | Character classification and case conversion |
+| `LC_COLLATE` | String collation order |
+| `LC_MESSAGES` | Language for system messages |
+| `LC_TIME` | Date and time formatting |
+| `LC_NUMERIC` | Number formatting |
+| `LC_MONETARY` | Currency formatting |
+| `LC_PAPER` | Paper size and format |
+| `LC_NAME` | Name formatting |
+| `LC_ADDRESS` | Address formatting |
+| `LC_TELEPHONE` | Telephone number formatting |
+| `LC_MEASUREMENT` | Measurement units |
+| `LC_IDENTIFICATION` | Locale identification |
+| `LANG` | Default locale setting |
+
+The priority of locale settings:
+
+```bash
+LC_ALL > LC_* (specific category) > LANG
+```
+
+**NOTE**: There is another variable called `LANGUAGE`
+which is used to specify the language priority list for messages.
+
 ## Commands
 
 ### `cat`
