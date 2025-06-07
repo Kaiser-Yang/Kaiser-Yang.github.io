@@ -2,7 +2,7 @@
 layout: post
 title: Linux Potpourri
 date: 2024-09-10 20:30:06+0800
-last_updated: 2025-06-05 22:02:12+0800
+last_updated: 2025-06-07 13:36:02+0800
 description:
 tags:
   - Linux
@@ -869,6 +869,486 @@ but `tar -cf a.tar . --exclude=*.txt` is incorrect.
 after which the tar archive may contain multiple files with the same name.
 But I have not found a way to extract the old files.
 
+## Makefile
+
+### Variables
+
+You can define variables in `Makefile` and use the variables through `$(variable)`:
+
+```Makefile
+objects = obj1.o obj2.o obj3.o
+all: $(object)
+	$(CC) $(object) -o main
+```
+
+If you want to express the literal `$`, you can use `$$`.
+
+If you want to define a variable whose value is a single space, you can use:
+
+```Makefile
+nullstring :=
+space := $(nullstring) # end of line
+```
+
+The `$nullstring` is a empty string, and `space` is a single space.
+
+**NOTE**: Note that the `#` and a single space before `#` are necessary.
+This is because that the trailing spaces will be added to variables.
+
+You can nest `$` to get value:
+
+```Makefile
+x = y
+y = z
+z = u
+# $(x) is y
+# $($(x)) is $(y), and $(y) is z
+# $($($(x))) is $(z), and $(z) is u
+a := $($($(x)))
+```
+
+### Target Variables
+
+You can set variables only valid for the specified target:
+
+```Makefile
+prog : CFLAGS = -g
+prog : prog.o foo.o bar.o
+	$(CC) $(CFLAGS) prog.o foo.o bar.o
+prog.o : prog.c
+	$(CC) $(CFLAGS) prog.c
+foo.o : foo.c
+	$(CC) $(CFLAGS) foo.c
+bar.o : bar.c
+	$(CC) $(CFLAGS) bar.c
+```
+
+In the example above, only the `prog`'s `CFLAGS` is `-g`.
+
+### = := += ?=
+
+There are many equal signs in `make`, but they are very different with each other:
+
+* `=`: This is like references in `C/C++`.
+For example, if you use `a = $(b)`, once `b`'s value changed after, the `a` will change too.
+* `:=`: This is assignment equal sign, which is similar with `=` in `C/C++`.
+* `+=`: This is to append a variable with new values.
+* `?=`: This will check if the variable is assigned before;
+if it is, this will not work, otherwise it is similar with `=`.
+
+For the `+=`:
+
+* If the variable has not been defined, it will be `=`.
+* If the variable has been define, it will follow the last equal sign.
+If the last equal is `=`, `+=` will use `=`; if the last equal sign is `:=`, `+=` will use `:=`.
+
+### override
+
+When the variable is defined by the `make` command,
+for example `make a=12` will define a variable called `a` whose value is `12`,
+the variable defined and assigned in your `Makefile` will be replaced by the command line's.
+If you don't want the variable be replaced, you can use `override`:
+
+```Makefile
+# you can use other equal signs
+override a := 0
+```
+
+### Multi Line Variables
+
+You can define multi line variables by `define`,
+the signature after `define` is the name of the variable.
+Note that commands in macro must start with tab, so if the lines are not started with tab,
+they will be treated as a multi line variable's value. There is an example below:
+
+```Makefile
+define two-lines
+echo foo
+echo $(bar)
+endef
+```
+
+**NOTE**: `$(bar)` will be replaced by the value of `bar`.
+
+### `$@` `$<` `$*` `$%` `$?` `$^` `$+`
+
+* `$@`: A variable in `make`, whose value is the target.
+For example, if `$@` appears in commands following `main.o: main.cpp`,
+`$@` will be `main.o` exactly.
+* `$<`: A variable in `make`, whose value is the first dependency.
+For example, if `$<` appears in commands following `main.o: main.cpp`,
+`$<` will be `main.cpp` exactly.
+* `$*`: A variable in `make`, whose value is the stem of the target.
+For example, using `$*` following `pre_%.o: pre_%.c`, and the target is `pre_foo.o`,
+`$*` will be `foo`.
+* `$%`: When the target is in an archive (like `foo.a`),
+this variable is the names of members.
+For example, if a target is `foo.a(bar.o)` the `$%` will be `bar.o` and the `$@` will be `foo.a`.
+* `$?`: A variable in `make`, whose value is all the dependencies that are newer than the target.
+* `$^`: A variable in `make`, whose value is all the dependencies of the target.
+This will have only one copy if the target depends on the same file more than once.
+* `$+`: A variable similar with `$^` but will store the repetitive files.
+
+### Auto Deduction
+
+You can use `Makefile` with auto deduction. Auto deduction looks like this:
+
+```Makefile
+%.o: %.c
+```
+
+The example above will add `main.c` or `main.cpp` for target `main.o`,
+and the command `$(CC) $(CFLAGS) -c $< -o $@`
+will be added automatically too.
+
+### Implicit Rules
+
+Implicit rules are similar with auto deduction.
+Or we can say auto deduction depends on implicit rules.
+
+There are different implicit rules for different files.
+I'll give the implicit rules of `C` and `C++` files:
+
+* `C`: `*.o` will be deducted depending on `*.c`
+and the build command will be `$(CC) -c $(CPPFLAGS) $(CFLAGS)`.
+* `C++`: `*.o` will be deducted depending on`*.C, *.cc or *.cpp`
+and the build command will be `$(CC) -c $(CPPFLAGS) $(CFLAGS)`.
+
+### PHONY
+
+`.PHONY` is to specify the target is a pseudo target.
+This is usually used for `clean` and `all`.
+`.PHONY` will let `make` not treat the target as a file:
+
+```Makefile
+.PHONY: clean
+```
+
+### include
+
+`include` is very similar with the `include` in `C/C++`.
+The command will read the files' contents and put them where the `include` command is:
+
+```Makefile
+# this will read the contents of config.make and put it there.
+include config.make
+```
+
+`make` can also use the `-I` to specify where to find the files used by `include` command.
+For example `make -I./include` will let `include` command find the `./include` directory.
+
+### `VPATH` and `vpath`
+
+`VPATH` is a variable in `make`,
+which is used to specify the directories where `make` will look for files when they are not found in the current directory.
+The value of `VPATH` is a colon-separated list of directories.
+
+```Makefile
+# this will specify two directories to be used to find files
+VPATH = src:../include
+```
+
+`vpath` is a keyword of `make`, and this keyword also can be used to find files:
+
+```Makefile
+# % is similar with .* of regexpr
+# this is to specify to find header files in ../include
+vpath %.h ../include
+
+# this is to specify to find C files in ./src
+vpath %.c ./src
+```
+
+### Multi Targets
+
+You can write more than one target in one line:
+
+```Makefile
+bigoutput littleoutput : text.g
+	-generate text.g $(subst output,,$@) > $@
+```
+
+`$(subst output,,$@)` means substitute `output` of `$@` with empty string.
+The hyphen before means to ignore errors.
+`make` will check the return value after each command.
+When return value is non-zero, `make` will stop, the hyphen means don't check the return value.
+
+More straightforward, the commands above are same as:
+
+```Makefile
+bigoutput : text.g
+	-generate text.g big > bigoutput
+littleoutput : text.g
+	-generate text.g little > littleoutput
+```
+
+### Static Pattern Rules
+
+In `make`, you can use static pattern rules to simplify the `Makefile`:
+
+```Makefile
+objects = foo.o bar.o
+all: $(objects)
+$(objects): %.o: %.c
+	$(CC) -c $(CFLAGS) $< -o $@
+```
+
+`$(objects): %.o: %.c` will find `foo.o` and `bar.o` **from `$(objects)`** and
+place them at `%.o`, and then find `foo.c` and `bar.c` **from `foo.o bar.o`**.
+
+There is another example to use `filter` and static pattern rules:
+
+```Makefile
+files = foo.elc bar.o lose.o
+# $(filter %.o,%(files)) will get all the .o files from $(files)
+$(filter %.o,$(files)): %.o: %.c
+	$(CC) -c $(CFLAGS) $< -o $@
+$(filter %.elc,$(files)): %.elc: %.el
+	emacs -f batch-byte-compile $<
+```
+
+### Generate Dependencies Automatically
+
+`gcc -MM *.c` will print the header files of `C` files.
+For example `gcc -MM test.c`'s output will look like this:
+
+```
+test.o: test.c header1 header2 header3
+```
+
+We can use the command to automatically add dependencies for a target:
+
+```Makefile
+# Add @ before one command will not print the command
+# set -e will let the command stop when error occurs
+%.d: %.c
+	@set -e; \
+	$(CC) -MM $< > $@.; \
+	sed -e 's/\($*\)\.o[ : ]*/\1.o $@ :/g' < $@. > $@; \
+	rm -f $@.
+```
+
+We use `$(CC) -MM $< > $@.` to generate a file `%.d.` to store the output.
+Then we use `sed` to substitute the `%.o` with `%.o %.d` and output to `%.d`.
+Finally we remove the `%.d.`.
+
+After this, we can include the `%.d` files:
+
+```Makefile
+sources = a.c b.c
+# substitude .c with .d in sources
+include $(sources:.c=.d)
+```
+
+After `include`,
+we'll have something like `a.o a.d: a.c header` in our `Makefile`,
+then `make` will auto deduction the commands.
+
+### Nested Makefiles
+
+If you use 3rd parties, you may want to build the 3rd parties by `make`:
+
+```Makefile
+subsystem:
+	$(MAKE) -C subdir
+```
+
+You can pass the variables of current `Makefile` to `sub-Makefile` through `export`:
+
+```Makefile
+export variable = value
+# pass all variables
+export
+```
+
+### define
+
+In `make`, you can use `define` to define macros:
+
+```Makefile
+# note that there is no semicolon after each command
+define name
+	command1
+	command2
+	...
+endef
+```
+
+If you want to use the macro, you just need use `$(macro_name)` to call the macro.
+
+### Conditional Structures
+
+This part is simple, so I just post some examples.
+
+The example using `ifeq`:
+
+```Makefile
+libs_for_gcc = -lgnu
+normal_libs =
+foo: $(objects)
+ifeq ($(CC),gcc)
+	$(CC) -o foo $(objects) $(libs_for_gcc)
+else
+	$(CC) -o foo $(objects) $(normal_libs)
+endif
+```
+
+You can use `ifneq`, `ifdef` and `ifndef`, too.
+
+### Functions
+
+You can use functions in `make` through `$(func_name args)`.
+
+There are some functions related to strings:
+
+* `$(subst from,to,text)`: substitute `from` with `to` in `text`.
+* `$(patsubst pattern,replacement,text)`: substitute `pattern` with `replacement` in `text`.
+* `$(strip text)`: remove all the leading and trailing spaces in `text`.
+* `$(findstring target,text)`: find `target` in text, if found, return `target` otherwise, return empty string.
+* `$(filter pattern...,text)`: filter the contents matching the `pattern...` from `text`.
+* `$(filter-out pattern...,text)`: filter out the contents matching the `pattern...` from `text`.
+* `$(sort list)`: sort the contents in `list` lexicographically. Note that `sort` will unique the contents, too.
+* `$(word i,text)`: get the `i`-th word from `text` (index started from `1`).
+* `$(wordlist l,r,text)`: get the words whose index is in `[l,r]` in sequence.
+* `$(firstword text)`: get the first word of `text`.
+
+There are some functions related to files:
+
+* `$(dir name...)`: get the directory part from `name`.
+* `$(notdir name...)`: get the non-directory part from `name`.
+* `$(suffix name...)`: get the suffixes of files from `name`.
+* `$(basename name...)`: get the base name (files' name without extension) of files from `name`.
+* `$(addsuffix suffix,name)`: add `suffix` for `name`.
+* `$(addprefix prefix,name)`: add `prefix` for `name`.
+* `$(join list1,list2)`: join two lists. This will append words in `list2` to `list1`. For example `$(join aaa bbb,111 222 333)` will get `aaa111 bbb222 333`.
+
+---
+
+If I want add a suffix for every item in a variable, I can do it with this:
+
+```Makefile
+names := a b c d
+files := $(foreach item,$(names),$(item).o)
+```
+
+---
+
+* `$(if condition,then-part,else-part)`: if the `condition` is a non-empty string,
+it will return the `then-part`, otherwise it will return the `else-part`.
+
+---
+
+Now if you hope to have a function which can reverse two parameters, you can do it through this:
+
+```Makefile
+reverse = $(2) $(1)
+reversedItemList = $(call reverse,item1,item2)
+```
+
+After that, `reversedItemList` will be `item2 item1`.
+Of course, you can add different suffixes for items:
+
+```Makefile
+addTargetAndDependency = $(1).o : $(1).c
+result = $(call addTargetAndDependency,main)
+```
+
+`result` will be `main.o : main.c`.
+
+---
+
+`$(origin variablename)` will tell you where the `variablename` comes from.
+The return values are explained below:
+
+* `undefined`: never defined before.
+* `environment`: the variable comes from environment variables.
+* `default`: the default variable, such `CC`.
+* `file`: the variable is defined in a `Makefile`.
+* `command line`: the variable is defined by command lines
+(when you type `make a=1`, `a` is defined by command lines).
+* `override`: the variable if defined by `override`.
+* `automatic`: the variable is defined by `make` automatically.
+
+---
+
+This is to execute a command in shell:
+
+```Makefile
+contents := $(shell cat foo)
+files := $(shell echo *.c)
+```
+
+The commands above will get the output of a shell command.
+
+---
+
+* `$(erro text)`: output `text` and stop `make`.
+* `$(warning text)`: output `text` but don't stop `make`.
+
+### Return Value of Make
+
+* `0`: success.
+* `1`: some errors.
+* `2`: when you use `-q` (`-q` will not run `make`,
+but give you a return value `0` if the targets are up to date)
+and `make` cannot make sure whether or not the files is up to date.
+
+### Specify Target
+
+If you run `make`, `make` will build the first target.
+But you can specify target by `make targetname`.
+
+There are some rules you should obey for naming a target when you write `Makefile`:
+
+* `all`: build all targets.
+* `clean`: remove all the files created by `make`.
+* `install`: install the targets, when in `C/C++`,
+this will move the binary files to `/usr/bin` and move the header files to `/usr/include`.
+* `print`: print the files having been updated.
+* `tar`: pack the source files into a tar file.
+* `dist`: create a compressed file including all source files.
+
+### Check Make Syntax
+
+When you want to check your syntax in `Makefile` rather than run the `make`,
+you can use those options: `-n, --just-print, --dry-run, --recon`. The four options are synonyms.
+
+### Other Options in make
+
+| Option | Description |
+| --- | --- |
+| `-j` | Use the specified number of jobs (cores) to build |
+| `-q` | Check if the target exists |
+| `-W` | Build the targets that depend on the specified file |
+| `-o` | Ignore the specified file while building |
+| `-B` | Always re-build all targets, even if they are up to date |
+| `-C` | Change working directory to the specified directory |
+| `-t` | Touch all the targets |
+| `--debug` | Print debug info |
+| `-e` | Environment overrides |
+| `-f` | Use the specified file as `Makefile` |
+| `-i` | Ignore errors |
+| `-I` | Include directory |
+| `-k` | Keep going even if there are errors |
+| `-S` | Stop when an error occurs |
+| `-p` | Print the data base |
+| `-r` | Do not use built-in rules |
+| `-R` | Do not use built-in variables |
+| `-s` | Silent mode, do not print commands |
+| `-w` | Print the working directory before and after processing |
+| `--no-print-directory` | Do not print the working directory |
+| `--warn-undefined-variables` | Warn when a variable is undefined |
+
+`--debug=options` will print the debug info of `make`, the available options are:
+
+* `a`: print all info.
+* `b`: print basic info.
+* `v`: verbose.
+* `i`: print implicit rules.
+* `j`: print jobs' info including `PID`, return value and so on.
+* `m`: this is for debugging when remaking makefiles.
+* If you just use `-d`, this is same with `--debug=a`.
+
 ## `git`
 
 ### `.gitignore`
@@ -918,4 +1398,5 @@ and the global ignore file has the lowest priority.
 * [Linux sort Command](https://www.baeldung.com/linux/sort-command)
 * [Linux Audit: tar cheat sheet](https://linux-audit.com/cheat-sheets/tar/)
 * [15+ tar command examples in Linux](https://www.golinuxcloud.com/tar-command-in-linux/)
+* [How to write makefiles](https://github.com/seisman/how-to-write-makefile).
 * [Ignoring files](https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files)
