@@ -912,14 +912,14 @@ a := $($($(x)))
 You can set variables only valid for the specified target:
 
 ```Makefile
-prog : CFLAGS = -g
-prog : prog.o foo.o bar.o
+prog: CFLAGS = -g
+prog: prog.o foo.o bar.o
 	$(CC) $(CFLAGS) prog.o foo.o bar.o
-prog.o : prog.c
+prog.o: prog.c
 	$(CC) $(CFLAGS) prog.c
-foo.o : foo.c
+foo.o: foo.c
 	$(CC) $(CFLAGS) foo.c
-bar.o : bar.c
+bar.o: bar.c
 	$(CC) $(CFLAGS) bar.c
 ```
 
