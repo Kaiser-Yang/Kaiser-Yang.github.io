@@ -840,7 +840,7 @@ Besides, you can specify the type of the column for sorting,
 such as `-k2n,2` to sort the second column numerically
 and `-k2r,2` to sort the second column in reverse order.
 
-## `tar`
+### `tar`
 
 | Option | Description |
 | --- | --- |
