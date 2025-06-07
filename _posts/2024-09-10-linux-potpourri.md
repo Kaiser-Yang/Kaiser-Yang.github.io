@@ -925,7 +925,7 @@ bar.o : bar.c
 
 In the example above, only the `prog`'s `CFLAGS` is `-g`.
 
-### = := += ?=
+### `=` `:=` `+=` and `?=`
 
 There are many equal signs in `make`, but they are very different with each other:
 
@@ -970,7 +970,7 @@ endef
 
 **NOTE**: `$(bar)` will be replaced by the value of `bar`.
 
-### `$@` `$<` `$*` `$%` `$?` `$^` `$+`
+### `$@` `$<` `$*` `$%` `$?` `$^` and `$+`
 
 * `$@`: A variable in `make`, whose value is the target.
 For example, if `$@` appears in commands following `main.o: main.cpp`,
