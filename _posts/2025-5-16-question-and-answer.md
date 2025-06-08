@@ -434,6 +434,15 @@ that takes an `int` as an argument and returns a pointer to an array of 5 elemen
 1. Move left. We see `int`, so we stop and get that `foo` is a pointer to a function
 that takes an `int` as an argument and returns a pointer to an array of 5 `int` elements.
 
+## What are Big Endian and Little Endian?
+
+Endianness refers to the order in which bytes are stored in memory.
+
+- **Big Endian**: The most significant byte (MSB) is stored at the lowest memory address.
+For example, the number `0x12345678` would be stored as `12 34 56 78`.
+- **Little Endian**: The least significant byte (LSB) is stored at the lowest memory address.
+For example, the number `0x12345678` would be stored as `78 56 34 12`.
+
 ## References
 
 - [An overview of the SSL/TLS handshake](https://www.ibm.com/docs/en/ibm-mq/9.3.x?topic=tls-overview-ssltls-handshake)
