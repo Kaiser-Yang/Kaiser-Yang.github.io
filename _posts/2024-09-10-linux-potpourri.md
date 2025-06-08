@@ -634,6 +634,8 @@ In this process, you will be required to input the content twice,
 you can use `^D` to end the first input,
 then input the second content and use `^D` to end it again.
 
+There is another command `zcat`, which is similar to `cat` but used for compressed files.
+
 **NOTE**: `tac` is a command that is similar to `cat`,
 but it outputs the contents of files in reverse order.
 
