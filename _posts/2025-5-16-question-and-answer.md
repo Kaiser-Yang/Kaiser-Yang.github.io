@@ -409,9 +409,11 @@ so we stop and get that `p4` is a constant pointer to a `const char`.
 For `const * char p5`:
 
 1. Start at `p5`.
-1. Move right. We see `*`, so we stop and get that `p5` is a pointer to something.
+1. Move right. There is nothing on the right, so we stop.
 1. Move left. We see `char`, so we stop and get that `p5` is a `char`.
-1. Error occurs, `p5` can not be a pointer and a `char` at the same time.
+1. Move right. There is nothing on the right, so we stop.
+1. Move left. We see `*`, so we stop and get that `p5` is a pointer to something.
+Error occurs, `p5` can not be a pointer and a `char` at the same time.
 Therefore, this is not a valid declaration.
 
 There are some complicated examples you can try to practice the Right-Left Rule:
