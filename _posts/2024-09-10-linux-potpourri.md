@@ -76,6 +76,21 @@ When `extglob` is on (use `shopt | grep extglob` to check), those below are supp
 * `@(pattern-list)`: Matches one of the given patterns.
 * `!(pattern-list)`: Matches anything except one of the given patterns.
 
+#### `POSIX` Character Classes
+
+* `[:alnum:]`: Letter or digit.
+* `[:alpha:]`: Letter.
+* `[:blank:]`: Space or tab.
+* `[:cntrl:]`: Control character.
+* `[:digit:]`: Digit.
+* `[:xdigit:]`: Hexadecimal digit (0-9, a-f, A-F).
+* `[:graph:]`: Printable character except space.
+* `[:lower:]`: Lowercase letter.
+* `[:upper:]`: Uppercase letter.
+* `[:print:]`: Printable character including space.
+* `[:punct:]`: Punctuation character.
+* `[:space:]`: Space, tab, newline, carriage return, form feed, or vertical tab.
+
 ### Quoting
 
 Quoting is to cancel the special meaning of some characters in the shell.
