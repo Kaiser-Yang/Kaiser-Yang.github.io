@@ -607,6 +607,126 @@ which is used to specify the language priority list for messages.
 
 ## Commands
 
+### `awk`
+
+| Option | Description |
+| ---  | --- |
+| `-F` | Specify the input field separator |
+| `-f` | Specify the file containing the `awk` script |
+
+
+**Digressing**: `awk` comes from the initials of its three creators:
+`Alfred Aho`, `Peter Weinberger`, and `Brian Kernighan`.
+
+#### Column Variables
+
+* `$0`: the whole line.
+* `$1`: the first column.
+* `...`
+* `$NF`: the last column (where `NF` is the number of fields in the current record).
+
+For example, `awk '{print $1, $2, $NF}' file` will print the first column, second column,
+and last column of each line in `file`.
+
+#### Separators
+
+You can specify the output field separator (OFS) using the `OFS` variable.
+For example, `awk '{print $1,$2,$NF}' OFS=","` will print the first column,
+second column, and last column of each line in `file`, separated by a comma.
+
+Is is also possible to specify `OFS` in the `BEGIN` mode string, for example:
+`awk 'BEGIN {OFS=","} {print $1,$2,$NF}' file` does the same thing.
+
+Besides, `FS` is used to specify the input field separator.
+
+If you want to change the separators, you may write the wrong command like
+`awk '{print}' FS=':' OFS=' '` trying to change `:` to a space, but this will not work as expected.
+In `awk`, it will only use the new `OFS` when printing multiple fields,
+or when the fields are modified. Therefore, we can use
+`awk '($1=$1) || 1' FS=':' OFS=' '` to update the `OFS`,
+which is trying to change the first field to itself.
+And we use `|| 1` here to make sure the empty lines are also printed.
+
+**NOTE**: The parentheses around `$1=$1` are necessary, because without them,
+`awk` would interpret it as `$1=($1 || 1)`,
+which would assign `1` to `$1` instead of keeping its original value.
+
+#### Predefined Variables
+
+`OFS`, `FS` are predefined variables in `awk`,
+which are used to specify the output and input field separators respectively.
+
+And there are some other predefined variables in `awk`:
+
+* `NR`: current record number starting from `1`.
+* `NF`: number of fields in the current record .
+* `RS`: input record separator, default is newline.
+* `ORS`: output record separator, default is newline.
+* `FILENAME`: the name of the current input file.
+* `FNR`: current record number in the current file.
+
+We can use `awk 'NR > 1'` to print all lines except the first line,
+and `awk 'NF > 0'` to print non-empty lines (i.e., remove empty lines).
+
+We can use `awk 'NR == 1, NR == 4'` or `awk 'NR >= 1 && NR <= 4'` to print the first four lines.
+
+#### Patterns
+
+`BEGIN` and `END`:
+
+* `BEGIN`: executed before processing any input.
+* `END`: executed after processing all input.
+
+For example, you can use
+`awk 'BEGIN {print "Start"} {print} END {print "End"}'`
+to print the contents of a file with `Start` and `End` messages.
+
+In `awk`, you can use patterns to filter lines,
+for example, `awk '$1 > 10'` means to print only the lines
+where the first column is greater than `10`
+(when no action is specified, the default action is to print the whole line).
+`awk '/pattern/'` means to print only the lines that contain `pattern`,
+and the search pattern supports regular expressions.
+`awk '/pattern1/,/pattern2/'` means to print all lines from the first line that matches `pattern1`
+to the first line that matches `pattern2`.
+
+You can use `~` and `!~` to search for patterns in a column.
+For example, `awk '$1 ~ /pattern/'` means to print only the lines
+that match the regular expression `pattern` in the first column.
+`awk '$1 !~ /pattern/'` means to print only the lines
+that do not match the regular expression `pattern` in the first column.
+
+#### `awk` Scripts
+
+For some complex tasks, you can write `awk` scripts.
+Here is an example of a simple `awk` script that statistics the number of words in a file:
+
+```awk
+#! /usr/bin/awk -f
+
+BEGIN {
+    # Update the input and output field separators
+    FS=":"
+    OFS=" "
+    tot_count = 0
+}
+{
+    for (i = 1; i <= NF; i++) {
+        words[$i]++
+        tot_count++
+    }
+}
+END {
+    print "Total words:", tot_count
+    for (word in words) {
+        print word, words[word]
+    }
+}
+```
+
+**NOTE**: `awk file` is not the right way to run an `awk` script,
+and we must use the `-f` option to specify the script file.
+
 ### `cat`
 
 | Option | Description |
@@ -1418,6 +1538,10 @@ and the global ignore file has the lowest priority.
 
 * [10 Practical Examples Using Wildcards to Match Filenames in Linux](https://www.tecmint.com/use-wildcards-to-match-filenames-in-linux/)
 * [Man Page of Bash](https://www.gnu.org/software/bash/manual/bash.html)
+* [How to Use the awk Command on Linux](https://www.howtogeek.com/562941/how-to-use-the-awk-command-on-linux/)
+* [30+ awk examples for beginners / awk command tutorial in Linux/Unix](https://www.golinuxcloud.com/awk-examples-with-command-tutorial-unix-linux/)
+* [8 Powerful Awk Built-in Variables – FS, OFS, RS, ORS, NR, NF, FILENAME, FNR](https://www.thegeekstuff.com/2010/01/8-powerful-awk-built-in-variables-fs-ofs-rs-ors-nr-nf-filename-fnr/)
+* [Getting Started With AWK Command](https://linuxhandbook.com/awk-command-tutorial/)
 * [cat command examples for beginners](https://www.golinuxcloud.com/cat-command-examples/)
 * [25+ most used find commands in Linux](https://www.golinuxcloud.com/find-command-in-linux/)
 * [find Linux Command Cheatsheet](https://onecompiler.com/cheatsheets/find)
