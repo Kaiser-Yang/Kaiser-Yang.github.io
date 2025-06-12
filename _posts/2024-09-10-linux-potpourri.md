@@ -914,6 +914,8 @@ sed '/start_pattern/,/end_pattern/s/old/new/g' file.txt
 | `-iname` | Similar to `-name`, but ignores case |
 | `-ipath` | Similar to `-path`, but ignores case |
 | `-empty` | Search for empty files or directories |
+| `-size` | Specify the size of the file or directory to search for |
+| `-exec` | Execute a command on the found files or directories |
 | `-perm` | Specify the permissions to search for |
 | `-user` | Specify the owner of the file or directory |
 | `-group` | Specify the group of the file or directory |
@@ -953,6 +955,27 @@ The options for `-type`:
 which is a little bit different from `grep`. If you want to match a specific part of the file name,
 you need to use `.*` to match any characters before and after the pattern. For example,
 `find . -regex ".*pattern.*"` will find files that contain `pattern` in their names.
+
+The units for `-size`:
+
+* `b`: block size, which is decided by the file system (usually 512 bytes)
+* `c`: bytes
+* `k`: kilobytes (1024 bytes)
+* `M`: megabytes (1024 kilobytes)
+* `G`: gigabytes (1024 megabytes)
+
+You can use `find . -size 1M` to find files that are exactly `1` megabyte in size;
+use `find . -size +1M` to find files larger than `1` megabyte;
+use `find . -size -1M` to find files smaller than `1` megabyte;
+use `find . -size +1M -size -2M` to find files
+larger than `1` megabyte but smaller than `2` megabytes.
+
+You can use `-exec` to execute a command on the found files or directories.
+
+For example, `find . -name "*.txt" -exec ls -l {} \;`
+will find all `txt` files in the current directory and execute `ls -l` on each of them.
+`{}` will be replaced by the found file name, `\;` means the end of the command,
+and the semicolon needs to be escaped to prevent it from being interpreted by the shell.
 
 ### `ln`
 
