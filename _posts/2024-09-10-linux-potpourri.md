@@ -607,6 +607,194 @@ which is used to specify the language priority list for messages.
 
 ## Commands
 
+### `awk`
+
+| 选项 | 说明 |
+| ---  | --- |
+| `-F` | 指定输入的分隔符。 |
+| `-f` | 指定 `awk` 脚本文件。 |
+
+#### 打印列
+
+* `$0`: 所有列。
+* `$1`: 第一列。
+* `...`
+* `$NF`: 最后一列。
+
+例如可以使用 `awk '{print $1,$2,$NF}'` 打印出每行的第一列、第二列和最后一列。
+
+#### 分隔符
+
+可以通过 `OFS=` (Output Field Separator) 来指定输出的分隔符，例如 `awk '{print $1,$2,$NF}' OFS=","`
+表示使用 `,` 作为分隔符。也可以在 `BEGIN` 模式串中指定 `OFS`，例如 `awk 'BEGIN {OFS=","} {print $1,$2,$NF}'`。
+
+除了 `OFS` 以外，还有 `FS` 用于指定输入文件的分隔符。
+
+#### 预定义变量
+
+除了之前提到的 `OFS`, `FS` 之外，还有一些预定义变量：
+
+* `NR`: 当前行的行号。
+* `NF`: 当前行的列数。
+* `RS`：记录分隔符，默认是换行符，也就是每一行作为一条记录。
+* `ORS`：输出的记录分隔符，默认是换行符。
+* `FILENAME`：当前文件的文件名。
+* `FNR`：当前文件的行号，当时用多个文件的时候，`NR` 记录的是当前的总行号，
+`FNR` 记录的是当前文件的行号。
+
+我们可以使用 `awk 'NR > 1'` 从第二行开始打印，也可以使用 `awk 'NF > 0'` 打印列数大于 `0` 的行
+(即移除空行)。
+
+如果要打印第一行到第四行，我们可以通过 `awk 'NR == 1, NR == 4'` 来实现。
+我们也可以使用 `awk 'NR >= 1 && NR <= 4'` 来实现。
+
+#### 模式
+
+`BEGIN` 和 `END` 模式串：
+
+* `BEGIN`: 在处理输入之前执行。
+* `END`: 在处理输入之后执行。
+
+例如可以使用
+`awk 'BEGIN {print "Start"} {print} END {print "End"}'`
+在处理输入之前和之后打印出 `Start` 和 `End`。
+
+在 `awk` 中可以使用模式来过滤行，
+例如 `awk '$1 > 10'` 表示只打印第一列大于 `10` 的行 (当不书写动作时，默认动作是打印整行)。
+也可以使用搜索模式，例如 `awk '/pattern/'` 表示只打印包含 `pattern` 的行，搜索模式支持正则表达式。
+
+`,` 也可以和搜索模式一起使用，
+例如 `awk '/pattern1/,/pattern2/'` 表示打印找到的 `pattern1` 到 `pattern2` 的行。
+
+`~` 可以用来表示是否与搜索模式匹配，例如 `awk '$1 ~ /pattern/'` 表示第一列是否包含 `pattern`。
+`!~` 可以用来表示是否不匹配，例如 `awk '$1 !~ /pattern/'` 表示第一列是否不包含 `pattern`。
+
+#### `awk` 脚本
+
+我们也可以书写 `awk` 脚本实现更加复杂的功能，例如下面的脚本可以实现统计文件中每个单词出现的次数：
+
+```awk
+#! /usr/bin/awk -f
+
+BEGIN {
+    # 设置输入和输出的分隔符
+    FS=":"
+    OFS=" "
+    tot_count = 0
+}
+{
+    for (i = 1; i <= NF; i++) {
+        words[$i]++
+        tot_count++
+    }
+}
+END {
+    print "Total words:", tot_count
+    for (word in words) {
+        print word, words[word]
+    }
+}
+```
+
+**注意**：由于在 `awk '{print}' file` 的意思是对某个文件的内容进行处理，
+所以要用 `awk -f file` 来表示将文件作为脚本执行。
+
+#### 内置函数
+
+`awk` 中还有一些内置函数，例如 `length` 函数可以返回字符串的长度，`substr` 函数可以返回字符串的子串，
+我们可以使用下面的命令计算最后一列 (从第二行起) 的数字和：
+
+```awk
+awk 'NR > 1 { printf "%s",$NF"+" }' OFS="" | awk '{ print substr($0, 1, length($0) - 1) }' | bc
+```
+
+在 `awk` 中，`print` 会在输出的字符串后面自动添加换行符，而 `printf` 可以进行格式化输出，
+上面的例子中我们通过 `printf` 来输出不带换行符的字符串。在 `awk` 中字符串是可以直接拼接的，
+例如 `printf "%s", $NF"+"` 表示将最后一列的值和 `+` 拼接在一起。
+
+`printf` 的格式化方法与 `C/C++` 中的类似，这里不再进行详细介绍。
+
+当然要实现同样的功能有更简单的命令：
+
+```awk
+awk 'NR > 1 { sum+=$NF } END { print sum }'
+# or
+awk 'NR > 1 { print sep $NF; sep="+" }' OFS="" ORS="" | bc
+```
+
+**注意**：在 `awk` 中，下标是从 `1` 开始的，而不是从 `0` 开始的，且区间是闭区间。
+
+这里再列出一些常用的内置函数：
+
+* `tolower`：将字符串转换为小写。
+* `toupper`：将字符串转换为大写。
+* `split`：将字符串按照某个分隔符分割为数组。接收三个参数，第一个参数是要分割的字符串，
+第二个参数是数组名，第三个参数是分隔符。在分隔符部分，我们可以传入搜索表达式，
+例如 `split($0, words, /:+/)` 表示将当前行按照 `:` (或者多个连续的 `:`) 分割为数组。
+* `gsub`：全局替换。接收三个参数，第一个参数是查找字符串，第二个参数是替换后的字符串，
+第三个参数要替换的文本。
+例如 `gsub(/pattern/, "replace", $0)` 表示将当前行中的 `pattern` 替换为 `replace`。
+* `system`：执行系统命令。例如 `system("ls")` 会执行 `ls` 命令并将结果输出到标准输出。
+
+#### 改变分隔符
+
+前面介绍到 `FS` 和 `OFS` 可以指定输入和输出的分隔符。如果我们想要直接改变分隔符后输出，
+我们可能会写出 `awk '{print}' FS=':' OFS=' '` 这样的命令，试图将 `:` 改成空格。
+但是这样并不能正确工作，
+在 `awk` 中只有当列被修改后 (或者在 `print` 中打印多个 `fields` 的时候) 才会使用新的输出分隔符，
+所以我们可以通过 `awk '($1=$1) || 1' FS=':' OFS=' '` 来实现 (这里省略了动作，因此会打印一整行)。
+
+这里的 `($1=$1) || 1` 是为了保证能够成功输出原始的空行，因为空行在赋值后返回的是空字符串，而空字符串在
+`awk` 中被当作 `false`，所以我们需要通过 `|| 1` 来保证输出。这里的括号是必须的，如果没有括号，
+`$1=$1 || 1` 会被解释为 `$1=($1 || 1)`，这样会将 `$1` 赋值为 `1`，而不是保留原来的值。
+
+题外话：`awk` 的名字来源于三个创始人的名字 `Alfred Aho`、`Peter Weinberger` 和 `Brian Kernighan` 的首字母。
+
+#### `POSIX` 字符类
+
+`awk` 中支持 `POSIX` 字符类：
+
+* `[:alnum:]`：字母和数字。
+* `[:alpha:]`：字母。
+* `[:blank:]`：空格和制表符。
+* `[:cntrl:]`：控制字符。
+* `[:digit:]`：数字。
+* `[:graph:]`：可打印字符，不包括空格。
+* `[:lower:]`：小写字母。
+* `[:print:]`：可打印字符，包括空格。
+* `[:punct:]`：标点符号。
+* `[:space:]`：空白字符。
+* `[:upper:]`：大写字母。
+* `[:xdigit:]`：十六进制数字。
+
+例如，我们可以使用 `awk '/[[:digit:]]/'` 来匹配包含数字的行。当然也可以写成 `awk '/[0-9]/'`。
+
+#### 指定文件大小
+
+`-size` 参数有以下几种单位：
+
+* `b`：块，取决于文件系统，默认是 `512` 字节
+* `c`：字节
+* `k`：千字节 (1024 字节)
+* `M`：兆字节 (1024 千字节)
+* `G`：吉字节 (1024 兆字节)
+
+知道了上述单位后，查找某个固定大小的文件只需要指定大小和单位即可，
+例如 `find . -size 1M` 表示查找大小为 `1` 兆字节的文件。
+
+但是通常我们会查找大于或者小于某个大小的文件，这时候我们可以使用 `+` 和 `-` 来表示大于和小于，
+例如 `find . -size +1M` 表示查找大于 `1MB` 的文件，`find . -size -1M` 表示查找小于 `1MB` 的文件。
+这两者也可以结合使用，例如 `find . -size +1M -size -2M` 表示查找大于 `1MB` 且小于 `2MB` 的文件。
+
+#### 对查找到的文件执行操作
+
+`-exec` 可以对查找到的文件执行操作，
+例如 `find . -name "*.txt" -exec cat {} \;` 表示查找当前目录下的所有 `txt` 文件并将其内容输出到标准输出。
+`{}` 会被替换为查找到的文件名，`\;` 表示结束，分号需要进行转义，防止被 `Shell` 解释。
+
+也可以使用 `grep` 命令过滤查找到的文件，
+例如 `find . -name "*.txt" -exec grep "pattern" {} \;` 表示查找当前目录下的所有 `txt` 文件并在其中查找 `pattern`。
+
 ### `cat`
 
 | Option | Description |
@@ -640,6 +828,10 @@ There is another command `zcat`, which is similar to `cat` but used for compress
 but it outputs the contents of files in reverse order.
 
 **Digression**: The name `cat` comes from concatenate.
+
+### `curl`
+
+### `cut`
 
 ### `grep`
 
@@ -819,6 +1011,8 @@ which is a little bit different from `grep`. If you want to match a specific par
 you need to use `.*` to match any characters before and after the pattern. For example,
 `find . -regex ".*pattern.*"` will find files that contain `pattern` in their names.
 
+### `ldd`
+
 ### `ln`
 
 | Option | Description |
@@ -847,6 +1041,12 @@ while hard links can only point to files in the same file system.
 while soft links will become invalid.
 
 In Linux, you can use the `ls -l` command to view the number of hard links to a file.
+
+### `readelf`
+
+### `pgrep`
+
+### `pkill`
 
 ### `sort`
 
@@ -900,6 +1100,437 @@ but `tar -cf a.tar . --exclude=*.txt` is incorrect.
 **NOTE**: When using `-u`, it will not overwrite old files, but will append new files directly,
 after which the tar archive may contain multiple files with the same name.
 But I have not found a way to extract the old files.
+
+### `ssh`
+
+`ssh` 分为 `client` 和 `server` 两部分，`client` 用于连接远程主机，`server` 用于接收远程主机的连接。
+`openssh-client` 和 `openssh-server` 是 `ssh` 的两个主要组件。
+
+| 选项 | 说明 |
+| ---  | --- |
+| `-p` | 指定端口。默认端口是 `22` |
+| `-i` | 指定密钥文件。默认情况下，`ssh` 使用 `~/.ssh/id_rsa` 作为密钥文件 |
+| `-l` | 指定用户名。默认情况下，`ssh` 使用当前用户名作为登录用户名 |
+| `-q` | 静默模式 |
+| `-t` | 强制分配终端 |
+| `-v` | 显示详细信息。可以使用多个 `v` 来显示更多的信息 |
+| `-C` | 压缩传输。使用 `-C` 可以压缩传输的数据 |
+| `-X` | 启用 `X11` 受限转发。可以在本地显式远程主机的 `X11` 程序 |
+| `-Y` | 启用 `X11` 信赖转发 |
+| `-f` | 后台运行 |
+| `-N` | 不执行远程命令。通常在端口转发时使用 |
+| `-L` | 本地端口转发 |
+| `-R` | 远程端口转发 |
+| `-D` | 动态端口转发 |
+| `-o` | 指定配置选项 |
+
+**注意**：对于 `-l` 选项，也可以不使用 `-l` 而是使用 `user@host` 的形式来指定用户名。
+
+**注意**：关于端口转发可以查看 [`ssh` 端口转发简介](/blog/2024/ssh-port-forwarding)。
+
+**注意**：`-o` 选项常常用于覆盖 `~/.ssh/config` 文件中的配置。
+例如 `ssh -o "Port=2222" host_name` 将会使用 `2222` 端口连接 `host_name`，其余配置不变。
+
+### `ssh-keygen`
+
+| 选项 | 说明 |
+| ---  | --- |
+| `-a` | 指定迭代次数。越高则生成的密钥越安全，但是验证的时候也会越慢 |
+| `-t` | 指定密钥类型 |
+| `-b` | 指定密钥长度 |
+| `-C` | 添加注释 |
+| `-c` | 修改密钥的注释 |
+| `-f` | 指定密钥路经以及文件名 |
+| `-P` | 指定密钥的密码 |
+| `-p` | 修改密钥的密码 |
+| `-l` | 显示密钥的指纹 |
+| `-H` | 对 `known_hosts` 文件进行哈希处理 |
+| `-R` | 从 `known_hosts` 文件中删除指定主机的密钥 |
+
+**注意**：从 `open_ssh 9.5` 开始默认生成的密钥是 `ed25519`，而不是 `rsa`。
+`ed25519` 相较与 `rsa` 更加安全，且性能更好。
+
+### `~/.ssh/known_hosts` 文件
+
+`known_hosts` 文件存储了远程主机的公钥，当第一次连接远程主机的时候，
+`ssh` 会将远程主机的公钥存储到 `known_hosts` 文件中，下次连接远程主机的时候，
+`ssh` 会检查远程主机的公钥是否和 `known_hosts` 文件中的公钥一致，
+如果一致则连接成功，否则会提示公钥不一致。
+
+`known_hosts` 文件可以很好的防止 `Man-in-the-middle` 攻击。
+
+而默认情况下，`known_hosts` 文件的远程地址部分是以明文的形式存储的，
+这样当 `known_hosts` 文件泄露的时候，攻击者可以直接获取到远程主机的地址与对应的公钥，
+而使用 `ssh-keygen -H` 可以对 `known_hosts` 的远程地址进行哈希处理，
+这样在 `known_hosts` 文件泄露的时候，攻击者无法直接获取到远程主机的地址与公钥的对应关系。
+
+### `~/.ssh/config` 文件
+
+`~/.ssh/config` 文件可以用来配置 `ssh` 的一些选项，例如：
+
+```shell
+Host host_name
+    HostName host_ip
+    Port port
+    User user_name
+    IdentityFile ~/.ssh/id_rsa
+
+Host *
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
+    Compression yes
+    CompressionLevel 9
+    ForwardAgent yes
+    ForwardX11 yes
+    ForwardX11Trusted yes
+    TCPKeepAlive yes
+    ControlMaster auto
+    ControlPath ~/.ssh/master-%r@%h:%p
+    ControlPersist 600
+    UserKnownHostsFile ~/.ssh/known_hosts
+    StrictHostKeyChecking yes
+    HashKnownHosts yes
+    GSSAPIAuthentication yes
+    GSSAPIDelegateCredentials yes
+    GSSAPITrustDNS yes
+    PasswordAuthentication no
+    PubkeyAuthentication yes
+    PreferredAuthentications publickey
+    KexAlgorithms
+    ProxyCommand ssh -W %h:%p proxy_address
+```
+
+当你拥有上面的配置后，你可以通过 `ssh host_name` 来连接远程主机，
+而不需要指定远程主机的 `ip`、`port`、`user` 和 `identity file`。
+
+使用 `*` 可以对所有主机生效，可以达到修改默认配置的目的。
+
+`~/.ssh/config` 中也支持通配符：
+
+* `*`：匹配所有主机
+* `?`：匹配一个字符
+* `!`：排除主机
+
+### `ssh-copy-id`
+
+| 选项 | 说明 |
+| ---  | --- |
+| `-i` | 指定密钥文件 |
+| `-p` | 指定端口 |
+
+### `ssh-agent`
+
+`ssh-agent` 用来管理用户的密钥，如果密钥被添加到 `ssh-agent` 后，
+用户在后续登录过程中可以不输入密钥的密码。
+
+要在当前的 `shell` 中启动 `ssh-agent`，可以使用 `eval $(ssh-agent)`。
+
+### `ssh-add`
+
+| 选项 | 说明 |
+| ---  | --- |
+| `-l` | 列出所有已加载密钥的指纹 |
+| `-L` | 列出所有已加载密钥的公钥 |
+| `-d` | 删除某个密钥 |
+| `-D` | 删除所有密钥 |
+| `-x` | 锁定 `ssh-agent` |
+| `-X` | 解锁 `ssh-agent` |
+
+**注意**：如果命令执行过程中提示 `Could not open a connection to your authentication agent`，
+那么可能是因为没有启动 `ssh-agent`，可以使用 `eval $(ssh-agent)` 启动 `ssh-agent`。
+
+### `sftp`
+
+`sftp` 是一个交互式的文件传输工具，其通过 `ssh` 保证文件传输的安全性。
+
+`sftp` 的启动与 `ssh` 类似，例如 `sftp user@host`。
+启动后我们可以通过 `help` 或者 `?` 列出可以使用的命令。大多 `Linux` 的命令都可以在 `sftp` 中使用。
+除此之外，我们在通常的命令前面增加 `l` (或 `!`) 表示在本定执行，
+例如 `pwd` 可以查看远程主机的当前目录，
+而 `lpwd` 可以查看本地主机的当前目录；`cd` 可以切换远程主机的目录，
+而 `lcd` 可以切换本地主机的目录。
+
+如果你需要多次在本地执行某修操作，你可以使用 `!` 来切换到本地的 `shell`，
+这样就可以不用在命令前面加 `l` 了。执行完本地操作后想要回到 `sftp` 中，只需要执行 `exit` 即可。
+
+使用 `get` 命令可以下载文件，例如 `get file` 表示下载 `file` 文件到本地主机，
+而 `put` 命令可以上传文件，例如 `put file` 表示上传 `file` 文件到远程主机。
+两个命令的使用方式与 `cp` 类似，对于目录需要增加 `-r` 选项。
+
+### `sshfs`
+
+直接使用 `sftp` 可以完成一些简单的文件传输，但是如果我们并不只是希望直接传输远程的文件，
+而且还需要对远程文件进行修改，例如我们希望直接使用我们本地配置丰富的编辑器来编辑远程文件，
+那么此时我们就可以使用 `sshfs` 来实现。
+
+`sshfs` 的原理就是利用 `sftp` 协议将远程主机的文件挂载到本地主机上，
+相信使用过类似于 `NFS` 的用户对这种操作并不陌生。
+
+使用 `sshfs` 进行挂载：
+
+```shell
+sshfs user@host:/path/to/dir /path/to/mount_point
+```
+
+**注意**：挂载点的拥有者必须是当前用户。
+
+如果要进行卸载，可以使用 `fusermount -u /path/to/mount_point` 或者 `umount /path/to/mount_point`。
+
+**注意**：不建议将挂载放入到 `/etc/fstab` 中，因为当网络不稳定时可能会进行很长时间的重试，
+这样会导致系统启动时间非常漫长。
+
+### `scp`
+
+| 选项 | 说明 |
+| ---  | --- |
+| `-r` | 递归复制 |
+| `-P` | 指定端口 |
+| `-p` | 保留文件属性 (例如修改时间等) |
+| `-q` | 静默模式 |
+| `-v` | 显示详细信息。可以使用多个 `-v` 来显示更多的信息 |
+| `-C` | 压缩传输 |
+| `-i` | 指定密钥文件 |
+| `-l` | 限制带宽, 单位是 `Kb/s` |
+| `-3` | 通过本机在两个远端之间传输文件 |
+| `-4` | 强制使用 `IPv4` |
+| `-6` | 强制使用 `IPv6` |
+
+使用 `scp` 的时候，如果在 `~/.ssh/config` 中配置了主机信息，可以直接使用主机名进行传输，
+例如 `scp file host_name:/path/to/file`。
+
+`scp` 可以一次拷贝多个文件，例如 `scp file1 file2 host_name:/path/to/`。
+
+### `apropos`
+
+| 选项 | 说明 |
+| ---  | --- |
+| `-a` | 逻辑与。可用于匹配多个关键字，例如 `apropos -a keyword1 keyword2` |
+| `-e` | 精确匹配 |
+| `-w` | 匹配带有 `Shell` 支持的通配符 |
+| `-r` | 使用正则表达式匹配 |
+| `-l` | 不依照终端宽度进行裁剪 |
+| `-s` | 指定 `man` 手册的节。例如 `apropos -s 3 keyword` 表示查找第 `3` 节的手册 |
+
+`man` 手册的节有以下几个：
+
+* `1`：命令或程序。
+* `2`：系统调用。
+* `3`：库函数。
+* `4`：特殊文件。
+* `5`：文件格式和约定。
+* `6`：游戏。
+* `7`：杂项。
+* `8`：系统管理命令。
+* `9`：内核相关。
+
+### `tee`
+
+| 选项 | 说明 |
+| ---  | --- |
+| `-a` | 追加 |
+| `-i` | 忽略中断信号 |
+
+`tee` 的作用是将标准输入的内容输出到标准输出和文件，其通常在管道中使用：
+管道在进行传递的时候可能会遇到需要 `root` 权限的时候，
+这时候就需要使用 `sudo tee` 从管道中读取信息并写入到文件中。
+例如 `echo "content" | sudo tee file`。
+
+### `usermod`
+
+| 选项 | 说明 |
+| ---  | --- |
+| `-l` | 修改用户名。例如 `usermod -l new_name old_name` 表示将 `old_name` 修改为 `new_name` |
+| `-u` | 修改用户 `UID`。例如 `usermod -u 1000 user` 表示将 `user` 的 `UID` 修改为 `1000` |
+| `-o` | 允许重复的 `UID` |
+| `-g` | 修改基本用户组。例如 `usermod -g group user` 表示将 `user` 的基本用户组修改为 `group` |
+| `-G` | 修改附加用户组。例如 `usermod -G group1,group2 user` 表示将 `user` 的附加用户组修改为 `group1` 和 `group2` |
+| `-a` | 与 `-G` 同时使用，表示追加附加用户组 |
+| `-c` | 修改用户描述 |
+| `-d` | 修改用户主目录 |
+| `-m` | 与 `-d` 同时使用，表示同时移动用户主目录 |
+| `-s` | 修改用户登录 `shell` |
+| `-e` | 修改用户过期时间。例如 `usermod -e 2025-12-31 user` 表示将 `user` 的过期时间修改为 `2025-12-31` |
+| `-p` | 设置新的密码。注意新的密码应该是加密后的密码，可以使用 `openssl passwd` 来生成加密后的密码，更加推荐使用 `passwd` 命令进行密码修改 |
+| `-L` | 锁定用户。 |
+| `-U` | 解锁用户。 |
+
+**注意**：创建出来的用户默认是不会过期的。如果设置了过期时间后，可以通过 `chmod -e ""` 来取消。
+当用户过期后，用户将无法登录，但是用户依然存在，`root` 可以解锁用户。
+
+### `su`
+
+| 选项 | 说明 |
+| ---  | --- |
+| `-l` | 以登录状态切换用户 |
+| `-c` | 执行命令。例如 `su -c command user` 表示以 `user` 用户的身份执行 `command` |
+| `-s` | 指定 `shell`。例如 `su -s /bin/bash user` 表示以 `user` 用户的身份使用 `bash` `shell` |
+| `-p` | 保留 `HOME`, `SHELL`, `USER`, `LOGNAME` 环境变量 |
+
+**注意**：使用 `su` 切换用户时，如果不指定用户，会默认切换到 `root` 用户。
+
+**注意**：如果不使用 `-l` 选项，`su` 不会切换用户的环境变量，而使用 `-l` 的时候，以下会被依次执行：
+
+> 1. clears all the environment variables except `TERM` and variables specified by `--whitelist-environment`
+> 1. initializes the environment variables `HOME`, `SHELL`, `USER`, `LOGNAME`, and `PATH`
+> 1. changes to the target user’s home directory
+> 1. sets `argv[0]` of the shell to `-` in order to make the shell a login shell
+
+### `sudo`
+
+| 选项 | 说明 |
+| ---  | --- |
+| `-l` | 列出用户可以执行的命令。可以使用 `sudo -l command` 来检查是否可以执行某个命令 |
+| `-U` | 与 `-l` 一同使用，指定列出的用户而不是执行 `sudo` 的用户 |
+| `-u` | 指定用户执行命令。例如 `sudo -u user command` 表示以 `user` 用户的身份执行 `command` |
+| `-g` | 指定用户组。例如 `sudo -g group command` 表示以 `group` 用户组的身份执行 `command` |
+| `-s` | 指定 `shell` |
+| `-k` | 删除缓存的密码 |
+| `-v` | 更新记住密码时间的时间戳为当前时刻 |
+
+### `/etc/sudoers` 文件
+
+`/etc/sudoers` 文件用于配置 `sudo` 的权限，只有拥有 `root` 权限的用户可以修改这个文件。
+
+`/etc/sudoers` 文件的格式如下：
+
+```bash
+# 配置某个用户
+user host=(runas[:runasgroup]) [NOPASSWD:] command
+# 配置某个组下的所有用户
+%group host=(runas[:runasgroup]) [NOPASSWD:] command
+# 引入目录中的所有文件
+@includedir dirname
+```
+
+对于上述的规则，方括号中代表可选项，这里给出几个实例：
+
+* `user ALL=(ALL) ALL`：允许 `user` 用户在任何主机上以任何用户的身份执行任何命令。
+* `%group ALL=(ALL) NOPASSWD: ALL`：允许 `group` 组下的所有用户在任何主机上以任何用户的身份执行任何命令，
+且不需要输入密码。
+* `@includedir /etc/sudoers.d` 表示引入 `/etc/sudoers.d` 目录下的所有文件，这是默认添加的配置，
+这意味着我们对于其他用户的配置可以放在 `/etc/sudoers.d` 目录下，并以用户名命名文件方便管理。
+
+**注意**：在 `@includedir` 目录下的文件不能以 `~` 结尾并且不能含有 `.`。
+这是在 `/etc/sudoers.d/README` 中明确指出的：
+
+> This will cause `sudo` to read and parse any files in the `/etc/sudoers.d` directory that do not
+end in `~` or contain a `.` character.
+
+**注意**：如果要配置多条命令应该使用 `,` 作为分隔符。
+
+### `visudo`
+
+推荐使用 `visudo` 对 `/etc/sudoers` 文件进行修改 (即通过命令 `sudo visudo`)，
+`visudo` 会在修改后检查是否存在语法错误。
+
+`visudo` 还有一些选项：
+
+| 选项 | 说明 |
+| ---  | --- |
+| `-c` | 检查语法错误 |
+| `-f` | 指定文件 |
+
+### `mount`
+
+| 选项     | 说明 |
+| ---      | --- |
+| `-a`     | 挂载所有在 `/etc/fstab` 中配置的文件系统 |
+| `-t`     | 指定文件系统类型 |
+| `-o`     | 指定挂载选项 |
+| `-r`     | 以只读模式挂载 |
+| `-w`     | 以读写模式挂载 |
+| `--move` | 移动挂载点。例如 `mount --move /mnt1 /mnt2` 表示将 `/mnt1` 移动到 `/mnt2` 上 |
+| `--fake` | 模拟挂载 |
+
+常见的文件系统类型：
+
+* `ext4`：`Linux` 文件系统。
+* `ntfs`：`Windows` 文件系统, 使用 `mount -t ntfs-3g` 进行挂载。
+* `FAT32`：`FAT32` 文件系统，使用 `mount -t vfat` 进行挂载。
+* `exFAT`：需要安装 `exfat-fuse` 和 `exfat-utils` 包，使用 `mount -t exfat` 进行挂载。
+* `ISO`：`ISO` 文件系统，使用 `mount -t iso9660` 进行挂载。
+* `nfs`：网络文件系统，使用 `mount -t nfs -o vers=num` 可以指定版本。
+
+**注意**：直接使用 `mount` 可以列出所有已经挂载的文件系统。
+也可以使用 `mount -t type` 来列出指定类型的文件系统。
+
+### 获取设备的文件系统类型及 `UUID`
+
+可以使用 `blkid` 命令来获取设备的文件系统类型及 `UUID`，例如 `blkid /dev/sda1`。
+
+### `/etc/fstab` 文件
+
+直接通过 `mount` 命令挂载的文件系统在系统重启后会失效，为了让文件系统在系统重启后自动挂载，
+我们可以将文件系统的信息写入 `/etc/fstab` 文件中。`/etc/fstab` 文件的格式如下：
+
+```
+# device <mount_point>   <type>  <options>     <dump>  <pass>
+/dev/sda1       /mnt      ext4    defaults       0       2
+```
+
+其中各个字段的含义如下：
+
+* `<device>`：设备文件。
+* `<mount_point>`：挂载点。
+* `<type>`：文件系统类型。
+* `<options>`：挂载选项，多个选项通过 `,` 进行分隔。
+* `<dump>`：备份标志。`0` 表示不备份，`1` 表示备份 (需要 `dump` 工具，通常设置为 `0`)。
+* `<pass>`：文件系统检查顺序。`0` 表示不检查，`1` 表示第一个检查，
+`2` 表示第二个检查 (根文件系统通常设置为 `1`，其他文件系统设置为 `2`)。
+
+### `umount`
+
+`umount` 用于卸载文件系统，使用方式为 `umount <mount_point>`，例如 `umount /mnt`。
+
+**注意**：卸载文件系统的时候，如果文件系统正在被使用，会提示 `device is busy`，
+这时候可以使用 `lsof <mount_point>` 来查看哪些进程在使用这个文件系统，
+然后选择是否通过 `kill` 命令杀死这些进程。
+也可以使用 `umount -l <mount_point>` 在空闲时自动卸载或者使用 `umount -f <mount_point>` 强制卸载。
+
+### `lsof`
+
+`lsof` 是 `list open files` 的缩写，用于列出系统中打开的文件。`lsof` 的输出包含如下几项：
+
+* `COMMAND`：打开文件所使用的命令。
+* `PID`：进程 `ID`。
+* `USER`：进程的用户。
+* `FD`：文件描述符。
+* `TYPE`：文件类型，常见的有 `REG`、`DIR`、`CHR`、`FIFO`、`SOCK`、`LINK`，分别代表普通文件、目录、
+字符设备、管道、套接字、符号链接。
+* `DEVICE`：设备。
+* `SIZE/OFF`：文件大小或者偏移量。
+* `NODE`：`inode` 号。
+* `NAME`：打开的文件名。
+
+`lsof` 的可用选项如下：
+
+| 选项 | 说明 |
+| ---  | --- |
+| `-u` | 指定用户 |
+| `-c` | 指定命令开头 |
+| `-b` | 避免获取结果时调用可能会阻塞的内核函数 |
+| `+D` | 指定目录 |
+| `-i` | 查看网络连接 |
+| `-n` | 禁止显示域名，域名全部显示为 `IP` 地址 |
+| `-P` | 禁止将端口号转换为服务名 |
+| `-p` | 指定进程 `ID` |
+| `-U` | 列出 `UNIX` 域套接字。`TYPE` 为 `unix` 的文件 |
+| `-R` | 同时列出父进程 `ID` |
+| `-l` | 显示用户的 `ID` |
+| `-t` | 只输出打开文件的进程 `ID` |
+| `-a` | 逻辑与。例如 `lsof -u user -a -c command` 表示查找用户为 `user` 且命令开头为 `command` 的进程 |
+| `-d` | 指定文件描述符。例如 `lsof -d 1` 表示查找文件描述符为 `1` 的文件 |
+
+**注意**：使用某些选项时可以使用 `^` 来表示排除某个用户，例如 `lsof -u ^root` 表示排除 `root` 用户。
+
+**注意**：`-i` 的完整格式为：
+
+```shell
+-i[46][protocol][@hostname|@hostaddr][:service|:port]，
+```
+
+其中 `protocol` 可以是 `TCP`、`UDP`、`TCP:UDP`，`hostname` 可以是主机名、`IPv4` 地址、`IPv6` 地址，
+`service` 可以是服务名、端口号。
 
 ## Makefile
 
@@ -1418,6 +2049,10 @@ and the global ignore file has the lowest priority.
 
 * [10 Practical Examples Using Wildcards to Match Filenames in Linux](https://www.tecmint.com/use-wildcards-to-match-filenames-in-linux/)
 * [Man Page of Bash](https://www.gnu.org/software/bash/manual/bash.html)
+* [How to Use the awk Command on Linux](https://www.howtogeek.com/562941/how-to-use-the-awk-command-on-linux/)
+* [30+ awk examples for beginners / awk command tutorial in Linux/Unix](https://www.golinuxcloud.com/awk-examples-with-command-tutorial-unix-linux/)
+* [8 Powerful Awk Built-in Variables – FS, OFS, RS, ORS, NR, NF, FILENAME, FNR](https://www.thegeekstuff.com/2010/01/8-powerful-awk-built-in-variables-fs-ofs-rs-ors-nr-nf-filename-fnr/)
+* [Getting Started With AWK Command](https://linuxhandbook.com/awk-command-tutorial/)
 * [cat command examples for beginners](https://www.golinuxcloud.com/cat-command-examples/)
 * [25+ most used find commands in Linux](https://www.golinuxcloud.com/find-command-in-linux/)
 * [find Linux Command Cheatsheet](https://onecompiler.com/cheatsheets/find)
@@ -1437,3 +2072,24 @@ and the global ignore file has the lowest priority.
 * [15+ tar command examples in Linux](https://www.golinuxcloud.com/tar-command-in-linux/)
 * [How to write makefiles](https://github.com/seisman/how-to-write-makefile).
 * [Ignoring files](https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files)
+* [10+ practical examples to create symbolic link in Linux](https://www.golinuxcloud.com/create-symbolic-link-linux/)
+* [15+ scp command examples in Linux](https://www.golinuxcloud.com/scp-command-in-linux/)
+* [apropos Linux Command Explained](https://phoenixnap.com/kb/apropos-linux)
+* [10 tee command examples in Linux](https://www.golinuxcloud.com/tee-command-in-linux/)
+* [How To Use ‘sudo’: The Complete Linux Command Guide](https://raspberrytips.com/sudo-linux-command/)
+* [Linux visudo command](https://www.computerhope.com/unix/visudo.htm)
+* [15 usermod command examples in Linux](https://www.golinuxcloud.com/usermod-command-in-linux/)
+* [Linux mount command to access filesystems, iso image, usb, network drives](https://www.golinuxcloud.com/linux-mount-command-iso-usb-network-drive/)
+* [The “mount” Command in Linux](https://linuxsimply.com/mount-command-in-linux/)
+* [9 su command examples in Linux](https://www.golinuxcloud.com/su-command-in-linux/)
+* [15+ SSH command examples in Linux](https://www.golinuxcloud.com/ssh-command-in-linux/)
+* [15+ lsof command examples in Linux](https://www.golinuxcloud.com/lsof-command-in-linux/)
+* [OpenSSH 9.5: A User-Friendly Guide to the Latest Update](https://stilia-johny.medium.com/openssh-9-5-a-user-friendly-guide-to-the-latest-update-840a09886a5a)
+* [How to generate and manage ssh keys on Linux](https://linuxconfig.org/how-to-generate-and-manage-ssh-keys-on-linux)
+* [10 examples to generate SSH key in Linux (ssh-keygen)](https://www.golinuxcloud.com/generate-ssh-key-linux/)
+* [The Complete Guide to SSH Config Files](https://thelinuxcode.com/ssh-config-file/)
+* [Beginners guide to use ssh config file with examples](https://www.golinuxcloud.com/ssh-config/)
+* [How to use the command `ssh-add` (with examples)](https://commandmasters.com/commands/ssh-add-common/)
+* [5 Unix / Linux ssh-add Command Examples to Add SSH Key to Agent](https://linux.101hacks.com/unix/ssh-add/)
+* [How To Use SFTP to Securely Transfer Files with a Remote Server](https://www.digitalocean.com/community/tutorials/how-to-use-sftp-to-securely-transfer-files-with-a-remote-server)
+* [libfuse/sshfs](https://github.com/libfuse/sshfs)
