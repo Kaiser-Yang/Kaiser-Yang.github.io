@@ -981,7 +981,7 @@ and the semicolon needs to be escaped to prevent it from being interpreted by th
 
 | Option | Description |
 | --- | --- |
-| `-s` | Solf link |
+| `-s` | Soft link |
 | `-f` | Force the creation of the link, removing existing files if necessary |
 | `-t` | Specify the target directory for the link |
 
