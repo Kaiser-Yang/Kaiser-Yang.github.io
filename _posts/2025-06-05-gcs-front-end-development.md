@@ -36,7 +36,7 @@ git clone git@github.com:CMIPT/gcs-front-end.git
 ## Code and Test
 
 You may need to deploy the `gcs-back-end` first,
-so that you can request the API from the front-end.
+so that you can request APIs from the front-end.
 
 We recommend you to use the `docker-compose` to deploy the `gcs-back-end`, those below are required:
 
@@ -84,9 +84,9 @@ You can generate `JWT_SECRET` and `MD5_SALT` using the command `openssl rand -ba
 (make sure they are different).
 `GCS_SSH_MAPPING_PORT` is the port you want to expose, which is used for `ssh` cloning repositories.
 
-**NOTE**: `MD5_SALT` should not be changed after it is set.
+**NOTE**: `MD5_SALT` should not be changed after set.
 
-You should generate the `ssl` certificate by running the following command:
+You can generate the `ssl` certificate by running the following command:
 
 ```bash
 openssl req -x509 -nodes -days 36500 -newkey rsa:2048 \
@@ -102,8 +102,8 @@ docker-compose up -d
 
 After this, the `gcs` service is running in the background listening on port `8080`.
 
-Once the service is running, you can access the API documentation at
-(you can check the status by running `docker ps`):
+Once the service is running (you can check the status by running `docker ps`),
+you can access the API documentation at:
 
 `http://localhost:8080/swagger-ui/index.html`
 
@@ -153,7 +153,7 @@ a brief description of the change.
 
 After the first line, you should leave a blank line,
 then write a detailed description of the change. Every line of the description should
-be less than `72` characters.
+not be greater than `72` characters.
 
 You should try to make sure the commits are atomic, meaning that each commit should
 only contain one logical change. And you should try to make every commit can
@@ -167,14 +167,15 @@ one of the collaborators, you can push the code to the `gcs-front-end` repositor
 Then open a pull request to the `master` branch of the `gcs-front-end` repository.
 
 The title and description of the pull request should be clear and concise,
-you can pick up the main commit message as the title of the pull request.
+you can pick up the first line of your commit message as the title of the pull request.
 
 ## Wait for Code Review and Merge
 
 You can send a message to the `gcs-developers` team to notify them that
 you have opened a pull request.
 
-Once the pull request is opened, the team will review your code and give you feedback.
+Once the pull request is opened,
+the team will review your code and give you feedback as soon as possible.
 
 During this process, you may be asked to make some changes to your code.
 

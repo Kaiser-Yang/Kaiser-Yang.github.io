@@ -73,7 +73,7 @@ You can generate `JWT_SECRET` and `MD5_SALT` using the command `openssl rand -ba
 `GCS_SSH_MAPPING_PORT` is used for `ssh` cloning repositories.
 `FRONT_END_REVERSE_PROXY_PORT` is used for accessing the front end.
 
-**NOTE**: `MD5_SALT` should not be changed after it is set.
+**NOTE**: `MD5_SALT` should not be changed after set.
 
 Then, you should copy your certificates to make sure `HTTPS` works properly.
 You can use your own `ssl` certificate and make sure they are placed in the `nginx/ssl` directory

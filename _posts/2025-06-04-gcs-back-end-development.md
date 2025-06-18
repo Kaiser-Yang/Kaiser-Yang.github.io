@@ -52,7 +52,8 @@ git submodule update
 Then you should write the code related to the feature you want to implement
 or the bug you want to fix.
 
-Do not forget to write the integration tests for the code you write, which is required.
+Do not forget to write the integration tests for the code you write, if you are
+adding a new feature or you are fixing a bug that has no tests before.
 
 ## Compile and Test the Code
 
@@ -106,7 +107,7 @@ You can generate `JWT_SECRET` and `MD5_SALT` using the command `openssl rand -ba
 `GCS_SSH_MAPPING_PORT` is the ports you want to expose,
 which is used for `ssh` cloning repositories,
 
-**NOTE**: `MD5_SALT` should not be changed after it is set.
+**NOTE**: `MD5_SALT` should not be changed after set.
 
 Now you can use the command below to start the `gcs-back-end` service:
 
@@ -214,7 +215,7 @@ a brief description of the change.
 
 After the first line, you should leave a blank line,
 then write a detailed description of the change. Every line of the description should
-be less than `72` characters.
+not be greater than `72` characters.
 
 You should try to make sure the commits are atomic, meaning that each commit should
 only contain one logical change. And you should try to make every commit can
@@ -228,14 +229,15 @@ one of the collaborators, you can push the code to the `gcs-back-end` repository
 Then open a pull request to the `master` branch of the `gcs-back-end` repository.
 
 The title and description of the pull request should be clear and concise,
-you can pick up the main commit message as the title of the pull request.
+you can pick up the first line of your commit message as the title of the pull request.
 
 ## Wait for Code Review and Merge
 
 You can send a message to the `gcs-developers` team to notify them that
 you have opened a pull request.
 
-Once the pull request is opened, the team will review your code and give you feedback.
+Once the pull request is opened,
+the team will review your code and give you feedback as soon as possible.
 
 During this process, you may be asked to make some changes to your code.
 
