@@ -445,7 +445,26 @@ For example, the number `0x12345678` would be stored as `12 34 56 78`.
 - **Little Endian**: The least significant byte (LSB) is stored at the lowest memory address.
 For example, the number `0x12345678` would be stored as `78 56 34 12`.
 
+## What is the P0 Test?
+
+The P0 test, also known as the "P0 test case" or "P0 test scenario," is a type of software testing
+that focuses on the most critical and high-priority functionalities of a software application.
+
+The P0 stands Priority 0, which means that these test cases are of the highest priority
+and must be executed first. The goal of P0 testing is to ensure that the core functionalities
+of the application are working correctly before moving on to lower-priority test cases.
+
+Similar to P0, there are also P1, P2, and P3 tests,
+which represent lower priority test cases.
+
+## What is the Gray Release?
+
+A gray release is a software deployment strategy that allows for gradual rollout of new features
+or changes to a subset of users before a full release. This approach helps to minimize risks
+and allows for real-world testing of new features in a controlled manner.
+
 ## References
 
 - [An overview of the SSL/TLS handshake](https://www.ibm.com/docs/en/ibm-mq/9.3.x?topic=tls-overview-ssltls-handshake)
 - [Debounce vs throttle](https://www.kaidohussar.dev/posts/debounce-vs-throttle)
+- [Streamlining Test Case Execution: Understanding P0 to P4 Prioritization](https://www.linkedin.com/pulse/streamlining-test-case-execution-understanding-p0-p4-sai-teja-vuthuri-ywvoc)
