@@ -470,6 +470,14 @@ where applications are hosted in the cloud and made available to users over the 
 SaaS eliminates the need for users to install and maintain software on their local devices,
 as the software is accessed through a web browser or an application interface.
 
+## What is CGI?
+
+CGI stands for Common Gateway Interface. It is a standard protocol that allows web servers
+to execute external programs or scripts to generate dynamic content for web pages.
+CGI scripts can be written in various programming languages, such as Perl, Python, or C.
+When a user requests a web page that requires dynamic content,
+the web server invokes the CGI script, which processes the request and generates the response.
+
 ## References
 
 - [An overview of the SSL/TLS handshake](https://www.ibm.com/docs/en/ibm-mq/9.3.x?topic=tls-overview-ssltls-handshake)
