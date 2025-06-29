@@ -2,7 +2,7 @@
 layout: post
 title: Q&A
 date: 2025-05-16 21:16:38+0800
-last_updated: 2025-06-01 14:03:31+0800
+last_updated: 2025-06-29 19:52:31+0800
 description: Some questions that I have encountered in my work.
 tags:
 categories: Potpourri
@@ -462,6 +462,13 @@ which represent lower priority test cases.
 A gray release is a software deployment strategy that allows for gradual rollout of new features
 or changes to a subset of users before a full release. This approach helps to minimize risks
 and allows for real-world testing of new features in a controlled manner.
+
+## What is the SaaS?
+
+SasS stands for Software as a Service. It is a software distribution model
+where applications are hosted in the cloud and made available to users over the internet.
+SaaS eliminates the need for users to install and maintain software on their local devices,
+as the software is accessed through a web browser or an application interface.
 
 ## References
 
