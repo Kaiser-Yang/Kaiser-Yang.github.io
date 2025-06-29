@@ -478,6 +478,15 @@ CGI scripts can be written in various programming languages, such as Perl, Pytho
 When a user requests a web page that requires dynamic content,
 the web server invokes the CGI script, which processes the request and generates the response.
 
+## What is the Turning Completeness?
+
+Turning Completeness is a concept in computer science
+that refers to the ability of a computational system to perform any computation
+that can be expressed algorithmically.
+A system is considered Turing complete if it can simulate a Turing machine,
+which is a theoretical model of computation that can perform any calculation
+that can be described by an algorithm.
+
 ## References
 
 - [An overview of the SSL/TLS handshake](https://www.ibm.com/docs/en/ibm-mq/9.3.x?topic=tls-overview-ssltls-handshake)
