@@ -84,7 +84,7 @@ including the kernel, even if the kernel is the same as the host machine.
 
 Unlike VMs, containers avoid running another instance of the kernel
 and instead share the kernel with the host.
-In Linux, this is achieved through a mechanism called LXC (Linux Containers),
+On Linux, this is achieved through a mechanism called LXC (Linux Containers),
 and it makes use of a series of isolation mechanisms to spin up a program
 that thinks it’s running on its own hardware
 but it’s actually sharing the hardware and kernel with the host.
@@ -273,7 +273,7 @@ The TLS client generate another random byte string, then generate a secret key
 by all the three random byte strings. The client sends the third random string the server,
 and this package will be encrypted with the public key of the server. This is a `Finished`
 message, indicating that the client part of the handshake is complete.
-6. The TLS server sends can decrypt the `Finished` message using its private key.
+6. The TLS server can decrypt the `Finished` message using its private key.
 Then it can generate the same secret key using the three random byte strings.
 The server then sends its own `Finished` message, encrypted with the secret key.
 7. Now both the client and server have the same secret key,
@@ -420,7 +420,6 @@ There are some complicated examples you can try to practice the Right-Left Rule:
 
 * `int (*(*foo)(int))[5]`
 * `int (*(*foo)(int, int))(int, int)`
-* `int (*(*foo)(int, int))(int, int) const`
 
 I'll explain `int (*(*foo)(int))[5]`:
 
@@ -444,6 +443,8 @@ Endianness refers to the order in which bytes are stored in memory.
 For example, the number `0x12345678` would be stored as `12 34 56 78`.
 - **Little Endian**: The least significant byte (LSB) is stored at the lowest memory address.
 For example, the number `0x12345678` would be stored as `78 56 34 12`.
+
+**NOTE**: In networking protocols, big-endian is often referred to as "network byte order".
 
 ## What is the P0 Test?
 
