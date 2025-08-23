@@ -259,6 +259,8 @@ But using SIMD is not portable.
 
 ## What is the process of SSL/TLS handshake?
 
+RSA key exchange process:
+
 1. The TLS client sends a `Client Hello` message that lists cryptographic information
 such as the TLS version and, in the client's order of preference,
 the Cipher Suites supported by the client.
@@ -315,6 +317,96 @@ and they can start exchanging application data securely.
        |<--------------------------------------------------|
        |                                                   |
        |      7. Secure Application Data Exchange          |
+       |<=================================================>|
+       |                                                   |
+```
+
+RSA key exchange is not secure enough, and it has been deprecated in TLS 1.3.
+The main problem of RSA key exchange is that if the private key of the server
+is compromised, all past communications can be decrypted.
+Diffie-Hellman key exchange process can solve this problem, and its process is as follows:
+
+1. The TLS client sends a `Client Hello` message containing Supported TLS version,
+list of supported Cipher Suites (ordered by client preference) and a random byte string
+(`Client Random`) for later cryptographic operations.
+2. The server responds with a `Server Hello` message containing,
+Chosen Cipher Suite from the client’s list, a second random byte string (`Server Random`).
+3. The server transmits its digital certificate, which includes its long-term public key.
+4. The server sends a `Server Key Exchange` message with Diffie-Hellman (DH) public parameters:
+prime modulus `p` and generator `g`,
+server’s temporary DH public key
+(`g^a mod p`, where `a` is the server’s short-term private exponent).
+This message is signed with the server’s long-term private key to authenticate the server.
+5. The server signals the end of the initial handshake phase.
+6. The client verifies the server’s certificate (checks validity, revocation status, and signature).
+The client generates its own DH key pair: temporary private exponent `b` and public key
+(`g^b mod p`). The client computes the pre-master secret as `g^(a*b) mod p`
+(using the server’s public key `g^a` and its own private key `b`).
+The client sends a `Client Key Exchange` message containing its DH public key (`g^b mod p`).
+The client derives the master secret using `Client Random`, `Server Random`,
+and the pre-master secret.
+The client generates session keys (symmetric encryption keys, HMAC keys, etc.)
+from the master secret.
+7. The client sends a `Finished` message that contains a hash of all handshake messages exchanged
+so far (from `Client Hello` to `Client Key Exchange`), and is encrypted with the session key
+(proves the client knows the correct key).
+This confirms the client’s side of the handshake is complete.
+8. The server computes the pre-master secret as `g^(a*b) mod p`
+(using the client’s public key `g^b` and its own private key `a`),
+derives the same master secret using `Client Random`, `Server Random`, and the pre-master secret,
+generates session keys from the master secret, and sends its own `Finished` message
+which contains a hash of all handshake messages (from `Client Hello` to `Server Key Exchange`)
+and is encrypted with the session key (proves the server knows the correct key).
+9. Both client and server now share the same session keys.
+They use these keys to encrypt/decrypt application data,
+ensuring confidentiality and integrity for all subsequent communication.
+
+```txt
++------------+                                      +------------+
+| TLS Client |                                      | TLS Server |
++------------+                                      +------------+
+       |                                                   |
+       | 1. Client Hello                                   |
+       |    (TLS Version, Supported Cipher Suites, Random1)|
+       |-------------------------------------------------->|
+       |                                                   |
+       |                       2. Server Hello             |
+       |                     (Chosen Cipher Suite, Random2)|
+       |<--------------------------------------------------|
+       |                                                   |
+       |                            3. Digital Certificate |
+       |                              (Server's Public Key)|
+       |<--------------------------------------------------|
+       |                                                   |
+       |               4. Server Key Exchange              |
+       |                 (DH Public Params: p, g, g^a)     |
+       |       [Signed with Server's Long-Term Private Key]|
+       |<--------------------------------------------------|
+       |                                                   |
+       |                              5. Server Hello Done |
+       |<--------------------------------------------------|
+       |                                                   |
+       | 6. Client Actions:                                |
+       |    - Verify Server Certificate                    |
+       |    - Generate DH Key Pair (g^b mod p)             |
+       |    - Compute Pre-Master Secret: g^(a*b) mod p     |
+       |    - Derive Master Secret                         |
+       |    - Generate Session Keys (from Master Secret)   |
+       |    - Client Key Exchange: Send g^b mod p          |
+       |-------------------------------------------------->|
+       |                                                   |
+       | 7. Server Actions:                                |
+       |    - Compute Pre-Master Secret: g^(a*b) mod p     |
+       |    - Derive Master Secret                         |
+       |    - Generate Session Keys (from Master Secret)   |
+       |    - Verify Client's Finished Message             |
+       |    - Send Finished Message                        |
+       |<--------------------------------------------------|
+       |                                                   |
+       | 8. Client Actions:                                |
+       |    - Verify Server's Finished Message             |
+       |                                                   |
+       | 9. Secure Application Data Exchange (Session Key) |
        |<=================================================>|
        |                                                   |
 ```
