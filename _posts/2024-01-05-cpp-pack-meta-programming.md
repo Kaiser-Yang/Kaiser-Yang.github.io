@@ -17,7 +17,7 @@ pretty_table: true
 
 ## Forward
 
-Originally, I wanted to fidn a solution to this problem:
+Originally, I wanted to find a solution to this problem:
 
 > Using `C++` to implement compile-time determination of prime numbers between `1~100`.
 
