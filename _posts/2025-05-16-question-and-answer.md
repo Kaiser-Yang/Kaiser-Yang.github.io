@@ -580,6 +580,50 @@ A system is considered Turing complete if it can simulate a Turing machine,
 which is a theoretical model of computation that can perform any calculation
 that can be described by an algorithm.
 
+## What is socket programming?
+
+Socket programming is a way to enable communication between two computers over a network.
+Actually, socket is a group of APIs that provided by the operating system
+to enable network communication. With these APIs, we can:
+1. Create a socket: `socket()`
+2. Bind the socket to an IP address and port: `bind()`
+3. Listen for incoming connections: `listen()`
+4. Accept incoming connections: `accept()`
+5. Send and receive data: `send()`, `recv()`
+
+For clients, we can use `connect()` to connect to a server,
+and then use `send()` and `recv()` to communicate.
+
+## What is sticky packet problem? How to solve it?
+
+The sticky packet problem occurs in TCP communication
+when multiple messages are sent in quick succession,
+and the receiver cannot distinguish where one message ends and the next begins.
+This can lead to data being "stuck" together in a single read operation,
+making it difficult to parse the individual messages.
+
+To solve the sticky packet problem, we can use the following methods:
+
+1. **Fixed-Length Messages**: Define a fixed length for each message.
+The receiver reads exactly that many bytes for each message.
+2. **Delimiter-Based Messages**: Use a special character or sequence of characters
+to indicate the end of a message.
+3. **Length-Prefixed Messages**: Prepend each message with a fixed-size header
+that specifies the length of the message.
+4. **Application-Level Protocols**: Use established protocols like HTTP or WebSocket
+that have built-in mechanisms for message framing.
+
+Why sticky package problem not occur in UDP?
+
+> UDP is a connectionless protocol that sends messages, called datagrams,
+> without establishing a connection between the sender and receiver.
+> Each datagram is sent independently and contains all the necessary information
+> (such as source and destination addresses) to be routed through the network.
+> Because of this, each UDP datagram is treated as a separate entity,
+> and there is no concept of a continuous stream of data like in TCP.
+> Therefore, the sticky packet problem does not occur in UDP,
+> as each datagram is received in its entirety and can be processed independently.
+
 ## References
 
 - [An overview of the SSL/TLS handshake](https://www.ibm.com/docs/en/ibm-mq/9.3.x?topic=tls-overview-ssltls-handshake)
