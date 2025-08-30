@@ -463,7 +463,7 @@ In PostgreSQL, Dirty Read will not happen even in Read Uncommitted isolation lev
 Phantom Read will not happen in Repeatable Read isolation level,
 and the default isolation level is Read Committed.
 
-In MySQL (InnoDB), Pantom Read will not happen in Repeatable Read isolation level
+In MySQL (InnoDB), Phantom Read will not happen in Repeatable Read isolation level
 with consistent non-locking reads,
 the default isolation level is Repeatable Read.
 
