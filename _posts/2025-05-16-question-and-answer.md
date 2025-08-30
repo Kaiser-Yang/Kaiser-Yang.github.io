@@ -661,6 +661,89 @@ And this also ensure that the server can receive data from the client.
 * For the third handshake, the client let the server know that "I know you are ready."
 And this also ensure that the client can receive data from the server.
 
+## What is ACID? How to achieve it?
+
+* **Atomicity**: The transaction is all-or-nothing. This can be achieved using
+undo logs to roll back changes if a transaction fails.
+* **Consistency**: The transaction brings the database from one valid state to another.
+This can be achieved using constraints, triggers, and application logic.
+* **Isolation**: The transaction is isolated from other transactions.
+This can be achieved using locking mechanisms and isolation levels.
+* **Durability**: Once a transaction is committed, its changes persist permanently
+even after system failures. This can be achieved using redo logs.
+
+## What are isolation levels in databases?
+
+Before introducing isolation levels, we need to understand the following phenomena:
+
+* **Dirty Read**: A transaction reads uncommitted data from another transaction.
+* **Non-Repeatable Read**: A transaction reads the same data multiple times,
+but gets different results because another transaction modified/deleted it.
+* **Phantom Read**: A transaction re-runs a range query and gets new rows
+inserted by another committed transaction.
+* **Serialization Anomaly**: The result of successfully committing a group of transactions is
+inconsistent with all possible orderings of running those transactions one at a time.
+* **Lost Update**: Two transactions read the same data and modify it,
+but one transaction's changes are lost due to the other transaction's changes
+
+Isolation levels define the degree to which a transaction must be isolated
+from the data modifications made by other transactions. The standard isolation levels
+defined by the SQL standard are:
+
+| Isolation Level  | Dirty Read   | Non-Repeatable Read | Phantom Read | Serialization Anomaly | Lost Update     |
+| ---------------- | ----------   | ------------------- | ------------ | --------------------- | -----------     |
+| Read Uncommitted | Possible     | Possible            | Possible     | Possible              | Possible        |
+| Read Committed   | Not Possible | Possible            | Possible     | Possible              | Possible        |
+| Repeatable Read  | Not Possible | Not Possible        | Possible     | Possible              | Possible        |
+| Serializable     | Not Possible | Not Possible        | Not Possible | Not Possible          | Not Possible    |
+
+## How to implement isolation levels in databases?
+
+Before we start, we need to understand the following concepts:
+
+* **Shared Lock**: Also known as read lock and S-lock.
+It can be acquired when no other transaction holds a write lock on the same data.
+* **Exclusive Lock**: Also known as write lock and X-lock.
+It can be acquired when no other transaction holds a shared or write lock on the same data.
+
+For `Read Uncommited`, we can use First-Level Locking (1LL). 1LL means that
+a transaction must acquire an X-lock before modifying data, and release the X-lock
+after the transaction is committed or rolled back.
+
+For `Read Committed`, we can use Second-Level Locking (2LL). 2LL means that
+based on 1PL, a transaction must acquire an S-lock before reading data,
+and release the S-lock immediately after reading the data.
+
+For `Repeatable Read`, we can use Third-Level Locking (3LL). 3LL means that
+based on 2PL, a transaction must hold the S-lock until the transaction is committed
+or rolled back.
+
+**NOTE**: 3LL can not prevent phantom reads, because transactions only hold locks for
+existing data items. For example, if a transaction reads a range of data items
+another transaction inserts a new data item then commits,
+and after that the first transaction may read the new data item.
+
+For `Serializable`, we can use Two-Phase Locking (2PL). The core idea of the 2PL is that
+transactions must follow two strict phases for lock management:
+
+* Growing Phase: In this phase, a transaction can acquire locks but cannot release any locks.
+* Shrinking Phase: In this phase, a transaction can release locks but cannot acquire any new locks.
+
+There are some variants of the two-phase locking protocol:
+
+* Conservative Two-Phase Locking: In this variant,
+a transaction must acquire all locks (at one time) before it starts executing.
+This can prevent deadlocks.
+* Strict Two-Phase Locking: In this variant, a transaction must hold X-locks
+until it commits or rolls back.
+* Rigorous Two-Phase Locking: In this variant, a transaction must hold all locks
+until it commits or rolls back.
+
+**NOTE**: With only 2PL, it can only ensure that the result of multiple transactions
+is equivalent to some serial execution of those transactions. It may not prevent
+dirty reads, non-repeatable reads, phantom reads, and lost updates. To prevent these phenomena,
+we need to use other techniques together with 2PL.
+
 ## References
 
 - [An overview of the SSL/TLS handshake](https://www.ibm.com/docs/en/ibm-mq/9.3.x?topic=tls-overview-ssltls-handshake)
