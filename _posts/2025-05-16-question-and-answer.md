@@ -244,14 +244,17 @@ is_aligned(ptr, alignof(int)); // Check if ptr is aligned for int
 is_aligned(ptr, alignof(long long)); // Check if ptr is aligned for long long
 ```
 
-When `is_aligned` returns `true`, it means that the pointer can be safely cast to the target type.
+**NOTE**: even if two pointers are aligned, you can not dereference one pointer
+to access the data of the other type, unless the deference type is `char`, `void`,
+`std::byte` or the original type of the data. It is worth noting that
+`int` and `unsigned int` are considered the same type in this context.
 
 In some cases, you may be asked how to implement `memcpy` effectively.
 One common approach is to copy multiple bytes at a time, you may think of trying to
 convert the `void *` to `long long *` and copy 8 bytes at a time. Before doing that,
 you should check if the pointer is aligned for `long long` type. If it is not aligned,
 you can copy the data byte by byte until the pointer is aligned, and then copy the rest of the data
-in chunks of 8 bytes.
+in chunks of 8 bytes. **Unfortunately, this approach may cause undefined behavior**.
 
 Actually, there are SIMD (Single Instruction, Multiple Data) instructions, with which you can
 loading and storing data in larger chunks, such as 128 bits or 256 bits.
