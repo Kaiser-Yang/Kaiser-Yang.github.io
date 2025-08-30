@@ -624,6 +624,40 @@ Why sticky package problem not occur in UDP?
 > Therefore, the sticky packet problem does not occur in UDP,
 > as each datagram is received in its entirety and can be processed independently.
 
+## What is TCP three-way handshake? Why three-way?
+
+The TCP three-way handshake is a process used to establish a reliable connection
+between a client and a server over a TCP/IP network. The three-way handshake involves three steps:
+
+1. **SYN**: The client sends a TCP segment with the SYN (synchronize) flag set
+to the server, indicating that it wants to establish a connection.
+2. **SYN-ACK**: The server responds with a TCP segment
+that has both the SYN and ACK (acknowledge) flags set. The SYN flag indicates
+that the server is willing to establish a connection,
+and the ACK flag acknowledges the client's initial SYN request.
+3. **ACK**: The client sends a final TCP segment with the ACK flag set,
+acknowledging the server's SYN-ACK response. At this point, the connection is established,
+and data can be exchanged between the client and server.
+
+The reason for using a three-way handshake instead of a two-way handshake
+is to ensure that both the client and server are ready to communicate
+and to prevent certain types of attacks, such as SYN flooding.
+
+In a two-way handshake, the client would send a SYN request,
+and the server would respond with a SYN-ACK.
+However, if the SYN-ACK response is lost or delayed,
+the client will try to resend the SYN request,
+potentially leading to multiple connections being established.
+
+In a four-way handshake, the last handshake is redundant,
+as the three-way handshake already ensures that both parties are ready to communicate:
+
+* For the first handshake, the client indicates that it wants to communicate.
+* For the second handshake, the server indicates that it is ready to communicate.
+And this also ensure that the server can receive data from the client.
+* For the third handshake, the client let the server know that "I know you are ready."
+And this also ensure that the client can receive data from the server.
+
 ## References
 
 - [An overview of the SSL/TLS handshake](https://www.ibm.com/docs/en/ibm-mq/9.3.x?topic=tls-overview-ssltls-handshake)
