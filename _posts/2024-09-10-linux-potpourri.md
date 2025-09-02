@@ -24,16 +24,16 @@ pretty_table: true
 
 ### Shortcuts
 
-* `Ctrl + A`: Move to the beginning of the line.
-* `Ctrl + E`: Move to the end of the line.
-* `Ctrl + U`: Delete from the cursor to the beginning of the line.
-* `Ctrl + K`: Delete from the cursor to the end of the line.
-* `Ctrl + W`: Delete the word before the cursor.
-* `Ctrl + L`: Clear the screen.
-* `Ctrl + Z`: Send SIGTSTP to the foreground process (suspend).
-* `Ctrl + C`: Send SIGINT to the foreground process (terminate).
-* `Ctrl + \`: Send SIGQUIT to the foreground process (terminate and create core dump).
-* `Ctrl + D`: Send EOF to the foreground process (end of file).
+- `Ctrl + A`: Move to the beginning of the line.
+- `Ctrl + E`: Move to the end of the line.
+- `Ctrl + U`: Delete from the cursor to the beginning of the line.
+- `Ctrl + K`: Delete from the cursor to the end of the line.
+- `Ctrl + W`: Delete the word before the cursor.
+- `Ctrl + L`: Clear the screen.
+- `Ctrl + Z`: Send SIGTSTP to the foreground process (suspend).
+- `Ctrl + C`: Send SIGINT to the foreground process (terminate).
+- `Ctrl + \`: Send SIGQUIT to the foreground process (terminate and create core dump).
+- `Ctrl + D`: Send EOF to the foreground process (end of file).
 
 ### Wildcards
 
@@ -44,13 +44,13 @@ as long as the shell supports them.
 Different shells may have different wildcard symbols,
 there are some wildcards in the `bash` shell:
 
-* `*`: matches any number of characters (including 0).
-* `**`: matches all files and directories recursively.
-* `**/`: matches all directories recursively.
-* `?`: matches a single character.
-* `[]`：matches any character in the brackets. For example, `[abc]` matches `a` or `b` or `c`.
-* `[!]` or `[^]`: matches any character not in the brackets. For example, `[!abc]` matches any
-character except `a`, `b` and `c`.
+- `*`: matches any number of characters (including 0).
+- `**`: matches all files and directories recursively.
+- `**/`: matches all directories recursively.
+- `?`: matches a single character.
+- `[]`：matches any character in the brackets. For example, `[abc]` matches `a` or `b` or `c`.
+- `[!]` or `[^]`: matches any character not in the brackets. For example, `[!abc]` matches any
+  character except `a`, `b` and `c`.
 
 **NOTE**: `**` and `**/` are only available when `globstar` shell option is enabled
 (use `shopt | grep globstar` to check). You can use `shopt -s globstar` to enable it.
@@ -70,26 +70,26 @@ for example, `echo {a..z}` will be parsed as `echo a b c ... z`.
 
 When `extglob` is on (use `shopt | grep extglob` to check), those below are supported:
 
-* `?(pattern-list)`: Matches zero or one occurrence of the given patterns.
-* `*(pattern-list)`: Matches zero or more occurrences of the given patterns.
-* `+(pattern-list)`: Matches one or more occurrences of the given patterns.
-* `@(pattern-list)`: Matches one of the given patterns.
-* `!(pattern-list)`: Matches anything except one of the given patterns.
+- `?(pattern-list)`: Matches zero or one occurrence of the given patterns.
+- `*(pattern-list)`: Matches zero or more occurrences of the given patterns.
+- `+(pattern-list)`: Matches one or more occurrences of the given patterns.
+- `@(pattern-list)`: Matches one of the given patterns.
+- `!(pattern-list)`: Matches anything except one of the given patterns.
 
 #### `POSIX` Character Classes
 
-* `[:alnum:]`: Letter or digit.
-* `[:alpha:]`: Letter.
-* `[:blank:]`: Space or tab.
-* `[:cntrl:]`: Control character.
-* `[:digit:]`: Digit.
-* `[:xdigit:]`: Hexadecimal digit (0-9, a-f, A-F).
-* `[:graph:]`: Printable character except space.
-* `[:lower:]`: Lowercase letter.
-* `[:upper:]`: Uppercase letter.
-* `[:print:]`: Printable character including space.
-* `[:punct:]`: Punctuation character.
-* `[:space:]`: Space, tab, newline, carriage return, form feed, or vertical tab.
+- `[:alnum:]`: Letter or digit.
+- `[:alpha:]`: Letter.
+- `[:blank:]`: Space or tab.
+- `[:cntrl:]`: Control character.
+- `[:digit:]`: Digit.
+- `[:xdigit:]`: Hexadecimal digit (0-9, a-f, A-F).
+- `[:graph:]`: Printable character except space.
+- `[:lower:]`: Lowercase letter.
+- `[:upper:]`: Uppercase letter.
+- `[:print:]`: Printable character including space.
+- `[:punct:]`: Punctuation character.
+- `[:space:]`: Space, tab, newline, carriage return, form feed, or vertical tab.
 
 ### Quoting
 
@@ -119,8 +119,8 @@ You can put a double quote between enclosing single quotes directly.
 Characters in enclosing double quotes are preserved literally,
 except for `$`, `` ` ``, `\`, and `!` (when history expansion is enabled).
 
-**NOTE**: When the shell is in POSIX mode, the `!` has no special meaning within  double  quotes,
-even when  history  expansion  is  enabled.
+**NOTE**: When the shell is in POSIX mode, the `!` has no special meaning within double quotes,
+even when history expansion is enabled.
 
 `$` and `\`` retain their special meaning within double quotes. For example:
 
@@ -158,17 +158,17 @@ variable and set its value. If the `value` is omitted, the empty string is assig
 You can also use `declare` command to define a variable and set its value.
 Those below are available `declare` attributes options:
 
-| Option | Meaning |
-| --- | --- |
-| `-a` | indexed array |
-| `-A` | associative array |
-| `-i` | integer |
-| `-l` | lowercase value automatically |
-| `-u` | uppercase value automatically |
-| `-r` | readonly |
-| `-x` | export |
-| `-n` | name reference to another variable |
-| `-t` | trace, rarely used |
+| Option | Meaning                            |
+| ------ | ---------------------------------- |
+| `-a`   | indexed array                      |
+| `-A`   | associative array                  |
+| `-i`   | integer                            |
+| `-l`   | lowercase value automatically      |
+| `-u`   | uppercase value automatically      |
+| `-r`   | readonly                           |
+| `-x`   | export                             |
+| `-n`   | name reference to another variable |
+| `-t`   | trace, rarely used                 |
 
 **NOTE**: You can use `+` instead of `-` to unset an attribute.
 
@@ -259,38 +259,38 @@ the name of the shell or shell script.
 
 ### Special Parameters
 
-* `$*`: All positional parameters, each of which expands to a separate word.
-* `"$*"`: A single string with all positional parameters
-separated by the first character of the `IFS` variable.
-If `IFS` is unset, the parameters are separated by spaces.
-If `IFS` is null, the parameters are joined without intervening separators.
-* `$@`: All positional parameters, each of which expands to a separate word.
-* `"$@"`: Equivalent to `"$1" "$2" ... "$N"` (where N is the number of positional parameters).
-`prefix"$@"suffix` will be parsed as `prefix"$1" "$2" ... "$N"suffix`.
-* `$#`: The number of positional parameters in decimal.
-* `$?`: The exit status of the most recently executed foreground pipeline.
-* `$$`: The process ID of the shell. In a sub-shell,
-it expands to the process ID of the current shell, not the sub-shell.
-* `$!`: The process ID of the job most recently placed into the background.
-* `$0`: The name of the shell or shell script.
-If bash is invoked with a file of commands, `$0` is set to the name of that file.
-If bash is started with the `-c` option,
-then `$0` is set to the first argument after the string to be executed, if one is present.
-Otherwise, it is set to the filename used to invoke bash, as given by argument zero.
-* `$_`: The last argument of the previous command or script path.
-* `$-`: The current option flags as specified upon invocation,
-by the set builtin command, or those set by the shell itself (such as the -i option).
+- `$*`: All positional parameters, each of which expands to a separate word.
+- `"$*"`: A single string with all positional parameters
+  separated by the first character of the `IFS` variable.
+  If `IFS` is unset, the parameters are separated by spaces.
+  If `IFS` is null, the parameters are joined without intervening separators.
+- `$@`: All positional parameters, each of which expands to a separate word.
+- `"$@"`: Equivalent to `"$1" "$2" ... "$N"` (where N is the number of positional parameters).
+  `prefix"$@"suffix` will be parsed as `prefix"$1" "$2" ... "$N"suffix`.
+- `$#`: The number of positional parameters in decimal.
+- `$?`: The exit status of the most recently executed foreground pipeline.
+- `$$`: The process ID of the shell. In a sub-shell,
+  it expands to the process ID of the current shell, not the sub-shell.
+- `$!`: The process ID of the job most recently placed into the background.
+- `$0`: The name of the shell or shell script.
+  If bash is invoked with a file of commands, `$0` is set to the name of that file.
+  If bash is started with the `-c` option,
+  then `$0` is set to the first argument after the string to be executed, if one is present.
+  Otherwise, it is set to the filename used to invoke bash, as given by argument zero.
+- `$_`: The last argument of the previous command or script path.
+- `$-`: The current option flags as specified upon invocation,
+  by the set builtin command, or those set by the shell itself (such as the -i option).
 
 The characters of `$-` and their meanings:
 
-| Flag | Meaning |
-| --- | --- |
-| `h` | hashall (remembers command locations in `$PATH`) |
-| `i` | interactive shell |
-| `m` | monitor mode (job control enabled) |
-| `H` | history expansion enabled (e.g., `!!` expands to the last command) |
-| `B` | brace expansion enabled (e.g., `{a, b}` expands to `a b`) |
-| `s` | compounds read from stdin (e.g., `bash -s` |
+| Flag | Meaning                                                            |
+| ---- | ------------------------------------------------------------------ |
+| `h`  | hashall (remembers command locations in `$PATH`)                   |
+| `i`  | interactive shell                                                  |
+| `m`  | monitor mode (job control enabled)                                 |
+| `H`  | history expansion enabled (e.g., `!!` expands to the last command) |
+| `B`  | brace expansion enabled (e.g., `{a, b}` expands to `a b`)          |
+| `s`  | compounds read from stdin (e.g., `bash -s`                         |
 
 ### Arrays
 
@@ -342,12 +342,12 @@ If pathname expansion is not desired, the argument should be quoted
 
 The order of expansions is:
 
-* brace expansion;
-* tilde expansion, parameter and variable expansion,
-arithmetic expansion, command substitution (done in a left-to-right fashion)
-and process substitution (if the system supports it);
-* word splitting;
-* pathname expansion.
+- brace expansion;
+- tilde expansion, parameter and variable expansion,
+  arithmetic expansion, command substitution (done in a left-to-right fashion)
+  and process substitution (if the system supports it);
+- word splitting;
+- pathname expansion.
 
 After these expansions are performed,
 quote characters present in the original word are removed
@@ -359,22 +359,22 @@ This is the expansion of `{}` see [Wildcards](#wildcards).
 
 #### Tilde Expansion
 
-* `~`: Current user's home (`$HOME`).
-* `~username`: Home directory of `username`.
-* `~+`: Current working directory (`$PWD`).
-* `~-`: Previous working directory (`$OLDPWD`).
-* `"~"` or `'~'`: Literal `~` (no expansion).
-* `~+number`: The `number`-th entry of the output `dirs` (0-indexed).
-* `~-number`: The `number`-last entry of the output `dirs` (1-indexed).
-* `~number`: Same as `~+number`.
+- `~`: Current user's home (`$HOME`).
+- `~username`: Home directory of `username`.
+- `~+`: Current working directory (`$PWD`).
+- `~-`: Previous working directory (`$OLDPWD`).
+- `"~"` or `'~'`: Literal `~` (no expansion).
+- `~+number`: The `number`-th entry of the output `dirs` (0-indexed).
+- `~-number`: The `number`-last entry of the output `dirs` (1-indexed).
+- `~number`: Same as `~+number`.
 
 **NOTE:** You can use `pushd` to add directory to `dirs` and `popd` to remove directory from `dirs`.
 
 #### Parameter and Variable Expansion
 
-* `${parameter}`: The value of parameter is substituted. Sometimes, the braces can be omitted.
-* `${!parameter}`: Expands to the value of the variable named by `parameter`.
-For example:
+- `${parameter}`: The value of parameter is substituted. Sometimes, the braces can be omitted.
+- `${!parameter}`: Expands to the value of the variable named by `parameter`.
+  For example:
 
 ```bash
 foo='Hello'
@@ -382,7 +382,7 @@ bar='foo'
 echo "${!bar}" # Hello
 ```
 
-* `${!nameref}`: Expands to the referenced name, for example:
+- `${!nameref}`: Expands to the referenced name, for example:
 
 ```bash
 declare -n nameref_var="target_var"  # nameref_var is a reference to target_var
@@ -392,8 +392,8 @@ echo "$nameref_var" # Hello (dereferences automatically)
 echo "${!nameref_var}" # target_var (returns the referenced name)
 ```
 
-* `${!prefix*}` or `${prefix@}`: Expands to the values of variables whose names begin with `prefix`.
-For example:
+- `${!prefix*}` or `${prefix@}`: Expands to the values of variables whose names begin with `prefix`.
+  For example:
 
 ```bash
 a=1
@@ -403,11 +403,11 @@ echo "${!a*}" # 1 11 111 (all variables starting with a)
 echo "${!a@}" # 1 11 111 (all variables starting with a)
 ```
 
-* `${parameter:offset}`: Expands to the substring of the value of `parameter`
-starting at the character specified by `offset`.
-* `${parameter:offset:length}`: Expands to the substring of the value of `parameter`
-starting at the character specified by `offset` and extending for `length` characters.
-For examples:
+- `${parameter:offset}`: Expands to the substring of the value of `parameter`
+  starting at the character specified by `offset`.
+- `${parameter:offset:length}`: Expands to the substring of the value of `parameter`
+  starting at the character specified by `offset` and extending for `length` characters.
+  For examples:
 
 ```bash
 # Basic usage
@@ -440,50 +440,50 @@ echo "${arr[@]: -3:2}" # C D (substring starting at index -3 and length 2)
 # Undefined results for associative array
 ```
 
-* `${!array[@]}` or `${!array[*]}`: Expands to the indices of the array `array`.
-* `${#parameter}`: The length of the value of `parameter` is substituted.
-* `${#*}` or `${#@}`: Same with `$#`: the number of positional parameters.
+- `${!array[@]}` or `${!array[*]}`: Expands to the indices of the array `array`.
+- `${#parameter}`: The length of the value of `parameter` is substituted.
+- `${#*}` or `${#@}`: Same with `$#`: the number of positional parameters.
 
 For those below, you can remove `:` to make it only work for unset variables:
 
-* `${parameter:-word}`: Expands to `word` if `parameter` is unset or null;
-otherwise, it expands to the value of `parameter`.
-* `${parameter:=word}`: Assigns `word` to `parameter` and expands to `word`
-if `parameter` is unset or null;
-otherwise, it expands to the value of `parameter`.
-You can not use this to positional parameters.
-* `${parameter:?word}`: `word` is written to standard error if `parameter` is unset or null,
-if it is not interactive, exits;
-otherwise, it expands to the value of `parameter`.
-* `${parameter:+word}`: Nothing is substituted if `parameter` is null or unset;
-otherwise, the expansion of `word` is substituted.
+- `${parameter:-word}`: Expands to `word` if `parameter` is unset or null;
+  otherwise, it expands to the value of `parameter`.
+- `${parameter:=word}`: Assigns `word` to `parameter` and expands to `word`
+  if `parameter` is unset or null;
+  otherwise, it expands to the value of `parameter`.
+  You can not use this to positional parameters.
+- `${parameter:?word}`: `word` is written to standard error if `parameter` is unset or null,
+  if it is not interactive, exits;
+  otherwise, it expands to the value of `parameter`.
+- `${parameter:+word}`: Nothing is substituted if `parameter` is null or unset;
+  otherwise, the expansion of `word` is substituted.
 
 For those below,
 if `parameter` is `@` or `*` or an array subscripted with `@` or `*`,
 the pattern removal operation is applied to each element in turn,
 and the expansion is the resultant list:
 
-* `${parameter#word}`: Removes the shortest match of `word` from the beginning of `parameter`.
-Wildcards are allowed in `word`. See [Wildcards](#wildcards).
-* `${parameter##word}`: Removes the longest match of `word` from the beginning of `parameter`.
-Wildcards are allowed in `word`. See [Wildcards](#wildcards).
-* `${parameter%word}`: Similar to `${parameter#word}`
-but removes the suffix instead of the prefix.
-* `${parameter%%word}`: Similar to `${parameter##word}`
-but removes the suffix instead of the prefix.
-* `${parameter@U}`: Converts the value of `parameter` to uppercase.
-* `${parameter@u}`: Converts the first character of the value of `parameter` to uppercase.
-* `${parameter@L}`: Converts the value of `parameter` to lowercase.
-* `${parameter@a}`: Expands to the attributes of `parameter`.
-* `${parameter@E}`: Expands to a string with all the escaped characters expanded
-(such as `\n` -> newline).
-* `${parameter@A}`: Expands to a string whose value,
-if evaluated,
-will recreate `parameter` with its attributes and value.
-If used for array variables, you should use `${a[@]@A}` to get the string.
-* `${parameter@Q}`: Expands to a single-Quoted string with any special characters
-(such as `\n`, `\t`, etc.) escaped.
-For examples:
+- `${parameter#word}`: Removes the shortest match of `word` from the beginning of `parameter`.
+  Wildcards are allowed in `word`. See [Wildcards](#wildcards).
+- `${parameter##word}`: Removes the longest match of `word` from the beginning of `parameter`.
+  Wildcards are allowed in `word`. See [Wildcards](#wildcards).
+- `${parameter%word}`: Similar to `${parameter#word}`
+  but removes the suffix instead of the prefix.
+- `${parameter%%word}`: Similar to `${parameter##word}`
+  but removes the suffix instead of the prefix.
+- `${parameter@U}`: Converts the value of `parameter` to uppercase.
+- `${parameter@u}`: Converts the first character of the value of `parameter` to uppercase.
+- `${parameter@L}`: Converts the value of `parameter` to lowercase.
+- `${parameter@a}`: Expands to the attributes of `parameter`.
+- `${parameter@E}`: Expands to a string with all the escaped characters expanded
+  (such as `\n` -> newline).
+- `${parameter@A}`: Expands to a string whose value,
+  if evaluated,
+  will recreate `parameter` with its attributes and value.
+  If used for array variables, you should use `${a[@]@A}` to get the string.
+- `${parameter@Q}`: Expands to a single-Quoted string with any special characters
+  (such as `\n`, `\t`, etc.) escaped.
+  For examples:
 
 ```cpp
 a='Hello World'
@@ -494,9 +494,9 @@ echo "${b[@]@Q}" # 'Hello' 'World'
 echo "${c[@]@Q}" # 'World' 'Hello' (unordered)
 ```
 
-* `${parameter@K}`: Similar to `${parameter@Q}`, but this will
-print the values of indexed and associative arrays as a sequence of quoted key-value pairs.
-For examples:
+- `${parameter@K}`: Similar to `${parameter@Q}`, but this will
+  print the values of indexed and associative arrays as a sequence of quoted key-value pairs.
+  For examples:
 
 ```cpp
 a='Hello World'
@@ -507,56 +507,56 @@ echo "${b[@]@K}" # 0 "Hello" 1 "World"
 echo "${c[@]@K}" # first "Hello" second "World"
 ```
 
-* `${parameter@P}`: Expands as if it were a prompt string.
-For examples:
+- `${parameter@P}`: Expands as if it were a prompt string.
+  For examples:
 
 ```bash
 PS1='\u@\h:\w\$ '
 echo "${PS1@P}" # user@host:/path$  (expands prompt codes)
 ```
 
-* `${parameter/pattern/string}`: Replace the longest match of `pattern` with `string`.
-If `pattern` begins with `/`, all matches of `pattern` are replaced with `string`.
-If `pattern` begins with `#`, it must match at the beginning of the expanded value of `parameter`.
-If `pattern` begins with `%`, it must match at the end of the expanded value of `parameter`.
-If `string` is null,
-matches of `pattern` are deleted and the `/` following `pattern` may be omitted.
-If the `nocasematch` shell option is enabled,
-the match is performed without regard to the case of alphabetic characters.
-* `${paramter^pattern}`: Convert the first match of `pattern` to uppercase.
-The `pattern` can only match one character.
-If `pattern` is omitted, it is treated like a `?`, which matches every character.
-Wildcards are allowed in `pattern`.
-See [Wildcards](#wildcards).
-* `${paramter^^pattern}`: Convert all matches of `pattern` to uppercase.
-The `pattern` can only match one character.
-If `pattern` is omitted, it is treated like a `?`, which matches every character.
-Wildcards are allowed in `pattern`.
-See [Wildcards](#wildcards).
-* `${paramter,pattern}`: Convert the first match of `pattern` to lowercase.
-The `pattern` can only match one character.
-If `pattern` is omitted, it is treated like a `?`, which matches every character.
-Wildcards are allowed in `pattern`.
-See [Wildcards](#wildcards).
-* `${paramter,,pattern}`: Convert all matches of `pattern` to lowercase.
-The `pattern` can only match one character.
-If `pattern` is omitted, it is treated like a `?`, which matches every character.
-Wildcards are allowed in `pattern`.
-See [Wildcards](#wildcards).
+- `${parameter/pattern/string}`: Replace the longest match of `pattern` with `string`.
+  If `pattern` begins with `/`, all matches of `pattern` are replaced with `string`.
+  If `pattern` begins with `#`, it must match at the beginning of the expanded value of `parameter`.
+  If `pattern` begins with `%`, it must match at the end of the expanded value of `parameter`.
+  If `string` is null,
+  matches of `pattern` are deleted and the `/` following `pattern` may be omitted.
+  If the `nocasematch` shell option is enabled,
+  the match is performed without regard to the case of alphabetic characters.
+- `${paramter^pattern}`: Convert the first match of `pattern` to uppercase.
+  The `pattern` can only match one character.
+  If `pattern` is omitted, it is treated like a `?`, which matches every character.
+  Wildcards are allowed in `pattern`.
+  See [Wildcards](#wildcards).
+- `${paramter^^pattern}`: Convert all matches of `pattern` to uppercase.
+  The `pattern` can only match one character.
+  If `pattern` is omitted, it is treated like a `?`, which matches every character.
+  Wildcards are allowed in `pattern`.
+  See [Wildcards](#wildcards).
+- `${paramter,pattern}`: Convert the first match of `pattern` to lowercase.
+  The `pattern` can only match one character.
+  If `pattern` is omitted, it is treated like a `?`, which matches every character.
+  Wildcards are allowed in `pattern`.
+  See [Wildcards](#wildcards).
+- `${paramter,,pattern}`: Convert all matches of `pattern` to lowercase.
+  The `pattern` can only match one character.
+  If `pattern` is omitted, it is treated like a `?`, which matches every character.
+  Wildcards are allowed in `pattern`.
+  See [Wildcards](#wildcards).
 
 #### Arithmetic Expansion
 
-* `$$(expression)`: The value of `expression` is substituted.
+- `$$(expression)`: The value of `expression` is substituted.
 
 #### Command Substitution
 
-* `$(command)` or `` `command` ``: The standard output of `command` is substituted
-with trailing newlines deleted.
+- `$(command)` or `` `command` ``: The standard output of `command` is substituted
+  with trailing newlines deleted.
 
 #### Process Substitution
 
-* `<(command)`: Provides the output of `command` as a file that can be read from.
-* `>(command)`: Provides a file that, when written to, becomes the input for `command`
+- `<(command)`: Provides the output of `command` as a file that can be read from.
+- `>(command)`: Provides a file that, when written to, becomes the input for `command`
 
 #### Word Splitting
 
@@ -594,22 +594,22 @@ that did not result from one of the above expansions are removed.
 
 ### Locality
 
-| Variable | Description |
-| --- | --- |
-| `LC_ALL` | Overrides all locale settings |
-| `LC_CTYPE` | Character classification and case conversion |
-| `LC_COLLATE` | String collation order |
-| `LC_MESSAGES` | Language for system messages |
-| `LC_TIME` | Date and time formatting |
-| `LC_NUMERIC` | Number formatting |
-| `LC_MONETARY` | Currency formatting |
-| `LC_PAPER` | Paper size and format |
-| `LC_NAME` | Name formatting |
-| `LC_ADDRESS` | Address formatting |
-| `LC_TELEPHONE` | Telephone number formatting |
-| `LC_MEASUREMENT` | Measurement units |
-| `LC_IDENTIFICATION` | Locale identification |
-| `LANG` | Default locale setting |
+| Variable            | Description                                  |
+| ------------------- | -------------------------------------------- |
+| `LC_ALL`            | Overrides all locale settings                |
+| `LC_CTYPE`          | Character classification and case conversion |
+| `LC_COLLATE`        | String collation order                       |
+| `LC_MESSAGES`       | Language for system messages                 |
+| `LC_TIME`           | Date and time formatting                     |
+| `LC_NUMERIC`        | Number formatting                            |
+| `LC_MONETARY`       | Currency formatting                          |
+| `LC_PAPER`          | Paper size and format                        |
+| `LC_NAME`           | Name formatting                              |
+| `LC_ADDRESS`        | Address formatting                           |
+| `LC_TELEPHONE`      | Telephone number formatting                  |
+| `LC_MEASUREMENT`    | Measurement units                            |
+| `LC_IDENTIFICATION` | Locale identification                        |
+| `LANG`              | Default locale setting                       |
 
 The priority of locale settings:
 
@@ -624,21 +624,20 @@ which is used to specify the language priority list for messages.
 
 ### `awk`
 
-| Option | Description |
-| ---  | --- |
-| `-F` | Specify the input field separator |
-| `-f` | Specify the file containing the `awk` script |
-
+| Option | Description                                  |
+| ------ | -------------------------------------------- |
+| `-F`   | Specify the input field separator            |
+| `-f`   | Specify the file containing the `awk` script |
 
 **Digressing**: `awk` comes from the initials of its three creators:
 `Alfred Aho`, `Peter Weinberger`, and `Brian Kernighan`.
 
 #### Column Variables
 
-* `$0`: the whole line.
-* `$1`: the first column.
-* `...`
-* `$NF`: the last column (where `NF` is the number of fields in the current record).
+- `$0`: the whole line.
+- `$1`: the first column.
+- `...`
+- `$NF`: the last column (where `NF` is the number of fields in the current record).
 
 For example, `awk '{print $1, $2, $NF}' file` will print the first column, second column,
 and last column of each line in `file`.
@@ -673,12 +672,12 @@ which are used to specify the output and input field separators respectively.
 
 And there are some other predefined variables in `awk`:
 
-* `NR`: current record number starting from `1`.
-* `NF`: number of fields in the current record .
-* `RS`: input record separator, default is newline.
-* `ORS`: output record separator, default is newline.
-* `FILENAME`: the name of the current input file.
-* `FNR`: current record number in the current file.
+- `NR`: current record number starting from `1`.
+- `NF`: number of fields in the current record .
+- `RS`: input record separator, default is newline.
+- `ORS`: output record separator, default is newline.
+- `FILENAME`: the name of the current input file.
+- `FNR`: current record number in the current file.
 
 We can use `awk 'NR > 1'` to print all lines except the first line,
 and `awk 'NF > 0'` to print non-empty lines (i.e., remove empty lines).
@@ -689,8 +688,8 @@ We can use `awk 'NR == 1, NR == 4'` or `awk 'NR >= 1 && NR <= 4'` to print the f
 
 `BEGIN` and `END`:
 
-* `BEGIN`: executed before processing any input.
-* `END`: executed after processing all input.
+- `BEGIN`: executed before processing any input.
+- `END`: executed after processing all input.
 
 For example, you can use
 `awk 'BEGIN {print "Start"} {print} END {print "End"}'`
@@ -744,17 +743,17 @@ and we must use the `-f` option to specify the script file.
 
 ### `cat`
 
-| Option | Description |
-| ---  | --- |
-| `-n` | Show line numbers |
-| `-b` | Only show non-empty lines numbers |
-| `-s` | Suppress repeated empty lines |
-| `-v` | Use `^` and `M-` to display non-printable characters, except for tab and newline |
-| `-E` | Display `$` at the end of each line |
-| `-T` | Display `^I` for tab characters |
-| `-A` | Equivalent to `-vET` |
-| `-e` | Equivalent to `-vE` |
-| `-t` | Equivalent to `-vT` |
+| Option | Description                                                                      |
+| ------ | -------------------------------------------------------------------------------- |
+| `-n`   | Show line numbers                                                                |
+| `-b`   | Only show non-empty lines numbers                                                |
+| `-s`   | Suppress repeated empty lines                                                    |
+| `-v`   | Use `^` and `M-` to display non-printable characters, except for tab and newline |
+| `-E`   | Display `$` at the end of each line                                              |
+| `-T`   | Display `^I` for tab characters                                                  |
+| `-A`   | Equivalent to `-vET`                                                             |
+| `-e`   | Equivalent to `-vE`                                                              |
+| `-t`   | Equivalent to `-vT`                                                              |
 
 You can use `cat` to read from standard input then output to a file.
 For example, `cat > file` will read from standard input and write to `file`
@@ -778,32 +777,32 @@ but it outputs the contents of files in reverse order.
 
 ### `grep`
 
-| Option | Description |
-| --- | --- |
-| `-A 2` | Show matching lines and the next two lines |
-| `-B 2` | Show matching lines and the previous two lines |
-| `-C 2` | Show matching lines and two lines before and after |
-| `-r`   | Recursively search directories |
-| `-n`   | Show line numbers |
-| `-i`   | Ignore case |
-| `-v`   | Invert match |
-| `--include "*.py"` | Search only in files matching the pattern |
-| `--exclude "test*"` | Skip files matching the pattern |
-| `--exclude-dir "test*"` | Skip directories matching the pattern |
-| `-c` | Show the count of match in each file instead of the matching lines |
-| `-o` | Only show the matching part |
-| `-l` | Show the names of files with matches instead of the matching lines |
-| `-L` | Show the names of files without matches instead of the matching lines |
-| `-e` | Specify a pattern explicityly |
-| `-w` | Only match whole words |
-| `-x` | Only match whole lines |
-| `-F` | Interpret the pattern as a fixed string, not a regex |
-| `-H` | Show file names in output (default when multiple files are searched) |
-| `-h` | Do not show file names in output (default when a single file is searched) |
-| `-m` | Stop after N matches for each file |
-| `--color=auto,always,never` | Highlight rules |
-| `-f` | Read patterns from a file, one pattern per line |
-| `-E` | Interpret the pattern as an extended regular expression (ERE) |
+| Option                      | Description                                                               |
+| --------------------------- | ------------------------------------------------------------------------- |
+| `-A 2`                      | Show matching lines and the next two lines                                |
+| `-B 2`                      | Show matching lines and the previous two lines                            |
+| `-C 2`                      | Show matching lines and two lines before and after                        |
+| `-r`                        | Recursively search directories                                            |
+| `-n`                        | Show line numbers                                                         |
+| `-i`                        | Ignore case                                                               |
+| `-v`                        | Invert match                                                              |
+| `--include "*.py"`          | Search only in files matching the pattern                                 |
+| `--exclude "test*"`         | Skip files matching the pattern                                           |
+| `--exclude-dir "test*"`     | Skip directories matching the pattern                                     |
+| `-c`                        | Show the count of match in each file instead of the matching lines        |
+| `-o`                        | Only show the matching part                                               |
+| `-l`                        | Show the names of files with matches instead of the matching lines        |
+| `-L`                        | Show the names of files without matches instead of the matching lines     |
+| `-e`                        | Specify a pattern explicityly                                             |
+| `-w`                        | Only match whole words                                                    |
+| `-x`                        | Only match whole lines                                                    |
+| `-F`                        | Interpret the pattern as a fixed string, not a regex                      |
+| `-H`                        | Show file names in output (default when multiple files are searched)      |
+| `-h`                        | Do not show file names in output (default when a single file is searched) |
+| `-m`                        | Stop after N matches for each file                                        |
+| `--color=auto,always,never` | Highlight rules                                                           |
+| `-f`                        | Read patterns from a file, one pattern per line                           |
+| `-E`                        | Interpret the pattern as an extended regular expression (ERE)             |
 
 The difference between extended regular expressions (ERE) and basic regular expressions (BRE)
 is that in ERE, `?`, `+`, `{`, `|`, `(`, and `)` are special characters,
@@ -823,13 +822,13 @@ where `g` stands for `global`, `re` stands for `regular expression`, and `p` sta
 
 ### `sed`
 
-| Option | Description |
-| --- | --- |
+| Option       | Description                                          |
+| ------------ | ---------------------------------------------------- |
 | `-i[SUFFIX]` | Edit files in place, optionally with a backup suffix |
-| `-e` | Add a script to the commands to be executed |
-| `-f` | Add a script file to the commands to be executed |
-| `-E` | Use extended regular expressions |
-| `-n` | Suppress automatic printing of pattern space |
+| `-e`         | Add a script to the commands to be executed          |
+| `-f`         | Add a script file to the commands to be executed     |
+| `-E`         | Use extended regular expressions                     |
+| `-n`         | Suppress automatic printing of pattern space         |
 
 **NOTE**: With `-n`, `sed` will only print lines explicitly specified with the `p`, `P`, or `w`.
 
@@ -846,27 +845,27 @@ And content in the hold space persists across multiple lines.
 
 #### Commands
 
-| Command | Description |
-| --- | --- |
-| `s` | Substitute a pattern in the pattern space |
-| `p` | Print the pattern space |
-| `P` | Print the first part of the pattern space (up to the first newline) |
-| `d` | Delete the pattern space |
-| `D` | Delete the first part of the pattern space (up to the first newline) |
-| `q` | Quit `sed` immediately |
-| `h` | Copy the pattern space to the hold space |
-| `H` | Append the pattern space to the hold space |
-| `g` | Copy the hold space to the pattern space |
-| `G` | Append the hold space to the pattern space |
-| `n` | Read the next line into the pattern space |
-| `N` | Append the next line to the pattern space |
-| `x` | Exchange the pattern space and the hold space |
-| `=` | Print current line number |
-| `w` | Write the pattern space to a file |
-| `W` | Write the first part of the pattern space (up to the first newline) to a file |
-| `a\` | Append text after the current line (use `\` to continue on the next line) |
-| `c\` | Change the current line to the specified text (use `\` to continue on the next line) |
-| `i\` | Insert text before the current line (use `\` to continue on the next line) |
+| Command | Description                                                                          |
+| ------- | ------------------------------------------------------------------------------------ |
+| `s`     | Substitute a pattern in the pattern space                                            |
+| `p`     | Print the pattern space                                                              |
+| `P`     | Print the first part of the pattern space (up to the first newline)                  |
+| `d`     | Delete the pattern space                                                             |
+| `D`     | Delete the first part of the pattern space (up to the first newline)                 |
+| `q`     | Quit `sed` immediately                                                               |
+| `h`     | Copy the pattern space to the hold space                                             |
+| `H`     | Append the pattern space to the hold space                                           |
+| `g`     | Copy the hold space to the pattern space                                             |
+| `G`     | Append the hold space to the pattern space                                           |
+| `n`     | Read the next line into the pattern space                                            |
+| `N`     | Append the next line to the pattern space                                            |
+| `x`     | Exchange the pattern space and the hold space                                        |
+| `=`     | Print current line number                                                            |
+| `w`     | Write the pattern space to a file                                                    |
+| `W`     | Write the first part of the pattern space (up to the first newline) to a file        |
+| `a\`    | Append text after the current line (use `\` to continue on the next line)            |
+| `c\`    | Change the current line to the specified text (use `\` to continue on the next line) |
+| `i\`    | Insert text before the current line (use `\` to continue on the next line)           |
 
 **NOTE**: The `a`, `c`, and `i` are GNU `sed` extensions. It can be used without `\` but only
 for a single line of text.
@@ -903,53 +902,53 @@ sed '/start_pattern/,/end_pattern/s/old/new/g' file.txt
 
 ### `find`
 
-| Option | Description |
-| --- | --- |
-| `-type` | Specify the type of file to search for |
-| `-readable` | Search for files or directories that are readable by the current user |
-| `-writable` | Search for files or directories that are writable by the current user |
-| `-executable` | Search for files or directories that are executable by the current user |
-| `-name` | Specify the file name to search for. Can use `wildcards` |
-| `-path` | Specify the path to search for. Can use `wildcards` |
-| `-iname` | Similar to `-name`, but ignores case |
-| `-ipath` | Similar to `-path`, but ignores case |
-| `-empty` | Search for empty files or directories |
-| `-size` | Specify the size of the file or directory to search for |
-| `-exec` | Execute a command on the found files or directories |
-| `-perm` | Specify the permissions to search for |
-| `-user` | Specify the owner of the file or directory |
-| `-group` | Specify the group of the file or directory |
-| `-maxdepth` | Specify the maximum depth to search |
-| `-mindepth` | Specify the minimum depth to search |
-| `-depth` | Process each directory's contents before the directory itself |
-| `-delete` | Delete the found files or directories |
-| `-and` | Logic and |
-| `-or` | Logic or |
-| `-not` | Logic not |
-| `-regex` | Use a regular expression |
-| `-iregex` | Use a case-insensitive regular expression |
-| `-print0` | Print the found files or directories, separated by a null character |
-| `-samefile` | Search for files that are hard links to the specified file |
-| `-links` | Search for files with a specific number of hard links |
-| `-P` | Neever follow symbolic links (default) |
-| `-L` | Follow symbolic links |
-| `-H` | Follow symlinks only for the starting directories explicitly passed as arguments |
-| `-mtime` | Specify the modification time of the file or directory, the time is in days |
-| `-atime` | Specify the access time of the file or directory, the time is in days |
-| `-ctime` | Specify the creation time of the file or directory, the time is in days |
-| `-mmin` | Specify the modification time of the file or directory, the time is in minutes |
-| `-amin` | Specify the access time of the file or directory, the time is in minutes |
-| `-cmin` | Specify the creation time of the file or directory, the time is in minutes |
+| Option        | Description                                                                      |
+| ------------- | -------------------------------------------------------------------------------- |
+| `-type`       | Specify the type of file to search for                                           |
+| `-readable`   | Search for files or directories that are readable by the current user            |
+| `-writable`   | Search for files or directories that are writable by the current user            |
+| `-executable` | Search for files or directories that are executable by the current user          |
+| `-name`       | Specify the file name to search for. Can use `wildcards`                         |
+| `-path`       | Specify the path to search for. Can use `wildcards`                              |
+| `-iname`      | Similar to `-name`, but ignores case                                             |
+| `-ipath`      | Similar to `-path`, but ignores case                                             |
+| `-empty`      | Search for empty files or directories                                            |
+| `-size`       | Specify the size of the file or directory to search for                          |
+| `-exec`       | Execute a command on the found files or directories                              |
+| `-perm`       | Specify the permissions to search for                                            |
+| `-user`       | Specify the owner of the file or directory                                       |
+| `-group`      | Specify the group of the file or directory                                       |
+| `-maxdepth`   | Specify the maximum depth to search                                              |
+| `-mindepth`   | Specify the minimum depth to search                                              |
+| `-depth`      | Process each directory's contents before the directory itself                    |
+| `-delete`     | Delete the found files or directories                                            |
+| `-and`        | Logic and                                                                        |
+| `-or`         | Logic or                                                                         |
+| `-not`        | Logic not                                                                        |
+| `-regex`      | Use a regular expression                                                         |
+| `-iregex`     | Use a case-insensitive regular expression                                        |
+| `-print0`     | Print the found files or directories, separated by a null character              |
+| `-samefile`   | Search for files that are hard links to the specified file                       |
+| `-links`      | Search for files with a specific number of hard links                            |
+| `-P`          | Neever follow symbolic links (default)                                           |
+| `-L`          | Follow symbolic links                                                            |
+| `-H`          | Follow symlinks only for the starting directories explicitly passed as arguments |
+| `-mtime`      | Specify the modification time of the file or directory, the time is in days      |
+| `-atime`      | Specify the access time of the file or directory, the time is in days            |
+| `-ctime`      | Specify the creation time of the file or directory, the time is in days          |
+| `-mmin`       | Specify the modification time of the file or directory, the time is in minutes   |
+| `-amin`       | Specify the access time of the file or directory, the time is in minutes         |
+| `-cmin`       | Specify the creation time of the file or directory, the time is in minutes       |
 
 The options for `-type`:
 
-* `b`: block device file
-* `c`: character device file
-* `p`: pipe file
-* `s`: socket file
-* `f`: regular file
-* `d`: directory
-* `l`: soft link file
+- `b`: block device file
+- `c`: character device file
+- `p`: pipe file
+- `s`: socket file
+- `f`: regular file
+- `d`: directory
+- `l`: soft link file
 
 **NOTE**: When you use `-regex`, the pattern is matched against the entire file name,
 which is a little bit different from `grep`. If you want to match a specific part of the file name,
@@ -958,11 +957,11 @@ you need to use `.*` to match any characters before and after the pattern. For e
 
 The units for `-size`:
 
-* `b`: block size, which is decided by the file system (usually 512 bytes)
-* `c`: bytes
-* `k`: kilobytes (1024 bytes)
-* `M`: megabytes (1024 kilobytes)
-* `G`: gigabytes (1024 megabytes)
+- `b`: block size, which is decided by the file system (usually 512 bytes)
+- `c`: bytes
+- `k`: kilobytes (1024 bytes)
+- `M`: megabytes (1024 kilobytes)
+- `G`: gigabytes (1024 megabytes)
 
 You can use `find . -size 1M` to find files that are exactly `1` megabyte in size;
 use `find . -size +1M` to find files larger than `1` megabyte;
@@ -979,11 +978,11 @@ and the semicolon needs to be escaped to prevent it from being interpreted by th
 
 ### `ln`
 
-| Option | Description |
-| --- | --- |
-| `-s` | Soft link |
-| `-f` | Force the creation of the link, removing existing files if necessary |
-| `-t` | Specify the target directory for the link |
+| Option | Description                                                          |
+| ------ | -------------------------------------------------------------------- |
+| `-s`   | Soft link                                                            |
+| `-f`   | Force the creation of the link, removing existing files if necessary |
+| `-t`   | Specify the target directory for the link                            |
 
 **NOTE**: When using `ln target link_name`, and `link_name` is an existing directory,
 it will create a file named `target` in that directory.
@@ -998,29 +997,29 @@ Hard links are files that point to the same `inode` as the original file,
 while soft links are files that point to the original file by its path.
 Besides, hard links and soft links have the following differences:
 
-* Soft links can point to files in different file systems,
-while hard links can only point to files in the same file system.
-* Soft links can point to directories, while hard links cannot point to directories.
-* When the source file is deleted, hard links will still be valid,
-while soft links will become invalid.
+- Soft links can point to files in different file systems,
+  while hard links can only point to files in the same file system.
+- Soft links can point to directories, while hard links cannot point to directories.
+- When the source file is deleted, hard links will still be valid,
+  while soft links will become invalid.
 
 In Linux, you can use the `ls -l` command to view the number of hard links to a file.
 
 ### `sort`
 
-| Option | Description |
-| --- | --- |
-| `-r` | Sort in reverse order |
-| `-n` | Sort numerically |
-| `-k` | Sort by a specific key (column) |
-| `-u` | Unique sort |
-| `-t` | Specify the field separator |
-| `-c` | Check if the input is already sorted |
-| `-f` | Ignore case when sorting |
-| `-h` | Sort by human-readable numbers (e.g., 1K, 2M) |
-| `-M` | Sort by month names (e.g., Jan, Feb) |
-| `--files0-from=-` | Read from standard input with `NUL` as the file name separator |
-| `--files0-from=filename` | Read from a file with `NUL` as the file name separator |
+| Option                   | Description                                                    |
+| ------------------------ | -------------------------------------------------------------- |
+| `-r`                     | Sort in reverse order                                          |
+| `-n`                     | Sort numerically                                               |
+| `-k`                     | Sort by a specific key (column)                                |
+| `-u`                     | Unique sort                                                    |
+| `-t`                     | Specify the field separator                                    |
+| `-c`                     | Check if the input is already sorted                           |
+| `-f`                     | Ignore case when sorting                                       |
+| `-h`                     | Sort by human-readable numbers (e.g., 1K, 2M)                  |
+| `-M`                     | Sort by month names (e.g., Jan, Feb)                           |
+| `--files0-from=-`        | Read from standard input with `NUL` as the file name separator |
+| `--files0-from=filename` | Read from a file with `NUL` as the file name separator         |
 
 **NOTE**: You can use `-k` to specify multiple keys for sorting.
 For example, `-k2,2 -k1,1` means sort by the second column first, then by the first column.
@@ -1032,23 +1031,23 @@ and `-k2r,2` to sort the second column in reverse order.
 
 ### `tar`
 
-| Option | Description |
-| --- | --- |
-| `-c` | Create a new tar archive |
-| `-f` | Specify the name of the tar archive file |
-| `-v` | Verbose mode |
-| `-z` | Use `gzip` compression or decompression |
-| `-j` | Use `bzip2` compression or decompression |
-| `-J` | Use `xz` compression or decompression |
-| `-x` | Extract files from a tar archive |
-| `-C` | Change to a directory before performing operations |
-| `-t` | List the contents of a tar archive |
-| `--wildcards` | Enable wildcard matching for file names |
-| `--delete` | Delete files from a tar archive (only works with uncompressed archives) |
-| `--exclude` | Exclude files or directories from the tar archive |
-| `-r` | Append files to a tar archive |
-| `-A` | Append another tar archive to the current one |
-| `-u` | Update files in a tar archive, only adding newer files |
+| Option        | Description                                                             |
+| ------------- | ----------------------------------------------------------------------- |
+| `-c`          | Create a new tar archive                                                |
+| `-f`          | Specify the name of the tar archive file                                |
+| `-v`          | Verbose mode                                                            |
+| `-z`          | Use `gzip` compression or decompression                                 |
+| `-j`          | Use `bzip2` compression or decompression                                |
+| `-J`          | Use `xz` compression or decompression                                   |
+| `-x`          | Extract files from a tar archive                                        |
+| `-C`          | Change to a directory before performing operations                      |
+| `-t`          | List the contents of a tar archive                                      |
+| `--wildcards` | Enable wildcard matching for file names                                 |
+| `--delete`    | Delete files from a tar archive (only works with uncompressed archives) |
+| `--exclude`   | Exclude files or directories from the tar archive                       |
+| `-r`          | Append files to a tar archive                                           |
+| `-A`          | Append another tar archive to the current one                           |
+| `-u`          | Update files in a tar archive, only adding newer files                  |
 
 **NOTE**: When using `--exclue`, you must use `=` to connect the option,
 and `--exclude` must appear before the files or directories to be packed.
@@ -1119,18 +1118,18 @@ In the example above, only the `prog`'s `CFLAGS` is `-g`.
 
 There are many equal signs in `make`, but they are very different with each other:
 
-* `=`: This is like references in `C/C++`.
-For example, if you use `a = $(b)`, once `b`'s value changed after, the `a` will change too.
-* `:=`: This is assignment equal sign, which is similar with `=` in `C/C++`.
-* `+=`: This is to append a variable with new values.
-* `?=`: This will check if the variable is assigned before;
-if it is, this will not work, otherwise it is similar with `=`.
+- `=`: This is like references in `C/C++`.
+  For example, if you use `a = $(b)`, once `b`'s value changed after, the `a` will change too.
+- `:=`: This is assignment equal sign, which is similar with `=` in `C/C++`.
+- `+=`: This is to append a variable with new values.
+- `?=`: This will check if the variable is assigned before;
+  if it is, this will not work, otherwise it is similar with `=`.
 
 For the `+=`:
 
-* If the variable has not been defined, it will be `=`.
-* If the variable has been define, it will follow the last equal sign.
-If the last equal is `=`, `+=` will use `=`; if the last equal sign is `:=`, `+=` will use `:=`.
+- If the variable has not been defined, it will be `=`.
+- If the variable has been define, it will follow the last equal sign.
+  If the last equal is `=`, `+=` will use `=`; if the last equal sign is `:=`, `+=` will use `:=`.
 
 ### override
 
@@ -1162,22 +1161,22 @@ endef
 
 ### `$@` `$<` `$*` `$%` `$?` `$^` and `$+`
 
-* `$@`: A variable in `make`, whose value is the target.
-For example, if `$@` appears in commands following `main.o: main.cpp`,
-`$@` will be `main.o` exactly.
-* `$<`: A variable in `make`, whose value is the first dependency.
-For example, if `$<` appears in commands following `main.o: main.cpp`,
-`$<` will be `main.cpp` exactly.
-* `$*`: A variable in `make`, whose value is the stem of the target.
-For example, using `$*` following `pre_%.o: pre_%.c`, and the target is `pre_foo.o`,
-`$*` will be `foo`.
-* `$%`: When the target is in an archive (like `foo.a`),
-this variable is the names of members.
-For example, if a target is `foo.a(bar.o)` the `$%` will be `bar.o` and the `$@` will be `foo.a`.
-* `$?`: A variable in `make`, whose value is all the dependencies that are newer than the target.
-* `$^`: A variable in `make`, whose value is all the dependencies of the target.
-This will have only one copy if the target depends on the same file more than once.
-* `$+`: A variable similar with `$^` but will store the repetitive files.
+- `$@`: A variable in `make`, whose value is the target.
+  For example, if `$@` appears in commands following `main.o: main.cpp`,
+  `$@` will be `main.o` exactly.
+- `$<`: A variable in `make`, whose value is the first dependency.
+  For example, if `$<` appears in commands following `main.o: main.cpp`,
+  `$<` will be `main.cpp` exactly.
+- `$*`: A variable in `make`, whose value is the stem of the target.
+  For example, using `$*` following `pre_%.o: pre_%.c`, and the target is `pre_foo.o`,
+  `$*` will be `foo`.
+- `$%`: When the target is in an archive (like `foo.a`),
+  this variable is the names of members.
+  For example, if a target is `foo.a(bar.o)` the `$%` will be `bar.o` and the `$@` will be `foo.a`.
+- `$?`: A variable in `make`, whose value is all the dependencies that are newer than the target.
+- `$^`: A variable in `make`, whose value is all the dependencies of the target.
+  This will have only one copy if the target depends on the same file more than once.
+- `$+`: A variable similar with `$^` but will store the repetitive files.
 
 ### Auto Deduction
 
@@ -1199,10 +1198,10 @@ Or we can say auto deduction depends on implicit rules.
 There are different implicit rules for different files.
 I'll give the implicit rules of `C` and `C++` files:
 
-* `C`: `*.o` will be deducted depending on `*.c`
-and the build command will be `$(CC) -c $(CPPFLAGS) $(CFLAGS)`.
-* `C++`: `*.o` will be deducted depending on`*.C, *.cc or *.cpp`
-and the build command will be `$(CC) -c $(CPPFLAGS) $(CFLAGS)`.
+- `C`: `*.o` will be deducted depending on `*.c`
+  and the build command will be `$(CC) -c $(CPPFLAGS) $(CFLAGS)`.
+- `C++`: `*.o` will be deducted depending on`*.C, *.cc or *.cpp`
+  and the build command will be `$(CC) -c $(CPPFLAGS) $(CFLAGS)`.
 
 ### PHONY
 
@@ -1391,26 +1390,26 @@ You can use functions in `make` through `$(func_name args)`.
 
 There are some functions related to strings:
 
-* `$(subst from,to,text)`: substitute `from` with `to` in `text`.
-* `$(patsubst pattern,replacement,text)`: substitute `pattern` with `replacement` in `text`.
-* `$(strip text)`: remove all the leading and trailing spaces in `text`.
-* `$(findstring target,text)`: find `target` in text, if found, return `target` otherwise, return empty string.
-* `$(filter pattern...,text)`: filter the contents matching the `pattern...` from `text`.
-* `$(filter-out pattern...,text)`: filter out the contents matching the `pattern...` from `text`.
-* `$(sort list)`: sort the contents in `list` lexicographically. Note that `sort` will unique the contents, too.
-* `$(word i,text)`: get the `i`-th word from `text` (index started from `1`).
-* `$(wordlist l,r,text)`: get the words whose index is in `[l,r]` in sequence.
-* `$(firstword text)`: get the first word of `text`.
+- `$(subst from,to,text)`: substitute `from` with `to` in `text`.
+- `$(patsubst pattern,replacement,text)`: substitute `pattern` with `replacement` in `text`.
+- `$(strip text)`: remove all the leading and trailing spaces in `text`.
+- `$(findstring target,text)`: find `target` in text, if found, return `target` otherwise, return empty string.
+- `$(filter pattern...,text)`: filter the contents matching the `pattern...` from `text`.
+- `$(filter-out pattern...,text)`: filter out the contents matching the `pattern...` from `text`.
+- `$(sort list)`: sort the contents in `list` lexicographically. Note that `sort` will unique the contents, too.
+- `$(word i,text)`: get the `i`-th word from `text` (index started from `1`).
+- `$(wordlist l,r,text)`: get the words whose index is in `[l,r]` in sequence.
+- `$(firstword text)`: get the first word of `text`.
 
 There are some functions related to files:
 
-* `$(dir name...)`: get the directory part from `name`.
-* `$(notdir name...)`: get the non-directory part from `name`.
-* `$(suffix name...)`: get the suffixes of files from `name`.
-* `$(basename name...)`: get the base name (files' name without extension) of files from `name`.
-* `$(addsuffix suffix,name)`: add `suffix` for `name`.
-* `$(addprefix prefix,name)`: add `prefix` for `name`.
-* `$(join list1,list2)`: join two lists. This will append words in `list2` to `list1`. For example `$(join aaa bbb,111 222 333)` will get `aaa111 bbb222 333`.
+- `$(dir name...)`: get the directory part from `name`.
+- `$(notdir name...)`: get the non-directory part from `name`.
+- `$(suffix name...)`: get the suffixes of files from `name`.
+- `$(basename name...)`: get the base name (files' name without extension) of files from `name`.
+- `$(addsuffix suffix,name)`: add `suffix` for `name`.
+- `$(addprefix prefix,name)`: add `prefix` for `name`.
+- `$(join list1,list2)`: join two lists. This will append words in `list2` to `list1`. For example `$(join aaa bbb,111 222 333)` will get `aaa111 bbb222 333`.
 
 ---
 
@@ -1423,8 +1422,8 @@ files := $(foreach item,$(names),$(item).o)
 
 ---
 
-* `$(if condition,then-part,else-part)`: if the `condition` is a non-empty string,
-it will return the `then-part`, otherwise it will return the `else-part`.
+- `$(if condition,then-part,else-part)`: if the `condition` is a non-empty string,
+  it will return the `then-part`, otherwise it will return the `else-part`.
 
 ---
 
@@ -1450,14 +1449,14 @@ result = $(call addTargetAndDependency,main)
 `$(origin variablename)` will tell you where the `variablename` comes from.
 The return values are explained below:
 
-* `undefined`: never defined before.
-* `environment`: the variable comes from environment variables.
-* `default`: the default variable, such `CC`.
-* `file`: the variable is defined in a `Makefile`.
-* `command line`: the variable is defined by command lines
-(when you type `make a=1`, `a` is defined by command lines).
-* `override`: the variable if defined by `override`.
-* `automatic`: the variable is defined by `make` automatically.
+- `undefined`: never defined before.
+- `environment`: the variable comes from environment variables.
+- `default`: the default variable, such `CC`.
+- `file`: the variable is defined in a `Makefile`.
+- `command line`: the variable is defined by command lines
+  (when you type `make a=1`, `a` is defined by command lines).
+- `override`: the variable if defined by `override`.
+- `automatic`: the variable is defined by `make` automatically.
 
 ---
 
@@ -1472,16 +1471,16 @@ The commands above will get the output of a shell command.
 
 ---
 
-* `$(erro text)`: output `text` and stop `make`.
-* `$(warning text)`: output `text` but don't stop `make`.
+- `$(erro text)`: output `text` and stop `make`.
+- `$(warning text)`: output `text` but don't stop `make`.
 
 ### Return Value of Make
 
-* `0`: success.
-* `1`: some errors.
-* `2`: when you use `-q` (`-q` will not run `make`,
-but give you a return value `0` if the targets are up to date)
-and `make` cannot make sure whether or not the files is up to date.
+- `0`: success.
+- `1`: some errors.
+- `2`: when you use `-q` (`-q` will not run `make`,
+  but give you a return value `0` if the targets are up to date)
+  and `make` cannot make sure whether or not the files is up to date.
 
 ### Specify Target
 
@@ -1490,13 +1489,13 @@ But you can specify target by `make targetname`.
 
 There are some rules you should obey for naming a target when you write `Makefile`:
 
-* `all`: build all targets.
-* `clean`: remove all the files created by `make`.
-* `install`: install the targets, when in `C/C++`,
-this will move the binary files to `/usr/bin` and move the header files to `/usr/include`.
-* `print`: print the files having been updated.
-* `tar`: pack the source files into a tar file.
-* `dist`: create a compressed file including all source files.
+- `all`: build all targets.
+- `clean`: remove all the files created by `make`.
+- `install`: install the targets, when in `C/C++`,
+  this will move the binary files to `/usr/bin` and move the header files to `/usr/include`.
+- `print`: print the files having been updated.
+- `tar`: pack the source files into a tar file.
+- `dist`: create a compressed file including all source files.
 
 ### Check Make Syntax
 
@@ -1505,39 +1504,39 @@ you can use those options: `-n, --just-print, --dry-run, --recon`. The four opti
 
 ### Other Options in make
 
-| Option | Description |
-| --- | --- |
-| `-j` | Use the specified number of jobs (cores) to build |
-| `-q` | Check if the target exists |
-| `-W` | Build the targets that depend on the specified file |
-| `-o` | Ignore the specified file while building |
-| `-B` | Always re-build all targets, even if they are up to date |
-| `-C` | Change working directory to the specified directory |
-| `-t` | Touch all the targets |
-| `--debug` | Print debug info |
-| `-e` | Environment overrides |
-| `-f` | Use the specified file as `Makefile` |
-| `-i` | Ignore errors |
-| `-I` | Include directory |
-| `-k` | Keep going even if there are errors |
-| `-S` | Stop when an error occurs |
-| `-p` | Print the data base |
-| `-r` | Do not use built-in rules |
-| `-R` | Do not use built-in variables |
-| `-s` | Silent mode, do not print commands |
-| `-w` | Print the working directory before and after processing |
-| `--no-print-directory` | Do not print the working directory |
-| `--warn-undefined-variables` | Warn when a variable is undefined |
+| Option                       | Description                                              |
+| ---------------------------- | -------------------------------------------------------- |
+| `-j`                         | Use the specified number of jobs (cores) to build        |
+| `-q`                         | Check if the target exists                               |
+| `-W`                         | Build the targets that depend on the specified file      |
+| `-o`                         | Ignore the specified file while building                 |
+| `-B`                         | Always re-build all targets, even if they are up to date |
+| `-C`                         | Change working directory to the specified directory      |
+| `-t`                         | Touch all the targets                                    |
+| `--debug`                    | Print debug info                                         |
+| `-e`                         | Environment overrides                                    |
+| `-f`                         | Use the specified file as `Makefile`                     |
+| `-i`                         | Ignore errors                                            |
+| `-I`                         | Include directory                                        |
+| `-k`                         | Keep going even if there are errors                      |
+| `-S`                         | Stop when an error occurs                                |
+| `-p`                         | Print the data base                                      |
+| `-r`                         | Do not use built-in rules                                |
+| `-R`                         | Do not use built-in variables                            |
+| `-s`                         | Silent mode, do not print commands                       |
+| `-w`                         | Print the working directory before and after processing  |
+| `--no-print-directory`       | Do not print the working directory                       |
+| `--warn-undefined-variables` | Warn when a variable is undefined                        |
 
 `--debug=options` will print the debug info of `make`, the available options are:
 
-* `a`: print all info.
-* `b`: print basic info.
-* `v`: verbose.
-* `i`: print implicit rules.
-* `j`: print jobs' info including `PID`, return value and so on.
-* `m`: this is for debugging when remaking makefiles.
-* If you just use `-d`, this is same with `--debug=a`.
+- `a`: print all info.
+- `b`: print basic info.
+- `v`: verbose.
+- `i`: print implicit rules.
+- `j`: print jobs' info including `PID`, return value and so on.
+- `m`: this is for debugging when remaking makefiles.
+- If you just use `-d`, this is same with `--debug=a`.
 
 You have learned a lot about `make`, why not to read the
 [Makefile](https://github.com/torvalds/linux/blob/master/Makefile)
@@ -1574,28 +1573,28 @@ and the global ignore file has the lowest priority.
 
 ## References
 
-* [10 Practical Examples Using Wildcards to Match Filenames in Linux](https://www.tecmint.com/use-wildcards-to-match-filenames-in-linux/)
-* [Man Page of Bash](https://www.gnu.org/software/bash/manual/bash.html)
-* [How to Use the awk Command on Linux](https://www.howtogeek.com/562941/how-to-use-the-awk-command-on-linux/)
-* [30+ awk examples for beginners / awk command tutorial in Linux/Unix](https://www.golinuxcloud.com/awk-examples-with-command-tutorial-unix-linux/)
-* [8 Powerful Awk Built-in Variables – FS, OFS, RS, ORS, NR, NF, FILENAME, FNR](https://www.thegeekstuff.com/2010/01/8-powerful-awk-built-in-variables-fs-ofs-rs-ors-nr-nf-filename-fnr/)
-* [Getting Started With AWK Command](https://linuxhandbook.com/awk-command-tutorial/)
-* [cat command examples for beginners](https://www.golinuxcloud.com/cat-command-examples/)
-* [25+ most used find commands in Linux](https://www.golinuxcloud.com/find-command-in-linux/)
-* [find Linux Command Cheatsheet](https://onecompiler.com/cheatsheets/find)
-* [Linux Find Cheatsheet](https://linuxtutorials.org/linux-find-cheatsheet/)
-* [Find files and directories on Linux with the find command](https://opensource.com/article/21/9/linux-find-command)
-* [10 ways to use the Linux find command](https://www.redhat.com/sysadmin/linux-find-command)
-* [Find cheatsheet](https://quickref.me/find)
-* [Linux Tutorial - Cheat Sheet - grep](https://ryanstutorials.net/linuxtutorial/cheatsheetgrep.php)
-* [20 grep command examples in Linux](https://www.golinuxcloud.com/grep-command-in-linux/)
-* [Sed Command Cheat Sheet: 30 Essential One-Liners for Text Processing](https://karandeepsingh.ca/posts/sed-command-cheat-sheet-30-essential-one-liners/)
-* [sed cheatsheet](https://devhints.io/sed)
-* [Linux Handbook: sort Command Examples](https://linuxhandbook.com/sort-command/)
-* [15+ Tips to PROPERLY sort files in Linux](https://www.golinuxcloud.com/linux-sort-files/#1_Sort_by_name)
-* [Linux and Unix sort command tutorial with examples](https://shapeshed.com/unix-sort/)
-* [Linux sort Command](https://www.baeldung.com/linux/sort-command)
-* [Linux Audit: tar cheat sheet](https://linux-audit.com/cheat-sheets/tar/)
-* [15+ tar command examples in Linux](https://www.golinuxcloud.com/tar-command-in-linux/)
-* [How to write makefiles](https://github.com/seisman/how-to-write-makefile).
-* [Ignoring files](https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files)
+- [10 Practical Examples Using Wildcards to Match Filenames in Linux](https://www.tecmint.com/use-wildcards-to-match-filenames-in-linux/)
+- [Man Page of Bash](https://www.gnu.org/software/bash/manual/bash.html)
+- [How to Use the awk Command on Linux](https://www.howtogeek.com/562941/how-to-use-the-awk-command-on-linux/)
+- [30+ awk examples for beginners / awk command tutorial in Linux/Unix](https://www.golinuxcloud.com/awk-examples-with-command-tutorial-unix-linux/)
+- [8 Powerful Awk Built-in Variables – FS, OFS, RS, ORS, NR, NF, FILENAME, FNR](https://www.thegeekstuff.com/2010/01/8-powerful-awk-built-in-variables-fs-ofs-rs-ors-nr-nf-filename-fnr/)
+- [Getting Started With AWK Command](https://linuxhandbook.com/awk-command-tutorial/)
+- [cat command examples for beginners](https://www.golinuxcloud.com/cat-command-examples/)
+- [25+ most used find commands in Linux](https://www.golinuxcloud.com/find-command-in-linux/)
+- [find Linux Command Cheatsheet](https://onecompiler.com/cheatsheets/find)
+- [Linux Find Cheatsheet](https://linuxtutorials.org/linux-find-cheatsheet/)
+- [Find files and directories on Linux with the find command](https://opensource.com/article/21/9/linux-find-command)
+- [10 ways to use the Linux find command](https://www.redhat.com/sysadmin/linux-find-command)
+- [Find cheatsheet](https://quickref.me/find)
+- [Linux Tutorial - Cheat Sheet - grep](https://ryanstutorials.net/linuxtutorial/cheatsheetgrep.php)
+- [20 grep command examples in Linux](https://www.golinuxcloud.com/grep-command-in-linux/)
+- [Sed Command Cheat Sheet: 30 Essential One-Liners for Text Processing](https://karandeepsingh.ca/posts/sed-command-cheat-sheet-30-essential-one-liners/)
+- [sed cheatsheet](https://devhints.io/sed)
+- [Linux Handbook: sort Command Examples](https://linuxhandbook.com/sort-command/)
+- [15+ Tips to PROPERLY sort files in Linux](https://www.golinuxcloud.com/linux-sort-files/#1_Sort_by_name)
+- [Linux and Unix sort command tutorial with examples](https://shapeshed.com/unix-sort/)
+- [Linux sort Command](https://www.baeldung.com/linux/sort-command)
+- [Linux Audit: tar cheat sheet](https://linux-audit.com/cheat-sheets/tar/)
+- [15+ tar command examples in Linux](https://www.golinuxcloud.com/tar-command-in-linux/)
+- [How to write makefiles](https://github.com/seisman/how-to-write-makefile).
+- [Ignoring files](https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files)
