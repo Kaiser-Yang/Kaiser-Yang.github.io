@@ -744,6 +744,15 @@ is equivalent to some serial execution of those transactions. It may not prevent
 dirty reads, non-repeatable reads, phantom reads, and lost updates. To prevent these phenomena,
 we need to use other techniques together with 2PL.
 
+## Can TCP and UDP bind to the same port? Can client use the same port to send date to different servers with TCP/UDP?
+
+The answer to both questions is yes.
+For the first question, TCP and UDP are two different protocols,
+the OS can distinguish them easily.
+For the second question, the TCP/UDP socket is identified by a 4-tuple:
+(source IP, source port, destination IP, destination port).
+As long as the 4-tuple is different, the OS can distinguish them easily.
+
 ## References
 
 - [An overview of the SSL/TLS handshake](https://www.ibm.com/docs/en/ibm-mq/9.3.x?topic=tls-overview-ssltls-handshake)
