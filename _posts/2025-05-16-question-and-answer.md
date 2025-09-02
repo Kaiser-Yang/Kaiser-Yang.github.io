@@ -27,18 +27,18 @@ which version is more effective in achieving the desired outcome.
 There are some examples for A/B testing:
 
 - **Website Design**: Testing two different layouts of a webpage to see which one leads to more
-conversions.
+  conversions.
 - **Algorithm Optimization**: Comparing two different algorithms to see which one performs better
-in terms of speed or accuracy.
+  in terms of speed or accuracy.
 
 ## What are overload, override and overwrite?
 
 - **Overload**: In programming, overloading refers to the ability to define multiple functions or
-methods with the same name but different parameters. This allows you to use the same function name
-for different purposes, depending on the context.
+  methods with the same name but different parameters. This allows you to use the same function name
+  for different purposes, depending on the context.
 - **Override**: Overriding is a feature in object-oriented programming where a subclass provides a
-specific implementation of a method that is already defined in its superclass. This allows the
-subclass to customize or extend the behavior of the inherited method.
+  specific implementation of a method that is already defined in its superclass. This allows the
+  subclass to customize or extend the behavior of the inherited method.
 - **Overwrite**: Overwriting in `C++` refers to hiding a non-virtual base class member function.
 
 ```cpp
@@ -70,7 +70,7 @@ public:
 ## What is the `3-2-1 rule` for backups?
 
 - At least `3` copies of your data. This ensures redundancy; if one copy fails,
-you have others to rely on.
+  you have others to rely on.
 - At least `2` copies on different storage media. This avoids points of failure.
 - At least `1` copy off-site. This protects against local disasters like fire or flood.
 
@@ -109,15 +109,15 @@ The steps can be summarized as follows:
 
 - Store the version of the schema in the database.
 - Creating incremental migration scripts
-that can be run to update the schema between two contiguous versions.
-Each migration script should be idempotent,
-meaning that it can be run multiple times without causing any issues.
-We should also update the base schema to the latest version
-to support installation the latest version directly.
+  that can be run to update the schema between two contiguous versions.
+  Each migration script should be idempotent,
+  meaning that it can be run multiple times without causing any issues.
+  We should also update the base schema to the latest version
+  to support installation the latest version directly.
 - Automatically run the migration scripts when the application starts.
-For the first installation, we call the base schema script.
-For upgrading, we check the current version of the schema,
-and run the migration scripts until the specific version.
+  For the first installation, we call the base schema script.
+  For upgrading, we check the current version of the schema,
+  and run the migration scripts until the specific version.
 
 ## How to Build Shared or Static Library?
 
@@ -166,7 +166,7 @@ The options for `ar` are as follows:
 - `r`: Insert or replace the files in the archive.
 - `c`: Create the archive if it does not exist.
 - `s`: Create or update the index for the archive.
-The index helps the linker find the symbols faster.
+  The index helps the linker find the symbols faster.
 - `t`: List the contents of the archive.
 - `x`: Extract files from the archive.
 - `d`: Delete files from the archive.
@@ -265,24 +265,24 @@ But using SIMD is not portable.
 RSA key exchange process:
 
 1. The TLS client sends a `Client Hello` message that lists cryptographic information
-such as the TLS version and, in the client's order of preference,
-the Cipher Suites supported by the client.
-The message also contains a random byte string that is used in subsequent computations.
+   such as the TLS version and, in the client's order of preference,
+   the Cipher Suites supported by the client.
+   The message also contains a random byte string that is used in subsequent computations.
 2. The TLS server responds with a `Server Hello` message that contains the Cipher Suite
-chosen by the server from the list provided by the client,
-and another random byte string.
+   chosen by the server from the list provided by the client,
+   and another random byte string.
 3. The server also sends its digital certificate (including the public key) to the client.
 4. The server sends a `Server Hello Done` message.
 5. The TLS client verifies the server's digital certificate.
-The TLS client generate another random byte string, then generate a secret key
-by all the three random byte strings. The client sends the third random string the server,
-and this package will be encrypted with the public key of the server. This is a `Finished`
-message, indicating that the client part of the handshake is complete.
+   The TLS client generate another random byte string, then generate a secret key
+   by all the three random byte strings. The client sends the third random string the server,
+   and this package will be encrypted with the public key of the server. This is a `Finished`
+   message, indicating that the client part of the handshake is complete.
 6. The TLS server can decrypt the `Finished` message using its private key.
-Then it can generate the same secret key using the three random byte strings.
-The server then sends its own `Finished` message, encrypted with the secret key.
+   Then it can generate the same secret key using the three random byte strings.
+   The server then sends its own `Finished` message, encrypted with the secret key.
 7. Now both the client and server have the same secret key,
-and they can start exchanging application data securely.
+   and they can start exchanging application data securely.
 
 ```txt
 +------------+                                      +------------+
@@ -330,39 +330,39 @@ is compromised, all past communications can be decrypted.
 Diffie-Hellman key exchange process can solve this problem, and its process is as follows:
 
 1. The TLS client sends a `Client Hello` message containing Supported TLS version,
-list of supported Cipher Suites (ordered by client preference) and a random byte string
-(`Client Random`) for later cryptographic operations.
+   list of supported Cipher Suites (ordered by client preference) and a random byte string
+   (`Client Random`) for later cryptographic operations.
 2. The server responds with a `Server Hello` message containing,
-Chosen Cipher Suite from the client’s list, a second random byte string (`Server Random`).
+   Chosen Cipher Suite from the client’s list, a second random byte string (`Server Random`).
 3. The server transmits its digital certificate, which includes its long-term public key.
 4. The server sends a `Server Key Exchange` message with Diffie-Hellman (DH) public parameters:
-prime modulus `p` and generator `g`,
-server’s temporary DH public key
-(`g^a mod p`, where `a` is the server’s short-term private exponent).
-This message is signed with the server’s long-term private key to authenticate the server.
+   prime modulus `p` and generator `g`,
+   server’s temporary DH public key
+   (`g^a mod p`, where `a` is the server’s short-term private exponent).
+   This message is signed with the server’s long-term private key to authenticate the server.
 5. The server signals the end of the initial handshake phase.
 6. The client verifies the server’s certificate (checks validity, revocation status, and signature).
-The client generates its own DH key pair: temporary private exponent `b` and public key
-(`g^b mod p`). The client computes the pre-master secret as `g^(a*b) mod p`
-(using the server’s public key `g^a` and its own private key `b`).
-The client sends a `Client Key Exchange` message containing its DH public key (`g^b mod p`).
-The client derives the master secret using `Client Random`, `Server Random`,
-and the pre-master secret.
-The client generates session keys (symmetric encryption keys, HMAC keys, etc.)
-from the master secret.
+   The client generates its own DH key pair: temporary private exponent `b` and public key
+   (`g^b mod p`). The client computes the pre-master secret as `g^(a*b) mod p`
+   (using the server’s public key `g^a` and its own private key `b`).
+   The client sends a `Client Key Exchange` message containing its DH public key (`g^b mod p`).
+   The client derives the master secret using `Client Random`, `Server Random`,
+   and the pre-master secret.
+   The client generates session keys (symmetric encryption keys, HMAC keys, etc.)
+   from the master secret.
 7. The client sends a `Finished` message that contains a hash of all handshake messages exchanged
-so far (from `Client Hello` to `Client Key Exchange`), and is encrypted with the session key
-(proves the client knows the correct key).
-This confirms the client’s side of the handshake is complete.
+   so far (from `Client Hello` to `Client Key Exchange`), and is encrypted with the session key
+   (proves the client knows the correct key).
+   This confirms the client’s side of the handshake is complete.
 8. The server computes the pre-master secret as `g^(a*b) mod p`
-(using the client’s public key `g^b` and its own private key `a`),
-derives the same master secret using `Client Random`, `Server Random`, and the pre-master secret,
-generates session keys from the master secret, and sends its own `Finished` message
-which contains a hash of all handshake messages (from `Client Hello` to `Server Key Exchange`)
-and is encrypted with the session key (proves the server knows the correct key).
+   (using the client’s public key `g^b` and its own private key `a`),
+   derives the same master secret using `Client Random`, `Server Random`, and the pre-master secret,
+   generates session keys from the master secret, and sends its own `Finished` message
+   which contains a hash of all handshake messages (from `Client Hello` to `Server Key Exchange`)
+   and is encrypted with the session key (proves the server knows the correct key).
 9. Both client and server now share the same session keys.
-They use these keys to encrypt/decrypt application data,
-ensuring confidentiality and integrity for all subsequent communication.
+   They use these keys to encrypt/decrypt application data,
+   ensuring confidentiality and integrity for all subsequent communication.
 
 ```txt
 +------------+                                      +------------+
@@ -436,10 +436,10 @@ Debounce and throttle are techniques used to control the rate at which a functio
 especially in response to events like scrolling, resizing, or key presses.
 
 - **Debounce**: This technique ensures
-that a function is only executed after a certain period of time,
-and every time the event is triggered, the timer is reset.
+  that a function is only executed after a certain period of time,
+  and every time the event is triggered, the timer is reset.
 - **Throttle**: This technique ensures that a function is executed at most once
-within a specified time interval, regardless of how many times the event is triggered.
+  within a specified time interval, regardless of how many times the event is triggered.
 
 Debounce is useful for scenarios
 where you want to wait until the user has stopped performing an action,
@@ -499,7 +499,7 @@ For `const char * const p4`:
 1. Move left. We see `*`, so we stop and get that `p4` is a constant pointer to something.
 1. Move right. There is nothing on the right, so we stop.
 1. Move left. We see `const char`,
-so we stop and get that `p4` is a constant pointer to a `const char`.
+   so we stop and get that `p4` is a constant pointer to a `const char`.
 
 For `const * char p5`:
 
@@ -508,13 +508,13 @@ For `const * char p5`:
 1. Move left. We see `char`, so we stop and get that `p5` is a `char`.
 1. Move right. There is nothing on the right, so we stop.
 1. Move left. We see `*`, so we stop and get that `p5` is a pointer to something.
-Error occurs, `p5` can not be a pointer and a `char` at the same time.
-Therefore, this is not a valid declaration.
+   Error occurs, `p5` can not be a pointer and a `char` at the same time.
+   Therefore, this is not a valid declaration.
 
 There are some complicated examples you can try to practice the Right-Left Rule:
 
-* `int (*(*foo)(int))[5]`
-* `int (*(*foo)(int, int))(int, int)`
+- `int (*(*foo)(int))[5]`
+- `int (*(*foo)(int, int))(int, int)`
 
 I'll explain `int (*(*foo)(int))[5]`:
 
@@ -522,22 +522,22 @@ I'll explain `int (*(*foo)(int))[5]`:
 1. Move right. We see `)` so we stop.
 1. Move left. We see `*`, so we stop and get that `foo` is a pointer to something.
 1. Move right. We see `(int)`, so we stop and get that `foo` is a pointer to a function
-that takes an `int` as an argument.
+   that takes an `int` as an argument.
 1. Move left. We see `*`, so we stop and get that `foo` is a pointer to a function
-that takes an `int` as an argument and returns a pointer to something.
+   that takes an `int` as an argument and returns a pointer to something.
 1. Move right. We see `[5]`, so we stop and get that `foo` is a pointer to a function
-that takes an `int` as an argument and returns a pointer to an array of 5 elements.
+   that takes an `int` as an argument and returns a pointer to an array of 5 elements.
 1. Move left. We see `int`, so we stop and get that `foo` is a pointer to a function
-that takes an `int` as an argument and returns a pointer to an array of 5 `int` elements.
+   that takes an `int` as an argument and returns a pointer to an array of 5 `int` elements.
 
 ## What are Big Endian and Little Endian?
 
 Endianness refers to the order in which bytes are stored in memory.
 
 - **Big Endian**: The most significant byte (MSB) is stored at the lowest memory address.
-For example, the number `0x12345678` would be stored as `12 34 56 78`.
+  For example, the number `0x12345678` would be stored as `12 34 56 78`.
 - **Little Endian**: The least significant byte (LSB) is stored at the lowest memory address.
-For example, the number `0x12345678` would be stored as `78 56 34 12`.
+  For example, the number `0x12345678` would be stored as `78 56 34 12`.
 
 **NOTE**: In networking protocols, big-endian is often referred to as "network byte order".
 
@@ -588,6 +588,7 @@ that can be described by an algorithm.
 Socket programming is a way to enable communication between two computers over a network.
 Actually, socket is a group of APIs that provided by the operating system
 to enable network communication. With these APIs, we can:
+
 1. Create a socket: `socket()`
 2. Bind the socket to an IP address and port: `bind()`
 3. Listen for incoming connections: `listen()`
@@ -608,13 +609,13 @@ making it difficult to parse the individual messages.
 To solve the sticky packet problem, we can use the following methods:
 
 1. **Fixed-Length Messages**: Define a fixed length for each message.
-The receiver reads exactly that many bytes for each message.
+   The receiver reads exactly that many bytes for each message.
 2. **Delimiter-Based Messages**: Use a special character or sequence of characters
-to indicate the end of a message.
+   to indicate the end of a message.
 3. **Length-Prefixed Messages**: Prepend each message with a fixed-size header
-that specifies the length of the message.
+   that specifies the length of the message.
 4. **Application-Level Protocols**: Use established protocols like HTTP or WebSocket
-that have built-in mechanisms for message framing.
+   that have built-in mechanisms for message framing.
 
 Why sticky package problem not occur in UDP?
 
@@ -633,14 +634,14 @@ The TCP three-way handshake is a process used to establish a reliable connection
 between a client and a server over a TCP/IP network. The three-way handshake involves three steps:
 
 1. **SYN**: The client sends a TCP segment with the SYN (synchronize) flag set
-to the server, indicating that it wants to establish a connection.
+   to the server, indicating that it wants to establish a connection.
 2. **SYN-ACK**: The server responds with a TCP segment
-that has both the SYN and ACK (acknowledge) flags set. The SYN flag indicates
-that the server is willing to establish a connection,
-and the ACK flag acknowledges the client's initial SYN request.
+   that has both the SYN and ACK (acknowledge) flags set. The SYN flag indicates
+   that the server is willing to establish a connection,
+   and the ACK flag acknowledges the client's initial SYN request.
 3. **ACK**: The client sends a final TCP segment with the ACK flag set,
-acknowledging the server's SYN-ACK response. At this point, the connection is established,
-and data can be exchanged between the client and server.
+   acknowledging the server's SYN-ACK response. At this point, the connection is established,
+   and data can be exchanged between the client and server.
 
 The reason for using a three-way handshake instead of a two-way handshake
 is to ensure that both the client and server are ready to communicate
@@ -655,56 +656,56 @@ potentially leading to multiple connections being established.
 In a four-way handshake, the last handshake is redundant,
 as the three-way handshake already ensures that both parties are ready to communicate:
 
-* For the first handshake, the client indicates that it wants to communicate.
-* For the second handshake, the server indicates that it is ready to communicate.
-And this also ensure that the server can receive data from the client.
-* For the third handshake, the client let the server know that "I know you are ready."
-And this also ensure that the client can receive data from the server.
+- For the first handshake, the client indicates that it wants to communicate.
+- For the second handshake, the server indicates that it is ready to communicate.
+  And this also ensure that the server can receive data from the client.
+- For the third handshake, the client let the server know that "I know you are ready."
+  And this also ensure that the client can receive data from the server.
 
 ## What is ACID? How to achieve it?
 
-* **Atomicity**: The transaction is all-or-nothing. This can be achieved using
-undo logs to roll back changes if a transaction fails.
-* **Consistency**: The transaction brings the database from one valid state to another.
-This can be achieved using constraints, triggers, and application logic.
-* **Isolation**: The transaction is isolated from other transactions.
-This can be achieved using locking mechanisms and isolation levels.
-* **Durability**: Once a transaction is committed, its changes persist permanently
-even after system failures. This can be achieved using redo logs.
+- **Atomicity**: The transaction is all-or-nothing. This can be achieved using
+  undo logs to roll back changes if a transaction fails.
+- **Consistency**: The transaction brings the database from one valid state to another.
+  This can be achieved using constraints, triggers, and application logic.
+- **Isolation**: The transaction is isolated from other transactions.
+  This can be achieved using locking mechanisms and isolation levels.
+- **Durability**: Once a transaction is committed, its changes persist permanently
+  even after system failures. This can be achieved using redo logs.
 
 ## What are isolation levels in databases?
 
 Before introducing isolation levels, we need to understand the following phenomena:
 
-* **Dirty Read**: A transaction reads uncommitted data from another transaction.
-* **Non-Repeatable Read**: A transaction reads the same data multiple times,
-but gets different results because another transaction modified/deleted it.
-* **Phantom Read**: A transaction re-runs a range query and gets new rows
-inserted by another committed transaction.
-* **Serialization Anomaly**: The result of successfully committing a group of transactions is
-inconsistent with all possible orderings of running those transactions one at a time.
-* **Lost Update**: Two transactions read the same data and modify it,
-but one transaction's changes are lost due to the other transaction's changes
+- **Dirty Read**: A transaction reads uncommitted data from another transaction.
+- **Non-Repeatable Read**: A transaction reads the same data multiple times,
+  but gets different results because another transaction modified/deleted it.
+- **Phantom Read**: A transaction re-runs a range query and gets new rows
+  inserted by another committed transaction.
+- **Serialization Anomaly**: The result of successfully committing a group of transactions is
+  inconsistent with all possible orderings of running those transactions one at a time.
+- **Lost Update**: Two transactions read the same data and modify it,
+  but one transaction's changes are lost due to the other transaction's changes
 
 Isolation levels define the degree to which a transaction must be isolated
 from the data modifications made by other transactions. The standard isolation levels
 defined by the SQL standard are:
 
-| Isolation Level  | Dirty Read   | Non-Repeatable Read | Phantom Read | Serialization Anomaly | Lost Update     |
-| ---------------- | ----------   | ------------------- | ------------ | --------------------- | -----------     |
-| Read Uncommitted | Possible     | Possible            | Possible     | Possible              | Possible        |
-| Read Committed   | Not Possible | Possible            | Possible     | Possible              | Possible        |
-| Repeatable Read  | Not Possible | Not Possible        | Possible     | Possible              | Possible        |
-| Serializable     | Not Possible | Not Possible        | Not Possible | Not Possible          | Not Possible    |
+| Isolation Level  | Dirty Read   | Non-Repeatable Read | Phantom Read | Serialization Anomaly | Lost Update  |
+| ---------------- | ------------ | ------------------- | ------------ | --------------------- | ------------ |
+| Read Uncommitted | Possible     | Possible            | Possible     | Possible              | Possible     |
+| Read Committed   | Not Possible | Possible            | Possible     | Possible              | Possible     |
+| Repeatable Read  | Not Possible | Not Possible        | Possible     | Possible              | Possible     |
+| Serializable     | Not Possible | Not Possible        | Not Possible | Not Possible          | Not Possible |
 
 ## How to implement isolation levels in databases?
 
 Before we start, we need to understand the following concepts:
 
-* **Shared Lock**: Also known as read lock and S-lock.
-It can be acquired when no other transaction holds a write lock on the same data.
-* **Exclusive Lock**: Also known as write lock and X-lock.
-It can be acquired when no other transaction holds a shared or write lock on the same data.
+- **Shared Lock**: Also known as read lock and S-lock.
+  It can be acquired when no other transaction holds a write lock on the same data.
+- **Exclusive Lock**: Also known as write lock and X-lock.
+  It can be acquired when no other transaction holds a shared or write lock on the same data.
 
 For `Read Uncommited`, we can use First-Level Locking (1LL). 1LL means that
 a transaction must acquire an X-lock before modifying data, and release the X-lock
@@ -726,18 +727,18 @@ and after that the first transaction may read the new data item.
 For `Serializable`, we can use Two-Phase Locking (2PL). The core idea of the 2PL is that
 transactions must follow two strict phases for lock management:
 
-* Growing Phase: In this phase, a transaction can acquire locks but cannot release any locks.
-* Shrinking Phase: In this phase, a transaction can release locks but cannot acquire any new locks.
+- Growing Phase: In this phase, a transaction can acquire locks but cannot release any locks.
+- Shrinking Phase: In this phase, a transaction can release locks but cannot acquire any new locks.
 
 There are some variants of the two-phase locking protocol:
 
-* Conservative Two-Phase Locking: In this variant,
-a transaction must acquire all locks (at one time) before it starts executing.
-This can prevent deadlocks.
-* Strict Two-Phase Locking: In this variant, a transaction must hold X-locks
-until it commits or rolls back.
-* Rigorous Two-Phase Locking: In this variant, a transaction must hold all locks
-until it commits or rolls back.
+- Conservative Two-Phase Locking: In this variant,
+  a transaction must acquire all locks (at one time) before it starts executing.
+  This can prevent deadlocks.
+- Strict Two-Phase Locking: In this variant, a transaction must hold X-locks
+  until it commits or rolls back.
+- Rigorous Two-Phase Locking: In this variant, a transaction must hold all locks
+  until it commits or rolls back.
 
 **NOTE**: With only 2PL, it can only ensure that the result of multiple transactions
 is equivalent to some serial execution of those transactions. It may not prevent
