@@ -1058,6 +1058,40 @@ but `tar -cf a.tar . --exclude=*.txt` is incorrect.
 after which the tar archive may contain multiple files with the same name.
 But I have not found a way to extract the old files.
 
+### `ssh`
+
+`ssh` can be divided into two parts: `client` and `server`.
+`client` is used to connect to remote hosts,
+while `server` is used to accept connections from remote hosts.
+`openssh-client` and `openssh-server` are the two main components of `ssh`.
+
+| Option | Description                                                 |
+| ------ | ----------------------------------------------------------- |
+| `-p`   | Specify the port. Default is `22`                           |
+| `-i`   | Specify the identity file (private key)                     |
+| `-l`   | Specify the username. Default is the current user           |
+| `-q`   | Quiet mode                                                  |
+| `-t`   | Force pseudo-terminal allocation                            |
+| `-v`   | Verbose mode. Can be used multiple times for more verbosity |
+| `-C`   | Enable compression                                          |
+| `-X`   | Limited `X11` forwarding                                    |
+| `-Y`   | Trusted `X11` forwarding                                    |
+| `-f`   | Run in the background after authentication                  |
+| `-N`   | Do not execute remote commands                              |
+| `-L`   | Local port forwarding                                       |
+| `-R`   | Remote port forwarding                                      |
+| `-D`   | Dynamic port forwarding                                     |
+| `-o`   | Specify options                                             |
+
+**NOTE**: We can use `user@host` to substitute `-l user host` when connecting to a remote host.
+
+**NOTE**: As to port forwarding, check [SSH Port Forwarding](/blog/2024/ssh-port-forwarding) for
+details.
+
+**NOTE**: `-o` is often used to override the configurations in `~/.ssh/config`.
+For example, `ssh -o "Port=2222" host_name` will connect to `host_name` using port `2222`,
+while keeping other configurations unchanged.
+
 ## Makefile
 
 ### Variables
@@ -1598,3 +1632,13 @@ and the global ignore file has the lowest priority.
 - [15+ tar command examples in Linux](https://www.golinuxcloud.com/tar-command-in-linux/)
 - [How to write makefiles](https://github.com/seisman/how-to-write-makefile).
 - [Ignoring files](https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files)
+- [15+ SSH command examples in Linux](https://www.golinuxcloud.com/ssh-command-in-linux/)
+- [OpenSSH 9.5: A User-Friendly Guide to the Latest Update](https://stilia-johny.medium.com/openssh-9-5-a-user-friendly-guide-to-the-latest-update-840a09886a5a)
+- [How to generate and manage ssh keys on Linux](https://linuxconfig.org/how-to-generate-and-manage-ssh-keys-on-linux)
+- [10 examples to generate SSH key in Linux (ssh-keygen)](https://www.golinuxcloud.com/generate-ssh-key-linux/)
+- [The Complete Guide to SSH Config Files](https://thelinuxcode.com/ssh-config-file/)
+- [Beginners guide to use ssh config file with examples](https://www.golinuxcloud.com/ssh-config/)
+- [How to use the command `ssh-add` (with examples)](https://commandmasters.com/commands/ssh-add-common/)
+- [5 Unix / Linux ssh-add Command Examples to Add SSH Key to Agent](https://linux.101hacks.com/unix/ssh-add/)
+- [How To Use SFTP to Securely Transfer Files with a Remote Server](https://www.digitalocean.com/community/tutorials/how-to-use-sftp-to-securely-transfer-files-with-a-remote-server)
+- [libfuse/sshfs](https://github.com/libfuse/sshfs)
