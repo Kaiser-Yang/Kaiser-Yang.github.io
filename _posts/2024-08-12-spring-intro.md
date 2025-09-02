@@ -186,26 +186,26 @@ it will throw an exception.
 
 The scopes of Spring beans are as follows:
 
-| Scope         | Description |
-| ---           | --- |
-| `singleton`   | The default, only one instance |
-| `prototype`   | Every injection will create a new instance |
-| `request`     | Each `HTTP` request will create a new instance |
-| `session`     | Each `HTTP` session will create a new instance |
+| Scope         | Description                                      |
+| ------------- | ------------------------------------------------ |
+| `singleton`   | The default, only one instance                   |
+| `prototype`   | Every injection will create a new instance       |
+| `request`     | Each `HTTP` request will create a new instance   |
+| `session`     | Each `HTTP` session will create a new instance   |
 | `application` | Each `ServletContext` will create a new instance |
-| `websockt`    | Each `WebSocket` will create a new instance |
+| `websockt`    | Each `WebSocket` will create a new instance      |
 
 You can use those annotations below to specify the scope of a bean:
 
-* `@Scope("singleton")` or `@Singleton`
-* `@Scope("prototype")` or `@Prototype`
-* `@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)`
-or `@RequestScope`
-* `@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)`
-or `@SessionScope`
-* `@Scope(value = "application", proxyMode = ScopedProxyMode.TARGET_CLASS)`
-or `@ApplicationScope`
-* `@Scope(value = "websocket", proxyMode = ScopedProxyMode.TARGET_CLASS)`
+- `@Scope("singleton")` or `@Singleton`
+- `@Scope("prototype")` or `@Prototype`
+- `@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)`
+  or `@RequestScope`
+- `@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)`
+  or `@SessionScope`
+- `@Scope(value = "application", proxyMode = ScopedProxyMode.TARGET_CLASS)`
+  or `@ApplicationScope`
+- `@Scope(value = "websocket", proxyMode = ScopedProxyMode.TARGET_CLASS)`
 
 For `request`, `session`, `application`, and `websocket`,
 we must specify `proxyMode = ScopedProxyMode.TARGET_CLASS` when using `@Scope`.
@@ -219,10 +219,10 @@ the dependencies in the singleton may be expired.
 The autowiring is the process of automatically injecting dependencies into a bean.
 Those below are the common autowiring modes in Spring:
 
-| Mode          | Description |
-| ---           | --- |
-| `byName`      | Autowired by the name of the bean |
-| `byType`      | Autowired by the type of the bean |
+| Mode     | Description                       |
+| -------- | --------------------------------- |
+| `byName` | Autowired by the name of the bean |
+| `byType` | Autowired by the type of the bean |
 
 ### `@Autowired`
 
@@ -294,8 +294,8 @@ if the bean is not found,
 `@Value` is an annotation used to inject values into fields, methods, or constructor parameters.
 Those below are the common usages of `@Value`:
 
-* `@Value("#{}")`: [Spring Expression Language (SpEL)](https://docs.spring.io/spring-framework/reference/core/expressions.html)
-* `@Value("${}")`: Properties
+- `@Value("#{}")`: [Spring Expression Language (SpEL)](https://docs.spring.io/spring-framework/reference/core/expressions.html)
+- `@Value("${}")`: Properties
 
 Before using `@Value`, you may need to write a configuration file.
 The following is a brief introduction to how to read configuration files.
@@ -412,12 +412,12 @@ This advice will be executed after the target method throws an exception.
 **NOTE**: When there is multiple advice for the same join point,
 The order of execution is shown below:
 
-* `@Around` (before `proceed()`)
-* `@Before`
-* Target method execution
-* `@After`
-* `@AfterReturning` or `@AfterThrowing`
-* `@Around` (after `proceed()`)
+- `@Around` (before `proceed()`)
+- `@Before`
+- Target method execution
+- `@After`
+- `@AfterReturning` or `@AfterThrowing`
+- `@Around` (after `proceed()`)
 
 ## Transaction
 
@@ -431,36 +431,36 @@ There is a `propagation` attribute that specifies the transaction propagation be
 This attribute is used to specify how the transaction should behave
 when it is called from another transaction. The possible values are:
 
-* `Required`: The default behavior, if a transaction already exists,
-the method will run within that transaction; otherwise, a new transaction will be created.
-In this options, no matter the caller or callee throws an exception
-(even you have catch the exception thrown by the callee in the caller),
-the whole transaction will be rolled back.
-* `Requires New`: A new transaction will always be created,
-and it is independent of the caller's transaction.
-In this options, if the caller throws an exception,
-the callee's transaction will not be affected;
-if the callee throws an exception and the caller catches it,
-the callee's transaction will be rolled back,
-but the caller's transaction will not be affected;
-if the callee throws an exception and the caller does not catch it,
-both the callee's and caller's transactions will be rolled back.
-* `Nested`: A new transaction will be created,
-and it will be a nested transaction of the caller's transaction.
-In this options, if the caller throws an exception,
-both the callee's and caller's transactions will be rolled back;
-if the callee throws an exception and the caller catches it,
-the callee's transaction will be rolled back,
-but the caller's transaction will not be affected;
-if the callee throws an exception and the caller does not catch it,
-both the callee's and caller's transactions will be rolled back.
-* `Supports`: If a transaction already exists, the method will run within that transaction;
-otherwise, it will run without a transaction.
-* `Mandatory`: If a transaction already exists, the method will run within that transaction;
-Otherwise, an exception will be thrown.
-* `Not Supported`: If a transaction already exists, it will be suspended,
-and the method will run without a transaction.
-* `Never`: If a transaction already exists, an exception will be thrown;
+- `Required`: The default behavior, if a transaction already exists,
+  the method will run within that transaction; otherwise, a new transaction will be created.
+  In this options, no matter the caller or callee throws an exception
+  (even you have catch the exception thrown by the callee in the caller),
+  the whole transaction will be rolled back.
+- `Requires New`: A new transaction will always be created,
+  and it is independent of the caller's transaction.
+  In this options, if the caller throws an exception,
+  the callee's transaction will not be affected;
+  if the callee throws an exception and the caller catches it,
+  the callee's transaction will be rolled back,
+  but the caller's transaction will not be affected;
+  if the callee throws an exception and the caller does not catch it,
+  both the callee's and caller's transactions will be rolled back.
+- `Nested`: A new transaction will be created,
+  and it will be a nested transaction of the caller's transaction.
+  In this options, if the caller throws an exception,
+  both the callee's and caller's transactions will be rolled back;
+  if the callee throws an exception and the caller catches it,
+  the callee's transaction will be rolled back,
+  but the caller's transaction will not be affected;
+  if the callee throws an exception and the caller does not catch it,
+  both the callee's and caller's transactions will be rolled back.
+- `Supports`: If a transaction already exists, the method will run within that transaction;
+  otherwise, it will run without a transaction.
+- `Mandatory`: If a transaction already exists, the method will run within that transaction;
+  Otherwise, an exception will be thrown.
+- `Not Supported`: If a transaction already exists, it will be suspended,
+  and the method will run without a transaction.
+- `Never`: If a transaction already exists, an exception will be thrown;
 
 ### Lock in Transaction
 
