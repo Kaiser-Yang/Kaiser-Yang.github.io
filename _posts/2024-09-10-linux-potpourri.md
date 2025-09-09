@@ -30,6 +30,8 @@ pretty_table: true
 - `Ctrl + K`: Delete from the cursor to the end of the line.
 - `Ctrl + W`: Delete the word before the cursor.
 - `Ctrl + L`: Clear the screen.
+- `Ctrl + P`: Previous command in history (same as the up arrow key).
+- `Ctrl + N`: Next command in history (same as the down arrow key).
 - `Ctrl + Z`: Send SIGTSTP to the foreground process (suspend).
 - `Ctrl + C`: Send SIGINT to the foreground process (terminate).
 - `Ctrl + \`: Send SIGQUIT to the foreground process (terminate and create core dump).
@@ -44,7 +46,7 @@ as long as the shell supports them.
 Different shells may have different wildcard symbols,
 there are some wildcards in the `bash` shell:
 
-- `*`: matches any number of characters (including 0).
+- `*`: matches any number (including `0`) of characters.
 - `**`: matches all files and directories recursively.
 - `**/`: matches all directories recursively.
 - `?`: matches a single character.
@@ -55,6 +57,9 @@ there are some wildcards in the `bash` shell:
 **NOTE**: `**` and `**/` are only available when `globstar` shell option is enabled
 (use `shopt | grep globstar` to check). You can use `shopt -s globstar` to enable it.
 
+**NOTE**: For `*`, hidden files/directories (e.g., .bashrc, .config) are **not matched** by
+unless the `dotglob` option is enabled (via `shopt -s dotglob`).
+
 In the square brackets, you can use `-` to represent a range, for example, `[0-9]`
 matches any digit, and `[a-z]` matches any lowercase letter.
 
@@ -63,9 +68,9 @@ It is used to represent multiple strings, for example, `a{b,c}d` will be parsed 
 For example, `mv file_{old,new}` will be parsed as `mv file_old file_new`. You can use
 nested curly brackets, for example, `echo a{b{c,d},e}f` will be parsed as `echo abcf abdf aef`,
 which works like distributive law in mathematics. `..` is used to represent a range,
-for example, `echo {a..z}` will be parsed as `echo a b c ... z`.
+for example, `echo {a..c}` will be parsed as `echo a b c`.
 
-**Note**: these wildcards are not all same with regex. In regex, `*` means 0 or more times,
+**Note**: These wildcards are not all same with regex. In regex, `*` means 0 or more times,
 `?` means 0 or 1 time, and `^` also means the beginning of a line.
 
 When `extglob` is on (use `shopt | grep extglob` to check), those below are supported:
@@ -122,7 +127,7 @@ except for `$`, `` ` ``, `\`, and `!` (when history expansion is enabled).
 **NOTE**: When the shell is in POSIX mode, the `!` has no special meaning within double quotes,
 even when history expansion is enabled.
 
-`$` and `\`` retain their special meaning within double quotes. For example:
+`$` and `` ` `` retain their special meaning within double quotes. For example:
 
 ```bash
 # $variable will be replaced by the value of the variable
@@ -238,7 +243,7 @@ You can update positional parameters with `set` command, for example:
 set -- 1 2 3 4
 
 args=("$@") # Copy positional args into an array
-args[1]="mango" # Change the second element (index 1)
+args[1]="mongo" # Change the second element (2 --> mongo)
 set -- "${args[@]}" # Reset positional arguments
 
 set -- "$@" "bird" # Append "bird"
@@ -254,8 +259,10 @@ unset 'args[2]' # Remove the second positional parameter
 set -- "${args[@]}"
 ```
 
-**NOTE**: `0` is not a positional parameter, it is a special parameter, which will be expanded to
-the name of the shell or shell script.
+**NOTE**: `0` is not a positional parameter, and it is a special parameter,
+which will be expanded to the name of the shell or shell script.
+
+**NOTE**: In `bash`, the array is 0-indexed, but in `zsh`, the array is 1-indexed.
 
 ### Special Parameters
 
@@ -411,7 +418,7 @@ echo "${!a@}" # 1 11 111 (all variables starting with a)
 
 ```bash
 # Basic usage
-str="Hello, World!"
+str="Hello, World\!"
 echo "${str:7}" # World! (substring starting at index 7)
 echo "${str:7:5}" # World (substring starting at index 7 and length 5)
 echo "${str:7:-1}" # World (substring starting at index 7 and end at -1)
@@ -440,6 +447,8 @@ echo "${arr[@]: -3:2}" # C D (substring starting at index -3 and length 2)
 # Undefined results for associative array
 ```
 
+**NOTE**: In the splitting operation, the offset for both `zsh` and `bash` is 0-indexed.
+
 - `${!array[@]}` or `${!array[*]}`: Expands to the indices of the array `array`.
 - `${#parameter}`: The length of the value of `parameter` is substituted.
 - `${#*}` or `${#@}`: Same with `$#`: the number of positional parameters.
@@ -455,7 +464,7 @@ For those below, you can remove `:` to make it only work for unset variables:
 - `${parameter:?word}`: `word` is written to standard error if `parameter` is unset or null,
   if it is not interactive, exits;
   otherwise, it expands to the value of `parameter`.
-- `${parameter:+word}`: Nothing is substituted if `parameter` is null or unset;
+- `${parameter:+word}`: Nothing is substituted if `parameter` is unset or null;
   otherwise, the expansion of `word` is substituted.
 
 For those below,
@@ -485,7 +494,7 @@ and the expansion is the resultant list:
   (such as `\n`, `\t`, etc.) escaped.
   For examples:
 
-```cpp
+```bash
 a='Hello World'
 b=('Hello' 'World')
 declare -A c=([first]='Hello' [second]='World')
@@ -498,7 +507,7 @@ echo "${c[@]@Q}" # 'World' 'Hello' (unordered)
   print the values of indexed and associative arrays as a sequence of quoted key-value pairs.
   For examples:
 
-```cpp
+```bash
 a='Hello World'
 b=('Hello' 'World')
 declare -A c=([first]='Hello' [second]='World')
@@ -777,32 +786,32 @@ but it outputs the contents of files in reverse order.
 
 ### `grep`
 
-| Option                      | Description                                                               |
-| --------------------------- | ------------------------------------------------------------------------- |
-| `-A 2`                      | Show matching lines and the next two lines                                |
-| `-B 2`                      | Show matching lines and the previous two lines                            |
-| `-C 2`                      | Show matching lines and two lines before and after                        |
-| `-r`                        | Recursively search directories                                            |
-| `-n`                        | Show line numbers                                                         |
-| `-i`                        | Ignore case                                                               |
-| `-v`                        | Invert match                                                              |
-| `--include "*.py"`          | Search only in files matching the pattern                                 |
-| `--exclude "test*"`         | Skip files matching the pattern                                           |
-| `--exclude-dir "test*"`     | Skip directories matching the pattern                                     |
-| `-c`                        | Show the count of match in each file instead of the matching lines        |
-| `-o`                        | Only show the matching part                                               |
-| `-l`                        | Show the names of files with matches instead of the matching lines        |
-| `-L`                        | Show the names of files without matches instead of the matching lines     |
-| `-e`                        | Specify a pattern explicityly                                             |
-| `-w`                        | Only match whole words                                                    |
-| `-x`                        | Only match whole lines                                                    |
-| `-F`                        | Interpret the pattern as a fixed string, not a regex                      |
-| `-H`                        | Show file names in output (default when multiple files are searched)      |
-| `-h`                        | Do not show file names in output (default when a single file is searched) |
-| `-m`                        | Stop after N matches for each file                                        |
-| `--color=auto,always,never` | Highlight rules                                                           |
-| `-f`                        | Read patterns from a file, one pattern per line                           |
-| `-E`                        | Interpret the pattern as an extended regular expression (ERE)             |
+| Option          | Description                                             |
+| --------------- | ------------------------------------------------------- |
+| `-i`            | Ignore case                                             |
+| `-v`            | Invert match                                            |
+| `-o`            | Only show the matching part                             |
+| `-e`            | Specify a pattern explicitly                            |
+| `--include`     | Search only in files matching the pattern               |
+| `--exclude`     | Skip files matching the pattern                         |
+| `--exclude-dir` | Skip directories matching the pattern                   |
+| `-A 2`          | Show matching lines and the next two lines              |
+| `-B 2`          | Show matching lines and the previous two lines          |
+| `-C 2`          | Show matching lines and two lines before and after      |
+| `-r`            | Recursively search directories                          |
+| `-n`            | Show line numbers                                       |
+| `-F`            | Interpret the pattern as a fixed string                 |
+| `-w`            | Only match whole words                                  |
+| `-x`            | Only match whole lines                                  |
+| `-m`            | Stop after N matches for each file                      |
+| `-c`            | Only show the count of match in each file               |
+| `-l`            | Only show the names of files with matches               |
+| `-L`            | Only show the names of files without matches            |
+| `-H`            | Print file names in output                              |
+| `-h`            | Do not print file names in output                       |
+| `--color`       | Highlight rules, auto, always, or never                 |
+| `-f`            | Read patterns from a file, one pattern per line         |
+| `-E`            | Interpret the pattern as an extended regular expression |
 
 The difference between extended regular expressions (ERE) and basic regular expressions (BRE)
 is that in ERE, `?`, `+`, `{`, `|`, `(`, and `)` are special characters,
@@ -810,6 +819,8 @@ while in BRE, they are not special characters unless escaped with a backslash (`
 
 **NOTE**: `-e` is useful when you
 want to specify multiple patterns or the pattern starts with a hyphen (`-`).
+When you use multiple `-e` options,
+`grep` will search for lines that match any of the specified patterns (logical OR).
 
 **NOTE**: We usually use `egrep` as an alias for `grep -E`, and `fgrep` as an alias for `grep -F`.
 
