@@ -1588,34 +1588,6 @@ You have learned a lot about `make`, why not to read the
 of
 [Linux Kernel](https://github.com/torvalds/linux).
 
-## `git`
-
-### `.gitignore`
-
-You can use `.gitignore` to specify files or directories that do not need to be tracked by `git`.
-
-Most wildcards in `.gitignore` are similar to those in `bash`.
-Check [Wildcards in Linux](#wildcards-in-linux) for more information about `wildcards`.
-
-By default, the items in `.gitignore` will be ignored recursively.
-If you don't want to ignore recursively, you can add `/` before the item to indicate
-that it only takes effect in the current directory.
-For example, `/foo` means to ignore only the `foo` file or directory in the current directory,
-while `foo` means to ignore all `foo` files or directories.
-
-By default, the items in `.gitignore` match both directories and files.
-If you only want to match directories,
-you can add `/` at the end of the item to indicate that it only matches directories.
-For example, `foo/` means to match only the directory `foo`,
-while `foo` means to match all `foo` files or directories.
-
-You can configure the ignore rules in `~/.config/git/ignore` to ignore files globally.
-
-There can be a `.gitignore` file in any directory in a repository,
-and this file will take effect on files and directories in the current directory.
-The priority of `.gitignore` files is from subdirectory to parent directory,
-and the global ignore file has the lowest priority.
-
 ## References
 
 - [10 Practical Examples Using Wildcards to Match Filenames in Linux](https://www.tecmint.com/use-wildcards-to-match-filenames-in-linux/)
