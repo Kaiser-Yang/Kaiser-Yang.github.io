@@ -863,7 +863,7 @@ And content in the hold space persists across multiple lines.
 | `P`     | Print the first part of the pattern space (up to the first newline)                  |
 | `d`     | Delete the pattern space                                                             |
 | `D`     | Delete the first part of the pattern space (up to the first newline)                 |
-| `q`     | Quit `sed` immediately                                                               |
+| `q`     | Quit immediately                                                                     |
 | `h`     | Copy the pattern space to the hold space                                             |
 | `H`     | Append the pattern space to the hold space                                           |
 | `g`     | Copy the hold space to the pattern space                                             |
@@ -913,43 +913,43 @@ sed '/start_pattern/,/end_pattern/s/old/new/g' file.txt
 
 ### `find`
 
-| Option        | Description                                                                      |
-| ------------- | -------------------------------------------------------------------------------- |
-| `-type`       | Specify the type of file to search for                                           |
-| `-readable`   | Search for files or directories that are readable by the current user            |
-| `-writable`   | Search for files or directories that are writable by the current user            |
-| `-executable` | Search for files or directories that are executable by the current user          |
-| `-name`       | Specify the file name to search for. Can use `wildcards`                         |
-| `-path`       | Specify the path to search for. Can use `wildcards`                              |
-| `-iname`      | Similar to `-name`, but ignores case                                             |
-| `-ipath`      | Similar to `-path`, but ignores case                                             |
-| `-empty`      | Search for empty files or directories                                            |
-| `-size`       | Specify the size of the file or directory to search for                          |
-| `-exec`       | Execute a command on the found files or directories                              |
-| `-perm`       | Specify the permissions to search for                                            |
-| `-user`       | Specify the owner of the file or directory                                       |
-| `-group`      | Specify the group of the file or directory                                       |
-| `-maxdepth`   | Specify the maximum depth to search                                              |
-| `-mindepth`   | Specify the minimum depth to search                                              |
-| `-depth`      | Process each directory's contents before the directory itself                    |
-| `-delete`     | Delete the found files or directories                                            |
-| `-and`        | Logic and                                                                        |
-| `-or`         | Logic or                                                                         |
-| `-not`        | Logic not                                                                        |
-| `-regex`      | Use a regular expression                                                         |
-| `-iregex`     | Use a case-insensitive regular expression                                        |
-| `-print0`     | Print the found files or directories, separated by a null character              |
-| `-samefile`   | Search for files that are hard links to the specified file                       |
-| `-links`      | Search for files with a specific number of hard links                            |
-| `-P`          | Neever follow symbolic links (default)                                           |
-| `-L`          | Follow symbolic links                                                            |
-| `-H`          | Follow symlinks only for the starting directories explicitly passed as arguments |
-| `-mtime`      | Specify the modification time of the file or directory, the time is in days      |
-| `-atime`      | Specify the access time of the file or directory, the time is in days            |
-| `-ctime`      | Specify the creation time of the file or directory, the time is in days          |
-| `-mmin`       | Specify the modification time of the file or directory, the time is in minutes   |
-| `-amin`       | Specify the access time of the file or directory, the time is in minutes         |
-| `-cmin`       | Specify the creation time of the file or directory, the time is in minutes       |
+| Option        | Description                                                  |
+| ------------- | ------------------------------------------------------------ |
+| `-type`       | Specify the type of file to search for                       |
+| `-readable`   | Files or directories that are readable                       |
+| `-writable`   | Files or directories that are writable                       |
+| `-executable` | Files or directories that are executable                     |
+| `-name`       | File name to search for                                      |
+| `-path`       | Path to search for                                           |
+| `-iname`      | Case-insensitive file name search                            |
+| `-ipath`      | Case-insensitive path search                                 |
+| `-empty`      | Empty files or directories                                   |
+| `-size`       | Size of the files or directories to search for               |
+| `-exec`       | Execute a command on the found files or directories          |
+| `-perm`       | Permissions to search for                                    |
+| `-user`       | Owner of the file or directory                               |
+| `-group`      | Group of the file or directory                               |
+| `-maxdepth`   | Maximum depth to search                                      |
+| `-mindepth`   | Minimum depth to search                                      |
+| `-depth`      | Same with `-maxdepth`                                        |
+| `-delete`     | Delete the found files or directories                        |
+| `-and`        | Logic and                                                    |
+| `-or`         | Logic or                                                     |
+| `-not`        | Logic not                                                    |
+| `-regex`      | Regular expression                                           |
+| `-iregex`     | Case-insensitive regular expression                          |
+| `-print0`     | Print the found files or directories separated by null       |
+| `-samefile`   | Files that are hard links to the specified file              |
+| `-links`      | Files with a specific number of hard links                   |
+| `-P`          | Never follow symbolic links (default)                        |
+| `-L`          | Follow symbolic links                                        |
+| `-H`          | Follow symlinks only for ones explicitly passed as arguments |
+| `-mtime`      | Modification time of the file or directory in days           |
+| `-atime`      | Access time of the file or directory in days                 |
+| `-ctime`      | Creation time of the file or directory in days               |
+| `-mmin`       | Modification time of the file or directory in minutes        |
+| `-amin`       | Access time of the file or directory in minutes              |
+| `-cmin`       | Creation time of the file or directory in minutes            |
 
 The options for `-type`:
 
@@ -1018,19 +1018,19 @@ In Linux, you can use the `ls -l` command to view the number of hard links to a 
 
 ### `sort`
 
-| Option                   | Description                                                    |
-| ------------------------ | -------------------------------------------------------------- |
-| `-r`                     | Sort in reverse order                                          |
-| `-n`                     | Sort numerically                                               |
-| `-k`                     | Sort by a specific key (column)                                |
-| `-u`                     | Unique sort                                                    |
-| `-t`                     | Specify the field separator                                    |
-| `-c`                     | Check if the input is already sorted                           |
-| `-f`                     | Ignore case when sorting                                       |
-| `-h`                     | Sort by human-readable numbers (e.g., 1K, 2M)                  |
-| `-M`                     | Sort by month names (e.g., Jan, Feb)                           |
-| `--files0-from=-`        | Read from standard input with `NUL` as the file name separator |
-| `--files0-from=filename` | Read from a file with `NUL` as the file name separator         |
+| Option                   | Description                                                |
+| ------------------------ | ---------------------------------------------------------- |
+| `-r`                     | Sort in reverse order                                      |
+| `-n`                     | Sort numerically                                           |
+| `-k`                     | Sort by a specific column                                  |
+| `-u`                     | Unique sort                                                |
+| `-t`                     | Specify the field separator                                |
+| `-c`                     | Check if the input is already sorted                       |
+| `-f`                     | Ignore case when sorting                                   |
+| `-h`                     | Sort by human-readable numbers (e.g., 1K, 2M)              |
+| `-M`                     | Sort by month names (e.g., Jan, Feb)                       |
+| `--files0-from=-`        | Read file names from standard input with null as separator |
+| `--files0-from=filename` | Read file names from a file with null as separator         |
 
 **NOTE**: You can use `-k` to specify multiple keys for sorting.
 For example, `-k2,2 -k1,1` means sort by the second column first, then by the first column.
@@ -1042,26 +1042,26 @@ and `-k2r,2` to sort the second column in reverse order.
 
 ### `tar`
 
-| Option        | Description                                                             |
-| ------------- | ----------------------------------------------------------------------- |
-| `-c`          | Create a new tar archive                                                |
-| `-f`          | Specify the name of the tar archive file                                |
-| `-v`          | Verbose mode                                                            |
-| `-z`          | Use `gzip` compression or decompression                                 |
-| `-j`          | Use `bzip2` compression or decompression                                |
-| `-J`          | Use `xz` compression or decompression                                   |
-| `-x`          | Extract files from a tar archive                                        |
-| `-C`          | Change to a directory before performing operations                      |
-| `-t`          | List the contents of a tar archive                                      |
-| `--wildcards` | Enable wildcard matching for file names                                 |
-| `--delete`    | Delete files from a tar archive (only works with uncompressed archives) |
-| `--exclude`   | Exclude files or directories from the tar archive                       |
-| `-r`          | Append files to a tar archive                                           |
-| `-A`          | Append another tar archive to the current one                           |
-| `-u`          | Update files in a tar archive, only adding newer files                  |
+| Option        | Description                                   |
+| ------------- | --------------------------------------------- |
+| `-c`          | Create                                        |
+| `-f`          | Specify the name                              |
+| `-v`          | Verbose                                       |
+| `-z`          | Use `gzip`                                    |
+| `-j`          | Use `bzip2`                                   |
+| `-J`          | Use `xz`                                      |
+| `-x`          | Extract                                       |
+| `-C`          | Working directory                             |
+| `-t`          | List contents                                 |
+| `--wildcards` | Enable wildcard matching for file names       |
+| `--delete`    | Delete files from a tar archive               |
+| `--exclude=`  | Exclude files or directories                  |
+| `-r`          | Append files to a tar archive                 |
+| `-A`          | Append another tar archive to the current one |
+| `-u`          | Update files in a tar archive                 |
 
-**NOTE**: When using `--exclue`, you must use `=` to connect the option,
-and `--exclude` must appear before the files or directories to be packed.
+**NOTE**: When using `--exclue`,
+`--exclude` must appear before the files or directories to be packed.
 For example, `tar -cf a.tar --exclude=*.txt .` is correct,
 but `tar -cf a.tar . --exclude=*.txt` is incorrect.
 
@@ -1076,23 +1076,23 @@ But I have not found a way to extract the old files.
 while `server` is used to accept connections from remote hosts.
 `openssh-client` and `openssh-server` are the two main components of `ssh`.
 
-| Option | Description                                                 |
-| ------ | ----------------------------------------------------------- |
-| `-p`   | Specify the port. Default is `22`                           |
-| `-i`   | Specify the identity file (private key)                     |
-| `-l`   | Specify the username. Default is the current user           |
-| `-q`   | Quiet mode                                                  |
-| `-t`   | Force pseudo-terminal allocation                            |
-| `-v`   | Verbose mode. Can be used multiple times for more verbosity |
-| `-C`   | Enable compression                                          |
-| `-X`   | Limited `X11` forwarding                                    |
-| `-Y`   | Trusted `X11` forwarding                                    |
-| `-f`   | Run in the background after authentication                  |
-| `-N`   | Do not execute remote commands                              |
-| `-L`   | Local port forwarding                                       |
-| `-R`   | Remote port forwarding                                      |
-| `-D`   | Dynamic port forwarding                                     |
-| `-o`   | Specify options                                             |
+| Option | Description                                |
+| ------ | ------------------------------------------ |
+| `-p`   | Specify the port                           |
+| `-i`   | Specify the private key                    |
+| `-l`   | Specify the username                       |
+| `-q`   | Quiet mode                                 |
+| `-t`   | Force pseudo-terminal allocation           |
+| `-v`   | Verbose                                    |
+| `-C`   | Enable compression                         |
+| `-X`   | Limited `X11` forwarding                   |
+| `-Y`   | Trusted `X11` forwarding                   |
+| `-f`   | Run in the background after authentication |
+| `-N`   | Do not execute remote commands             |
+| `-L`   | Local port forwarding                      |
+| `-R`   | Remote port forwarding                     |
+| `-D`   | Dynamic port forwarding                    |
+| `-o`   | Specify options                            |
 
 **NOTE**: We can use `user@host` to substitute `-l user host` when connecting to a remote host.
 
@@ -1274,7 +1274,8 @@ For example `make -I./include` will let `include` command find the `./include` d
 ### `VPATH` and `vpath`
 
 `VPATH` is a variable in `make`,
-which is used to specify the directories where `make` will look for files when they are not found in the current directory.
+which is used to specify the directories
+where `make` will look for files when they are not found in the current directory.
 The value of `VPATH` is a colon-separated list of directories.
 
 ```Makefile
@@ -1438,10 +1439,12 @@ There are some functions related to strings:
 - `$(subst from,to,text)`: substitute `from` with `to` in `text`.
 - `$(patsubst pattern,replacement,text)`: substitute `pattern` with `replacement` in `text`.
 - `$(strip text)`: remove all the leading and trailing spaces in `text`.
-- `$(findstring target,text)`: find `target` in text, if found, return `target` otherwise, return empty string.
+- `$(findstring target,text)`: find `target` in text, if found, return `target` otherwise,
+  return empty string.
 - `$(filter pattern...,text)`: filter the contents matching the `pattern...` from `text`.
 - `$(filter-out pattern...,text)`: filter out the contents matching the `pattern...` from `text`.
-- `$(sort list)`: sort the contents in `list` lexicographically. Note that `sort` will unique the contents, too.
+- `$(sort list)`: sort the contents in `list` lexicographically.
+  Note that `sort` will unique the contents, too.
 - `$(word i,text)`: get the `i`-th word from `text` (index started from `1`).
 - `$(wordlist l,r,text)`: get the words whose index is in `[l,r]` in sequence.
 - `$(firstword text)`: get the first word of `text`.
@@ -1454,7 +1457,8 @@ There are some functions related to files:
 - `$(basename name...)`: get the base name (files' name without extension) of files from `name`.
 - `$(addsuffix suffix,name)`: add `suffix` for `name`.
 - `$(addprefix prefix,name)`: add `prefix` for `name`.
-- `$(join list1,list2)`: join two lists. This will append words in `list2` to `list1`. For example `$(join aaa bbb,111 222 333)` will get `aaa111 bbb222 333`.
+- `$(join list1,list2)`: join two lists. This will append words in `list2` to `list1`.
+  For example `$(join aaa bbb,111 222 333)` will get `aaa111 bbb222 333`.
 
 ---
 
