@@ -477,20 +477,20 @@ You should be aware that the sequence of the method calls is important. The lock
 before the transaction is committed, which may cause unexpected behavior.
 
 1. Start a transaction.
-1. Call the actual method.
-1. Acquire a lock in the actual method.
-1. Perform some operations on the database.
-1. Release the lock in the actual method. (Other methods may acquire the lock to update)
-1. Commit or rollback the transaction.
+2. Call the actual method.
+3. Acquire a lock in the actual method.
+4. Perform some operations on the database.
+5. Release the lock in the actual method. (Other methods may acquire the lock to update)
+6. Commit or rollback the transaction.
 
 However, in some situations, you can use lock in transaction. For example,
 if you want to update the shared data rather than the data in the database,
 you can use lock in transaction.
 
 1. Start a transaction.
-1. Call the actual method.
-1. Acquire a lock in the actual method.
-1. Perform some operations on the shared data (such as a shared object).
-1. Release the lock in the actual method. (It's OK)
-1. Perform some operations on the database.
-1. Commit or rollback the transaction.
+2. Call the actual method.
+3. Acquire a lock in the actual method.
+4. Perform some operations on the shared data (such as a shared object).
+5. Release the lock in the actual method. (It's OK)
+6. Perform some operations on the database.
+7. Commit or rollback the transaction.
