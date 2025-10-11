@@ -599,6 +599,27 @@ After the preceding expansions,
 all unquoted occurrences of the characters `\`, `'`, and `"`
 that did not result from one of the above expansions are removed.
 
+### `[[ expression ]]` and `[ expression ]`
+
+For the code below:
+
+```bash
+if [ $(grep nothing /dev/null) = '' ]; then
+  echo 'This will not work'
+fi
+
+if [[ $(grep nothing /dev/null) == '' ]]; then
+  echo 'Empty'
+fi
+```
+
+The first `if` statement will cause an error because
+`$(grep nothing /dev/null)` returns nothing, and the command becomes
+`[ = '' ]`, which is invalid. The second `if` statement works because
+`[[ ... ]]` does not perform word splitting or pathname expansion.
+Therefore, it is recommended to use `[[ ... ]]` instead of `[ ... ]`
+when possible.
+
 ## Environment Variables
 
 ### Locality
