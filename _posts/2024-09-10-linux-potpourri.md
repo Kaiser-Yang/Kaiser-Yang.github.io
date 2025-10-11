@@ -1061,6 +1061,161 @@ Besides, you can specify the type of the column for sorting,
 such as `-k2n,2` to sort the second column numerically
 and `-k2r,2` to sort the second column in reverse order.
 
+### `ssh`
+
+`ssh` can be divided into two parts: `client` and `server`.
+`client` is used to connect to remote hosts,
+while `server` is used to accept connections from remote hosts.
+`openssh-client` and `openssh-server` are the two main components of `ssh`.
+
+| Option | Description                                |
+| ------ | ------------------------------------------ |
+| `-p`   | Specify the port                           |
+| `-i`   | Specify the private key                    |
+| `-l`   | Specify the username                       |
+| `-q`   | Quiet mode                                 |
+| `-t`   | Force pseudo-terminal allocation           |
+| `-v`   | Verbose                                    |
+| `-C`   | Enable compression                         |
+| `-X`   | Limited `X11` forwarding                   |
+| `-Y`   | Trusted `X11` forwarding                   |
+| `-f`   | Run in the background after authentication |
+| `-N`   | Do not execute remote commands             |
+| `-L`   | Local port forwarding                      |
+| `-R`   | Remote port forwarding                     |
+| `-D`   | Dynamic port forwarding                    |
+| `-o`   | Specify options                            |
+
+**NOTE**: We can use `user@host` to substitute `-l user host` when connecting to a remote host.
+
+**NOTE**: As to port forwarding, check [SSH Port Forwarding](/blog/2024/ssh-port-forwarding) for
+details.
+
+**NOTE**: `-o` is often used to override the configurations in `~/.ssh/config`.
+For example, `ssh -o "Port=2222" host_name` will connect to `host_name` using port `2222`,
+while keeping other configurations unchanged.
+
+#### `scp`
+
+| Option | Description                                      |
+| ------ | ------------------------------------------------ |
+| `-r`   | Recursively                                      |
+| `-P`   | Specify the port                                 |
+| `-p`   | Reserve file attributes                          |
+| `-q`   | Quiet mode                                       |
+| `-v`   | Verbose                                          |
+| `-C`   | Compression                                      |
+| `-i`   | Specify the private key                          |
+| `-l`   | Limit the bandwidth (in Kbit/s)                  |
+| `-3`   | Copy between two remote hosts via the local host |
+| `-4`   | Force use of `IPv4`                              |
+| `-6`   | Force use of `IPv6`                              |
+
+You can use `scp` to copy multiple files at once, for example,
+`scp file1 file2 host_name:/path/to/`。
+
+#### `ssh-copy-id`
+
+| Option | Description                         |
+| ------ | ----------------------------------- |
+| `-i`   | Specify the public key to be copied |
+| `-p`   | Specify the port                    |
+
+#### `ssh-keygen`
+
+| Option | Description                                |
+| ------ | ------------------------------------------ |
+| `-a`   | Specify the number of KDF rounds           |
+| `-t`   | Specify the type of key to create          |
+| `-b`   | Specify the number of bits in the key      |
+| `-C`   | Add comment to the key                     |
+| `-c`   | Change the comment of the key              |
+| `-f`   | Specify the file name of the key           |
+| `-P`   | Specify the password of the key            |
+| `-p`   | Change the password of the key             |
+| `-l`   | Show the fingerprint of the key            |
+| `-H`   | Hash the key in the `known_hosts` file     |
+| `-R`   | Remove the key from the `known_hosts` file |
+
+**NOTE**: Starting with `OpenSSH 9.5`,
+the default generated key is `ed25519` rather than `rsa`.
+`ed25519` is more secure than rsa and also offers better performance.
+
+#### `~/.ssh/known_hosts`
+
+This file is used to store the public keys of remote hosts.
+When you connect to a remote host for the first time,
+`ssh` will prompt you to confirm the authenticity of the host, and if you confirm,
+`ssh` will store the public key of the remote host in the `known_hosts` file.
+The next time you connect to the remote host,
+`ssh` will check if the public key of the remote host matches the one in the
+`known_hosts` file.
+If it matches, the connection is successful; otherwise, it will prompt that the public key does
+not match.
+
+The main purpose of this file is to prevent `Man-in-the-middle` attacks.
+When an attacker intercepts the connection between the client and the server,
+they can pretend to be the server and send their own public key to the client.
+If the client does not have the server's public key in the `known_hosts` file,
+they may accept the attacker's public key, allowing the attacker to intercept and modify
+the communication between the client and the server.
+
+By default, the content of `known_hosts` is stored in plain text,
+and each line contains the remote host's address and its public key.
+You can use `ssh-keygen -H` to hash the remote host's address in the `known_hosts` file.
+This can enhance security by preventing attackers from easily obtaining the remote host's address
+and its corresponding public key if the `known_hosts` file is leaked.
+
+#### `~/.ssh/config`
+
+This file is used to configure `ssh` options for different remote hosts. For example:
+
+```shell
+Host host_name
+    HostName host_ip
+    Port port
+    User user_name
+    IdentityFile ~/.ssh/id_rsa
+```
+
+When you have the above configuration, you can connect to the remote host using
+`ssh host_name` without specifying the remote host's `ip`, `port`, `user`, and `identity file`.
+
+You can use `*` as a wildcard to match multiple hosts, and this can be used to set
+default configurations for all hosts. For example:
+
+```shell
+Host *
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
+    Compression yes
+    CompressionLevel 9
+    ForwardAgent yes
+    ForwardX11 yes
+    ForwardX11Trusted yes
+    TCPKeepAlive yes
+    ControlMaster auto
+    ControlPath ~/.ssh/master-%r@%h:%p
+    ControlPersist 600
+    UserKnownHostsFile ~/.ssh/known_hosts
+    StrictHostKeyChecking yes
+    HashKnownHosts yes
+    GSSAPIAuthentication yes
+    GSSAPIDelegateCredentials yes
+    GSSAPITrustDNS yes
+    PasswordAuthentication no
+    PubkeyAuthentication yes
+    PreferredAuthentications publickey
+    KexAlgorithms
+    ProxyCommand ssh -W %h:%p proxy_address
+```
+
+Other glob patterns:
+
+- `*`: matches any number of characters
+- `?`: matches any single character
+- `!`: excludes the following pattern
+
 ### `tar`
 
 | Option        | Description                                   |
@@ -1120,9 +1275,6 @@ while `server` is used to accept connections from remote hosts.
 **NOTE**: As to port forwarding, check [SSH Port Forwarding](/blog/2024/ssh-port-forwarding) for
 details.
 
-**NOTE**: `-o` is often used to override the configurations in `~/.ssh/config`.
-For example, `ssh -o "Port=2222" host_name` will connect to `host_name` using port `2222`,
-while keeping other configurations unchanged.
 
 ## Makefile
 
