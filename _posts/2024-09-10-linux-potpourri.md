@@ -805,6 +805,82 @@ but it outputs the contents of files in reverse order.
 
 **Digression**: The name `cat` comes from concatenate.
 
+### `find`
+
+| Option        | Description                                                  |
+| ------------- | ------------------------------------------------------------ |
+| `-type`       | Specify the type of file to search for                       |
+| `-readable`   | Files or directories that are readable                       |
+| `-writable`   | Files or directories that are writable                       |
+| `-executable` | Files or directories that are executable                     |
+| `-name`       | File name to search for                                      |
+| `-path`       | Path to search for                                           |
+| `-iname`      | Case-insensitive file name search                            |
+| `-ipath`      | Case-insensitive path search                                 |
+| `-empty`      | Empty files or directories                                   |
+| `-size`       | Size of the files or directories to search for               |
+| `-exec`       | Execute a command on the found files or directories          |
+| `-perm`       | Permissions to search for                                    |
+| `-user`       | Owner of the file or directory                               |
+| `-group`      | Group of the file or directory                               |
+| `-maxdepth`   | Maximum depth to search                                      |
+| `-mindepth`   | Minimum depth to search                                      |
+| `-depth`      | Same with `-maxdepth`                                        |
+| `-delete`     | Delete the found files or directories                        |
+| `-and`        | Logic and                                                    |
+| `-or`         | Logic or                                                     |
+| `-not`        | Logic not                                                    |
+| `-regex`      | Regular expression                                           |
+| `-iregex`     | Case-insensitive regular expression                          |
+| `-print0`     | Print the found files or directories separated by null       |
+| `-samefile`   | Files that are hard links to the specified file              |
+| `-links`      | Files with a specific number of hard links                   |
+| `-P`          | Never follow symbolic links (default)                        |
+| `-L`          | Follow symbolic links                                        |
+| `-H`          | Follow symlinks only for ones explicitly passed as arguments |
+| `-mtime`      | Modification time of the file or directory in days           |
+| `-atime`      | Access time of the file or directory in days                 |
+| `-ctime`      | Creation time of the file or directory in days               |
+| `-mmin`       | Modification time of the file or directory in minutes        |
+| `-amin`       | Access time of the file or directory in minutes              |
+| `-cmin`       | Creation time of the file or directory in minutes            |
+
+The options for `-type`:
+
+- `b`: block device file
+- `c`: character device file
+- `p`: pipe file
+- `s`: socket file
+- `f`: regular file
+- `d`: directory
+- `l`: soft link file
+
+**NOTE**: When you use `-regex`, the pattern is matched against the entire file name,
+which is a little bit different from `grep`. If you want to match a specific part of the file name,
+you need to use `.*` to match any characters before and after the pattern. For example,
+`find . -regex ".*pattern.*"` will find files that contain `pattern` in their names.
+
+The units for `-size`:
+
+- `b`: block size, which is decided by the file system (usually 512 bytes)
+- `c`: bytes
+- `k`: kilobytes (1024 bytes)
+- `M`: megabytes (1024 kilobytes)
+- `G`: gigabytes (1024 megabytes)
+
+You can use `find . -size 1M` to find files that are exactly `1` megabyte in size;
+use `find . -size +1M` to find files larger than `1` megabyte;
+use `find . -size -1M` to find files smaller than `1` megabyte;
+use `find . -size +1M -size -2M` to find files
+larger than `1` megabyte but smaller than `2` megabytes.
+
+You can use `-exec` to execute a command on the found files or directories.
+
+For example, `find . -name "*.txt" -exec ls -l {} \;`
+will find all `txt` files in the current directory and execute `ls -l` on each of them.
+`{}` will be replaced by the found file name, `\;` means the end of the command,
+and the semicolon needs to be escaped to prevent it from being interpreted by the shell.
+
 ### `grep`
 
 | Option          | Description                                             |
@@ -851,6 +927,35 @@ When you use multiple `-e` options,
 
 **Regression**: `grep` comes from the command `g/re/p`,
 where `g` stands for `global`, `re` stands for `regular expression`, and `p` stands for `print`.
+
+### `ln`
+
+| Option | Description                                                          |
+| ------ | -------------------------------------------------------------------- |
+| `-s`   | Soft link                                                            |
+| `-f`   | Force the creation of the link, removing existing files if necessary |
+| `-t`   | Specify the target directory for the link                            |
+
+**NOTE**: When using `ln target link_name`, and `link_name` is an existing directory,
+it will create a file named `target` in that directory.
+
+**NOTE**: `rm` and `unlink` commands can both delete symbolic links or hard links.
+But `unlink` can only delete one file at a time,
+
+#### Hard Links and Soft Links
+
+You can use `ln` to create hard links and soft links (symbolic links) in `Linux`.
+Hard links are files that point to the same `inode` as the original file,
+while soft links are files that point to the original file by its path.
+Besides, hard links and soft links have the following differences:
+
+- Soft links can point to files in different file systems,
+  while hard links can only point to files in the same file system.
+- Soft links can point to directories, while hard links cannot point to directories.
+- When the source file is deleted, hard links will still be valid,
+  while soft links will become invalid.
+
+In Linux, you can use the `ls -l` command to view the number of hard links to a file.
 
 ### `sed`
 
@@ -931,111 +1036,6 @@ sed '/pattern/,$s/old/new/g' file.txt
 # Replace all occurrences of "old" with "new" in lines between "start_pattern" and "end_pattern"
 sed '/start_pattern/,/end_pattern/s/old/new/g' file.txt
 ```
-
-### `find`
-
-| Option        | Description                                                  |
-| ------------- | ------------------------------------------------------------ |
-| `-type`       | Specify the type of file to search for                       |
-| `-readable`   | Files or directories that are readable                       |
-| `-writable`   | Files or directories that are writable                       |
-| `-executable` | Files or directories that are executable                     |
-| `-name`       | File name to search for                                      |
-| `-path`       | Path to search for                                           |
-| `-iname`      | Case-insensitive file name search                            |
-| `-ipath`      | Case-insensitive path search                                 |
-| `-empty`      | Empty files or directories                                   |
-| `-size`       | Size of the files or directories to search for               |
-| `-exec`       | Execute a command on the found files or directories          |
-| `-perm`       | Permissions to search for                                    |
-| `-user`       | Owner of the file or directory                               |
-| `-group`      | Group of the file or directory                               |
-| `-maxdepth`   | Maximum depth to search                                      |
-| `-mindepth`   | Minimum depth to search                                      |
-| `-depth`      | Same with `-maxdepth`                                        |
-| `-delete`     | Delete the found files or directories                        |
-| `-and`        | Logic and                                                    |
-| `-or`         | Logic or                                                     |
-| `-not`        | Logic not                                                    |
-| `-regex`      | Regular expression                                           |
-| `-iregex`     | Case-insensitive regular expression                          |
-| `-print0`     | Print the found files or directories separated by null       |
-| `-samefile`   | Files that are hard links to the specified file              |
-| `-links`      | Files with a specific number of hard links                   |
-| `-P`          | Never follow symbolic links (default)                        |
-| `-L`          | Follow symbolic links                                        |
-| `-H`          | Follow symlinks only for ones explicitly passed as arguments |
-| `-mtime`      | Modification time of the file or directory in days           |
-| `-atime`      | Access time of the file or directory in days                 |
-| `-ctime`      | Creation time of the file or directory in days               |
-| `-mmin`       | Modification time of the file or directory in minutes        |
-| `-amin`       | Access time of the file or directory in minutes              |
-| `-cmin`       | Creation time of the file or directory in minutes            |
-
-The options for `-type`:
-
-- `b`: block device file
-- `c`: character device file
-- `p`: pipe file
-- `s`: socket file
-- `f`: regular file
-- `d`: directory
-- `l`: soft link file
-
-**NOTE**: When you use `-regex`, the pattern is matched against the entire file name,
-which is a little bit different from `grep`. If you want to match a specific part of the file name,
-you need to use `.*` to match any characters before and after the pattern. For example,
-`find . -regex ".*pattern.*"` will find files that contain `pattern` in their names.
-
-The units for `-size`:
-
-- `b`: block size, which is decided by the file system (usually 512 bytes)
-- `c`: bytes
-- `k`: kilobytes (1024 bytes)
-- `M`: megabytes (1024 kilobytes)
-- `G`: gigabytes (1024 megabytes)
-
-You can use `find . -size 1M` to find files that are exactly `1` megabyte in size;
-use `find . -size +1M` to find files larger than `1` megabyte;
-use `find . -size -1M` to find files smaller than `1` megabyte;
-use `find . -size +1M -size -2M` to find files
-larger than `1` megabyte but smaller than `2` megabytes.
-
-You can use `-exec` to execute a command on the found files or directories.
-
-For example, `find . -name "*.txt" -exec ls -l {} \;`
-will find all `txt` files in the current directory and execute `ls -l` on each of them.
-`{}` will be replaced by the found file name, `\;` means the end of the command,
-and the semicolon needs to be escaped to prevent it from being interpreted by the shell.
-
-### `ln`
-
-| Option | Description                                                          |
-| ------ | -------------------------------------------------------------------- |
-| `-s`   | Soft link                                                            |
-| `-f`   | Force the creation of the link, removing existing files if necessary |
-| `-t`   | Specify the target directory for the link                            |
-
-**NOTE**: When using `ln target link_name`, and `link_name` is an existing directory,
-it will create a file named `target` in that directory.
-
-**NOTE**: `rm` and `unlink` commands can both delete symbolic links or hard links.
-But `unlink` can only delete one file at a time,
-
-#### Hard Links and Soft Links
-
-You can use `ln` to create hard links and soft links (symbolic links) in `Linux`.
-Hard links are files that point to the same `inode` as the original file,
-while soft links are files that point to the original file by its path.
-Besides, hard links and soft links have the following differences:
-
-- Soft links can point to files in different file systems,
-  while hard links can only point to files in the same file system.
-- Soft links can point to directories, while hard links cannot point to directories.
-- When the source file is deleted, hard links will still be valid,
-  while soft links will become invalid.
-
-In Linux, you can use the `ls -l` command to view the number of hard links to a file.
 
 ### `sort`
 
