@@ -5,8 +5,8 @@ date: 2025-10-13 21:11:22+0800
 last_updated: 2025-10-13 21:11:22+0800
 description: 本文介绍 Miller Rabin 素数测试的原理及其实现方式。
 tags:
-  - Algorithms
   - Miller Rabin
+  - Primality Test
 categories: Algorithm
 featured: false
 giscus_comments: true
