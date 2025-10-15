@@ -1,8 +1,8 @@
 ---
 layout: post
 title: 模逆元
-date:
-last_updated:
+date: 2025-10-15 21:34:31+0800
+last_updated: 2025-10-15 21:34:31+0800
 description: 本文介绍模逆元的定义及其计算方法。
 tags:
   - Modular Inverse
