@@ -25,7 +25,7 @@ $$ ax + by = \gcd(a, b) $$ 成立。
 欧几里德算法：对于两个非负整数 $$ a $$ 和 $$ b $$，其最大公约数可以通过以下递归关系计算：
 
 $$
-gcd(a, b) = gcd(b, a \mod b)
+gcd(a, b) = gcd(b, a mod b)
 $$
 
 ## 线性丢番图方程
@@ -41,17 +41,17 @@ $$
 
 算法的基本思想是利用欧几里德算法的递归结构，同时在每一步记录下 $$ x $$ 和 $$ y $$ 的变化。
 
-考虑我们已经知道 $$ gcd(b, a \mod b) = bx_1 + (a \mod b)y_1 $$ 的解时，
+考虑当我们已经知道 $$ gcd(b, a mod b) = bx_1 + (a mod b)y_1 $$ 的解时，
 如何求出 $$ gcd(a, b) = ax + by $$ 的解。
 
-我们记 $$ a \mod b = a - \lfloor \frac{a}{b} \rfloor \cdot b $$，
+我们记 $$ a mod b = a - \lfloor \frac{a}{b} \rfloor \cdot b $$，
 则有：
 
 $$
-gcd(b, a \mod b) = bx_1 + (a - \lfloor \frac{a}{b} \rfloor \cdot b)y_1
+gcd(b, a mod b) = bx_1 + (a - \lfloor \frac{a}{b} \rfloor \cdot b)y_1
 $$
 
-注意到 $$ gcd(b, a \mod b) = gcd(a, b) $$，我们可以将上式改写为：
+注意到 $$ gcd(b, a mod b) = gcd(a, b) $$，我们可以将上式改写为：
 
 $$
 gcd(a, b) = ay_1 + b(x_1 - \lfloor \frac{a}{b} \rfloor \cdot y_1) = ax + by
@@ -76,9 +76,9 @@ $$
 此时 $$ x = x_0 \cdot \frac{c}{\gcd(a, b)} $$，$$ y = y_0 \cdot \frac{c}{\gcd(a, b)} $$
 即为 $$ ax + by = c $$ 的一组特解。
 
-接下来我们考虑在知道一组解的情况下，如何求出所有的解。这里先给出结论：
+接下来我们考虑在知道一组解的情况下，如何求出通解。这里先给出结论：
 
-若 $$ (x_0, y_0) $$ 是 $$ ax + by = c $$ 的一组解，则所有解可以表示为：
+若 $$ (x_0, y_0) $$ 是 $$ ax + by = c $$ 的一组解，则通解可以表示为：
 
 $$
 \left\{
@@ -95,13 +95,15 @@ $$
 
 由此可得 $$ a(x_1 - x_0) = -b(y_1 - y_0) $$，
 两边同时除以 $$ \gcd(a, b) $$，
-有 $$ \frac{a}{\gcd(a, b)}(x_1 - x_0) = -\frac{b}{\gcd(a, b)}(y_1 - y_0) $$
-即 $$ \frac{a}{\gcd(a, b)} $$ 整除 $$ \frac{b}{\gcd(a, b)}(y_1 - y_0) $$。
+有 $$ \frac{a}{\gcd(a, b)}(x_1 - x_0) = -\frac{b}{\gcd(a, b)}(y_1 - y_0) $$。
+可以知道 $$ \frac{a}{\gcd(a, b)} $$ 整除 $$ \frac{b}{\gcd(a, b)}(y_1 - y_0) $$。
 由于 $$ \gcd(a, b) $$ 整除 $$ a $$ 和 $$ b $$，
 所以 $$ \frac{a}{\gcd(a, b)} $$ 和 $$ \frac{b}{\gcd(a, b)} $$ 互质。
 因此，$$ \frac{a}{\gcd(a, b)} $$ 整除 $$ y_1 - y_0 $$，即存在整数 $$ k $$ 使得：
-$$ y_1 - y_0 = k \cdot \frac{a}{\gcd(a, b)} $$，同理，
-$$ x_1 - x_0 = -k \cdot \frac{b}{\gcd(a, b)} $$。
+$$ y_1 - y_0 = k \cdot \frac{a}{\gcd(a, b)} $$，即 $$ y_1 = y_0 + k \cdot \frac{a}{\gcd(a, b)} $$。
+代入前面的等式，有：$$ a(x_1 - x_0) = -b \cdot k \cdot \frac{a}{\gcd(a, b)} $$，
+即 $$ x_1 - x_0 = -k \cdot \frac{b}{\gcd(a, b)} $$，
+即 $$ x_1 = x_0 - k \cdot \frac{b}{\gcd(a, b)} $$。
 
 综上所述，所有解可以表示为上述通解的形式。
 
