@@ -70,4 +70,4 @@ Miller Rabin 素数测试是一种基于概率的素数测试算法，
 这是因为如果当前的结果第一次等于 $$ 1 $$，则说明在前一次平方操作中，
 结果既不是 $$ 1 $$ 也不是 $$ n - 1 $$，这就违背了二次探测定理。
 
-最后给出Miller Rabin素数测试的代码：[Miller Rabin](https://github.com/Kaiser-Yang/OJProblems/blob/main/template/miller_rabin.cpp)。
+最后给出Miller Rabin素数测试的代码：[Miller Rabin](https://github.com/Kaiser-Yang/OJProblems/blob/main/template/number_theory.cpp#L85)。
