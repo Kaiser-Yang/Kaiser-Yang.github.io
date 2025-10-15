@@ -105,4 +105,21 @@ $$ x_1 - x_0 = -k \cdot \frac{b}{\gcd(a, b)} $$。
 
 综上所述，所有解可以表示为上述通解的形式。
 
-最后给出扩展欧几里德算法的代码实现：[ex_gcd.cpp](https://github.com/Kaiser-Yang/OJProblems/blob/main/template/number_theory.cpp#L15)。
+最后给出扩展欧几里德算法的代码实现：
+
+```cpp
+// return the greatest common divisor of a and b,
+// and find x and y such that ax + by = gcd(a, b)
+template <typename T1, typename T2>
+static T1 ex_gcd(T1 a, T1 b, T2 &x, T2 &y) {
+    if (b == 0) {
+        x = 1;
+        y = 0;
+        return a;
+    } else {
+        T1 d = ex_gcd(b, a % b, y, x);
+        y -= (a / b) * x;
+        return d;
+    }
+}
+```

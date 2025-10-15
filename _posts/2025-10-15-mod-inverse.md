@@ -17,7 +17,7 @@ pretty_table: true
 
 模逆元的定义如下：
 
-给定一个正整数 $$ a $$  和一个正模数 $$ p $$ ，如果存在一个正整数 $$ b $$  满足：
+给定一个正整数 $$ a $$ 和一个正模数 $$ p $$ ，如果存在一个正整数 $$ b $$ 满足：
 
 $$
 a \cdot b \equiv 1 \ (\text{mod} \ p), 1 \leq b \le p
@@ -29,13 +29,23 @@ $$
 
 ### 单个数的模逆元
 
-对于模逆元的计算，其本质是在求解 $$ ax + py = 1 $$  这个不定方程的正整数解 $$ x $$。
+对于模逆元的计算，其本质是在求解 $$ ax + py = 1 $$ 这个不定方程的正整数解 $$ x $$。
 
 由裴蜀定理可知，只有当 $$ \gcd(a, p) = 1 $$ 时，方程才有整数解。
 
 所以我们可以使用扩展欧几里得算法来计算模逆元。
 
-这里给出计算代码：[inverse-with-ex-gcd.cpp](https://github.com/Kaiser-Yang/OJProblems/blob/main/template/number_theory.cpp#L30)。
+这里给出计算代码：
+
+```cpp
+// return the inverse of a modulo mod
+template <typename T1, typename T2>
+static T2 inverse_of(T1 a, T2 mod) {
+    i64 x, y;
+    (void)ex_gcd(a, mod, x, y);
+    return (x % mod + mod) % mod;
+}
+```
 
 特别地，当 $$ p $$ 是质数时，由费马小定理可知：
 
@@ -61,8 +71,24 @@ $$
 prod_i = a_{i-1} \cdot prod_{i-1} \ (\text{mod} \ p)
 $$
 
-那么就有 $$ a_i^{-1} \equiv prod_{i+1}^{-1} \cdot prod_i \ (\text{mod} \ p) $$。
+那么就有 $$ a^{-1}_i \equiv prod^{-1}_{i+1} \cdot prod_i \ (\text{mod} \ p) $$。
 
 我们只需要计算出 $$ prod_n $$ 的模逆元，然后从后往前依次计算出每个数的模逆元即可。
 
-这里给出代码：[inverse-multiple.cpp](https://github.com/Kaiser-Yang/OJProblems/blob/main/template/number_theory.cpp#L38)。
+这里给出代码：
+
+```cpp
+// return the inverse of each element in a modulo mod
+template <typename T1, typename T2>
+static std::vector<T2> inverse(const std::vector<T1> &a, T2 mod) {
+    std::vector<T2> prod(a.size() + 1, 1);
+    for (int i = 0; i < a.size(); i++) { prod[i + 1] = 1ull * prod[i] * (a[i] % mod) % mod; }
+    std::vector<T2> inv(a.size());
+    auto s = inverse_of(prod.back(), mod);
+    for (int i = a.size() - 1; i >= 0; i--) {
+        inv[i] = 1ull * s * prod[i] % mod;
+        s = 1ull * s * a[i] % mod;
+    }
+    return inv;
+}
+```

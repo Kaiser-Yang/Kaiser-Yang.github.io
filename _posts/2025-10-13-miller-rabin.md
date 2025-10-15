@@ -60,7 +60,7 @@ Miller Rabin 素数测试是一种基于概率的素数测试算法，
 2. 选择一个基数 $$ a $$。
 3. 计算 $$ x = a^d \mod n $$。
 4. 如果 $$ x \equiv 1 \mod n $$ 或 $$ x \equiv n - 1 \mod n $$，此时进行平方的结果一定是 $$ 1 $$，
-所以可以直接认为通过本轮的测试。
+   所以可以直接认为通过本轮的测试。
 5. 否则，重复以下步骤 $$ s - 1 $$ 次：
    - 计算 $$ x \leftarrow x^2 \mod n $$。
    - 如果 $$ x \equiv n - 1 \mod n $$，则通过本轮测试。
@@ -70,4 +70,34 @@ Miller Rabin 素数测试是一种基于概率的素数测试算法，
 这是因为如果当前的结果第一次等于 $$ 1 $$，则说明在前一次平方操作中，
 结果既不是 $$ 1 $$ 也不是 $$ n - 1 $$，这就违背了二次探测定理。
 
-最后给出Miller Rabin素数测试的代码：[Miller Rabin](https://github.com/Kaiser-Yang/OJProblems/blob/main/template/number_theory.cpp#L85)。
+最后给出Miller Rabin素数测试的代码：
+
+```cpp
+template <typename T>
+static bool is_prime(T n) {
+    if (n < 2) { return false; }
+    if (n == 2) { return true; }
+    if (n % 2 == 0) { return false; }
+    int s = 0;
+    T d = n - 1;
+    while (d % 2 == 0) {
+        d >>= 1;
+        s++;
+    }
+    for (auto &&a : miller_rabin_test) {
+        if (a % n == 0) { continue; }
+        auto x = pow(a, d, n);
+        if (x == 1 || x == n - 1) { continue; }
+        bool ok = false;
+        for (int r = 1; r < s; r++) {
+            x = pow(x, 2, n);
+            if (x == n - 1) {
+                ok = true;
+                break;
+            }
+        }
+        if (!ok) { return false; }
+    }
+    return true;
+}
+```
