@@ -112,14 +112,14 @@ $$ y_1 - y_0 = k \cdot \frac{a}{\gcd(a, b)} $$，即 $$ y_1 = y_0 + k \cdot \fra
 ```cpp
 // return the greatest common divisor of a and b,
 // and find x and y such that ax + by = gcd(a, b)
-template <typename T1, typename T2>
-static T1 ex_gcd(T1 a, T1 b, T2 &x, T2 &y) {
+template <typename T>
+static T ex_gcd(T a, T b, T &x, T &y) {
     if (b == 0) {
         x = 1;
         y = 0;
         return a;
     } else {
-        T1 d = ex_gcd(b, a % b, y, x);
+        T d = ex_gcd(b, a % b, y, x);
         y -= (a / b) * x;
         return d;
     }
