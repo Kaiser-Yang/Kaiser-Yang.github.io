@@ -25,7 +25,7 @@ $$ ax + by = \gcd(a, b) $$ 成立。
 欧几里德算法：对于两个非负整数 $$ a $$ 和 $$ b $$，其最大公约数可以通过以下递归关系计算：
 
 $$
-gcd(a, b) = gcd(b, a mod b)
+gcd(a, b) = gcd(b, a \text{mod} b)
 $$
 
 ## 线性丢番图方程
@@ -41,17 +41,17 @@ $$
 
 算法的基本思想是利用欧几里德算法的递归结构，同时在每一步记录下 $$ x $$ 和 $$ y $$ 的变化。
 
-考虑当我们已经知道 $$ gcd(b, a mod b) = bx_1 + (a mod b)y_1 $$ 的解时，
+考虑当我们已经知道 $$ gcd(b, a \text{mod} b) = bx_1 + (a \text{mod} b)y_1 $$ 的解时，
 如何求出 $$ gcd(a, b) = ax + by $$ 的解。
 
-我们记 $$ a mod b = a - \lfloor \frac{a}{b} \rfloor \cdot b $$，
+我们记 $$ a \text{mod} b = a - \lfloor \frac{a}{b} \rfloor \cdot b $$，
 则有：
 
 $$
-gcd(b, a mod b) = bx_1 + (a - \lfloor \frac{a}{b} \rfloor \cdot b)y_1
+gcd(b, a \text{mod} b) = bx_1 + (a - \lfloor \frac{a}{b} \rfloor \cdot b)y_1
 $$
 
-注意到 $$ gcd(b, a mod b) = gcd(a, b) $$，我们可以将上式改写为：
+注意到 $$ gcd(b, a \text{mod} b) = gcd(a, b) $$，我们可以将上式改写为：
 
 $$
 gcd(a, b) = ay_1 + b(x_1 - \lfloor \frac{a}{b} \rfloor \cdot y_1) = ax + by
