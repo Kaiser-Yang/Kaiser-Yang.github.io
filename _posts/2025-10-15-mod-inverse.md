@@ -39,9 +39,9 @@ $$
 
 ```cpp
 // return the inverse of a modulo mod
-template <typename T1, typename T2>
-static T2 inverse_of(T1 a, T2 mod) {
-    i64 x, y;
+template <typename T>
+static T inverse_of(T a, T mod) {
+    T x, y;
     (void)ex_gcd(a, mod, x, y);
     return (x % mod + mod) % mod;
 }
@@ -79,15 +79,15 @@ $$
 
 ```cpp
 // return the inverse of each element in a modulo mod
-template <typename T1, typename T2>
-static std::vector<T2> inverse(const std::vector<T1> &a, T2 mod) {
-    std::vector<T2> prod(a.size() + 1, 1);
-    for (int i = 0; i < a.size(); i++) { prod[i + 1] = 1ull * prod[i] * (a[i] % mod) % mod; }
-    std::vector<T2> inv(a.size());
+template <typename T>
+static std::vector<T> inverse(const std::vector<T> &a, T mod) {
+    std::vector<T> prod(a.size() + 1, 1);
+    for (int i = 0; i < a.size(); i++) { prod[i + 1] = prod[i] * (a[i] % mod) % mod; }
+    std::vector<T> inv(a.size());
     auto s = inverse_of(prod.back(), mod);
     for (int i = a.size() - 1; i >= 0; i--) {
-        inv[i] = 1ull * s * prod[i] % mod;
-        s = 1ull * s * a[i] % mod;
+        inv[i] = s * prod[i] % mod;
+        s = s * a[i] % mod;
     }
     return inv;
 }
