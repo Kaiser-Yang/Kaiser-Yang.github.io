@@ -93,17 +93,53 @@ $$
 
 设 $$ (x_1, y_1) $$ 也是方程的解，则有 $$ a(x_1 - x_0) + b(y_1 - y_0) = 0 $$ 成立。
 
-由此可得 $$ a(x_1 - x_0) = -b(y_1 - y_0) $$，
-两边同时除以 $$ \gcd(a, b) $$，
-有 $$ \frac{a}{\gcd(a, b)}(x_1 - x_0) = -\frac{b}{\gcd(a, b)}(y_1 - y_0) $$。
-可以知道 $$ \frac{a}{\gcd(a, b)} $$ 整除 $$ \frac{b}{\gcd(a, b)}(y_1 - y_0) $$。
-由于 $$ \gcd(a, b) $$ 整除 $$ a $$ 和 $$ b $$，
-所以 $$ \frac{a}{\gcd(a, b)} $$ 和 $$ \frac{b}{\gcd(a, b)} $$ 互质。
-因此，$$ \frac{a}{\gcd(a, b)} $$ 整除 $$ y_1 - y_0 $$，即存在整数 $$ k $$ 使得：
-$$ y_1 - y_0 = k \cdot \frac{a}{\gcd(a, b)} $$，即 $$ y_1 = y_0 + k \cdot \frac{a}{\gcd(a, b)} $$。
-代入前面的等式，有：$$ a(x_1 - x_0) = -b \cdot k \cdot \frac{a}{\gcd(a, b)} $$，
-即 $$ x_1 - x_0 = -k \cdot \frac{b}{\gcd(a, b)} $$，
-即 $$ x_1 = x_0 - k \cdot \frac{b}{\gcd(a, b)} $$。
+由此可得
+
+$$
+a(x_1 - x_0) = -b(y_1 - y_0)
+$$
+
+两边同时除以 $$ \gcd(a, b) $$，有
+
+$$
+\frac{a}{\gcd(a, b)}(x_1 - x_0) = -\frac{b}{\gcd(a, b)}(y_1 - y_0)
+$$
+
+可以知道
+
+$$
+\frac{a}{\gcd(a, b)} \mid \frac{b}{\gcd(a, b)}(y_1 - y_0)
+$$
+
+因为 $$ \frac{a}{\gcd(a, b)} $$ 和 $$ \frac{b}{\gcd(a, b)} $$ 互质，所以
+
+$$
+\frac{a}{\gcd(a, b)} \mid  y_1 - y_0
+$$
+
+即存在整数 $$ k $$ 使得：
+
+$$
+y_1 - y_0 = k \cdot \frac{a}{\gcd(a, b)}
+$$
+
+即
+
+$$
+y_1 = y_0 + k \cdot \frac{a}{\gcd(a, b)}
+$$
+
+代入前面的等式，有：
+
+$$
+a(x_1 - x_0) = -b \cdot k \cdot \frac{a}{\gcd(a, b)}
+$$
+
+即
+
+$$
+x_1 = x_0 - k \cdot \frac{b}{\gcd(a, b)}
+$$
 
 综上所述，所有解可以表示为上述通解的形式。
 
