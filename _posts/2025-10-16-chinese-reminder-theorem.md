@@ -43,7 +43,7 @@ n_i \equiv 0 mod m_j \quad (j \neq i)
 \end{cases}
 $$
 
-由同余的线性性质可知，$$ x' = \sum_{i=1}^{k} c_i $$ 即为一个特解。
+由同余的线性性质可知，$$ x' = \sum\_{i=1}^{k} c_i $$ 即为一个特解。
 
 不难证明通解可以写成 $$ x = x' + t \cdot M \quad (t \in \mathbb{Z}) $$。
 
@@ -81,27 +81,70 @@ $$
 
 并不保证 $$ m_1, m_2, \ldots, m_k $$ 两两互质，下面介绍如何求解该组方程。
 
-不难发现，对于 $$ x = x' + t \cdot M \quad (t \in \mathbb{Z}) $$，
-其是同余方程 $$ x \equiv x' mod M $$ 的解。
-现在假设我们已经求出了前 $$ i - 1 $$ 个方程的解
-$$ x = x_{i-1} + t \cdot M_{i-1} \quad (t \in \mathbb{Z}) $$，
-也就是 $$ x \equiv x_{i-1} mod M_{i-1} $$ 的解，
-现在考虑如何求其与 $$ x \equiv a_i mod m_i $$ 的解。
-将当前的解代入到第二个方程中，有：
-$$ x_{i-1} + t \cdot M_{i-1} \equiv a_i mod m_i $$，
-即 $$ t \cdot M_{i-1} \equiv a_i - x_{i-1} mod m_i $$。
-设 $$ d = \gcd(M_{i-1}, m_i) $$，则上式有解的充分必要条件是 $$ d \mid (a_i - x_{i-1}) $$。
-如果有解，则可以将上式两边同时除以 $$ d $$，得到
-$$ t \cdot \frac{M_{i-1}}{d} \equiv \frac{a_i - x_{i-1}}{d} mod \frac{m_i}{d} $$。
-由于 $$ \frac{M_{i-1}}{d} $$ 和 $$ \frac{m_i}{d} $$ 互质，
-所以可以使用扩展欧几里德算法来求解该方程，得到 $$ t_0 $$ 为一个特解。
-则通解可以表示为
-$$ t = t_0 + k \cdot \frac{m_i}{d} \quad (k \in \mathbb{Z}) $$。
-将其代入到 $$ x = x_{i-1} + t \cdot M_{i-1} $$ 中，有
-$$ x = x_{i-1} + t_0 \cdot M_{i-1} + k \cdot \frac{m_i}{d} \cdot M_{i-1} \quad (k \in \mathbb{Z}) $$。
-因此，新的解可以表示为
-$$ x = x_i + k \cdot M_i \quad (k \in \mathbb{Z}) $$，
-其中 $$ x_i = x_{i-1} + t_0 \cdot M_{i-1} $$，$$ M_i = \frac{m_i}{d} \cdot M_{i-1} $$。
+不难发现，$$ x = x' + t \cdot M \quad (t \in \mathbb{Z}) $$ 是同余方程
+$$ x \equiv x' \pmod{M} $$ 的解。
+
+假设我们已经求出了前 $i-1$ 个方程的解：
+
+$$
+x = x_{i-1} + t \cdot M_{i-1} \quad (t \in \mathbb{Z}),
+$$
+
+现在考虑如何求与
+
+$$
+x \equiv a_i \pmod{m_i}
+$$
+
+的公共解。
+
+将当前的解代入上述方程，得到：
+
+$$
+x_{i-1} + t \cdot M_{i-1} \equiv a_i \pmod{m_i},
+$$
+
+即
+
+$$
+t \cdot M_{i-1} \equiv a_i - x_{i-1} \pmod{m_i}.
+$$
+
+设 $$ d = \gcd(M_{i-1}, m_i) $$，则上式有解的**充要条件**是$$ d \mid (a_i - x_{i-1}) $$。
+
+如果有解，将上式两边同时除以 $d$，得到：
+
+$$
+t \cdot \frac{M_{i-1}}{d} \equiv \frac{a_i - x_{i-1}}{d} \pmod{\frac{m_i}{d}}.
+$$
+
+由于$$ \frac{M_{i-1}}{d} $$和$$ \frac{m_i}{d} $$互质，
+可以用扩展欧几里得算法求该方程的一个特解 $t_0$，则通解要求表示为：
+
+$$
+t = t_0 + k \cdot \frac{m_i}{d} \quad (k \in \mathbb{Z}).
+$$
+
+将通解代入$$ x = x_{i-1} + t \cdot M_{i-1} $$中，可以得到：
+
+$$
+x = x_{i-1} + t_0 \cdot M_{i-1} + k \cdot \frac{m_i}{d} \cdot M_{i-1} \quad (k \in \mathbb{Z}).
+$$
+
+因此，新的解可以表示为：
+
+$$
+x = x_i + k \cdot M_i \quad (k \in \mathbb{Z}),
+$$
+
+其中
+
+$$
+\begin{cases}
+x_i = x_{i-1} + t_0 \cdot M_{i-1} \\
+M_i = \frac{m_i}{d} \cdot M_{i-1}
+\end{cases}
+$$。
 
 特别地，我们可以增加 一个方程 $$ x \equiv 0 mod 1 $$ 作为初始条件，
 此时 $$ x_0 = 0 $$，$$ M_0 = 1 $$。这里给出代码：
