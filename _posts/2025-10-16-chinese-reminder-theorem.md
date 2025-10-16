@@ -82,7 +82,7 @@ $$
 并不保证 $$ m_1, m_2, \ldots, m_k $$ 两两互质，下面介绍如何求解该组方程。
 
 不难发现，$$ x = x' + t \cdot M \quad (t \in \mathbb{Z}) $$ 是同余方程
-$$ x \equiv x' \p\text{mod}{M} $$ 的解。
+$$ x \equiv x' \text{mod}{M} $$ 的解。
 
 假设我们已经求出了前 $$ i-1 $$ 个方程的解：
 
@@ -93,7 +93,7 @@ $$
 现在考虑如何求其与
 
 $$
-x \equiv a_i \p\text{mod}{m_i}
+x \equiv a_i \text{mod}{m_i}
 $$
 
 的公共解。
@@ -101,13 +101,13 @@ $$
 将当前的解代入上述方程，得到：
 
 $$
-x_{i-1} + t \cdot M_{i-1} \equiv a_i \p\text{mod}{m_i},
+x_{i-1} + t \cdot M_{i-1} \equiv a_i \text{mod}{m_i},
 $$
 
 即
 
 $$
-t \cdot M_{i-1} \equiv a_i - x_{i-1} \p\text{mod}{m_i}.
+t \cdot M_{i-1} \equiv a_i - x_{i-1} \text{mod}{m_i}.
 $$
 
 设 $$ d = \gcd(M_{i-1}, m_i) $$，则上式有解的**充要条件**是$$ d \mid (a_i - x_{i-1}) $$。
@@ -115,7 +115,7 @@ $$
 如果有解，将上式两边同时除以 $$ d $$，得到：
 
 $$
-t \cdot \frac{M_{i-1}}{d} \equiv \frac{a_i - x_{i-1}}{d} \p\text{mod}{\frac{m_i}{d}}.
+t \cdot \frac{M_{i-1}}{d} \equiv \frac{a_i - x_{i-1}}{d} \text{mod}{\frac{m_i}{d}}.
 $$
 
 由于$$ \frac{M_{i-1}}{d} $$和$$ \frac{m_i}{d} $$互质，
