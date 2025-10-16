@@ -21,12 +21,12 @@ pretty_table: true
 ### 费马小定理（Fermat's Little Theorem）
 
 如果 $$ p $$ 是一个素数，且 $$ a $$ 不是 $$ p $$ 的倍数，
-则 $$ a^{p-1} \equiv 1 \mod p $$。
+则 $$ a^{p-1} \equiv 1 mod p $$。
 
 ### 二次探测定理（Quadratic Residue Theorem）
 
-如果 $$ p $$ 是一个素数，且 $$ x^2 \equiv 1 \mod p $$，
-则 $$ x \equiv 1 \mod p $$ 或 $$ x \equiv -1 \mod p $$。
+如果 $$ p $$ 是一个素数，且 $$ x^2 \equiv 1 mod p $$，
+则 $$ x \equiv 1 mod p $$ 或 $$ x \equiv -1 mod p $$。
 
 ## Miller Rabin 素数测试原理
 
@@ -40,8 +40,8 @@ Miller Rabin 素数测试是一种基于概率的素数测试算法，
 对于一个奇数 $$ n $$ 而言其可以被写成 $$ n - 1 = 2^s \cdot d $$ 的形式，
 其中 $$ d $$ 是奇数，$$ s \geq 1 $$。
 根据费马小定理，如果 $$ n $$ 是素数，
-则对于任意 $$ a $$，都有 $$ a^{2^s \cdot d} \equiv 1 \mod n $$。
-而由二次探测定理可知，我们可以对 $$ a^{2^s \cdot d} \equiv 1 \mod n $$
+则对于任意 $$ a $$，都有 $$ a^{2^s \cdot d} \equiv 1 mod n $$。
+而由二次探测定理可知，我们可以对 $$ a^{2^s \cdot d} \equiv 1 mod n $$
 执行开方的操作，其结果一定要是 $$ 1 $$ 或 $$ n - 1 $$。
 同时当其结果为 $$ 1 $$ 时，且当前还可以进行开方操作时，
 则继续进行开方操作，直到结果为 $$ n - 1 $$ 或无法继续开方为止。
@@ -58,12 +58,12 @@ Miller Rabin 素数测试是一种基于概率的素数测试算法，
 
 1. 将待测试的数 $$ n $$ 表示为 $$ n - 1 = 2^s \cdot d $$，其中 $$ d $$ 是奇数，$$ s \geq 1 $$。
 2. 选择一个基数 $$ a $$。
-3. 计算 $$ x = a^d \mod n $$。
-4. 如果 $$ x \equiv 1 \mod n $$ 或 $$ x \equiv n - 1 \mod n $$，此时进行平方的结果一定是 $$ 1 $$，
+3. 计算 $$ x = a^d mod n $$。
+4. 如果 $$ x \equiv 1 mod n $$ 或 $$ x \equiv n - 1 mod n $$，此时进行平方的结果一定是 $$ 1 $$，
    所以可以直接认为通过本轮的测试。
 5. 否则，重复以下步骤 $$ s - 1 $$ 次：
-   - 计算 $$ x \leftarrow x^2 \mod n $$。
-   - 如果 $$ x \equiv n - 1 \mod n $$，则通过本轮测试。
+   - 计算 $$ x \leftarrow x^2 mod n $$。
+   - 如果 $$ x \equiv n - 1 mod n $$，则通过本轮测试。
 6. 如果所有测试都未通过，则 $$ n $$ 不是素数。
 
 在上述过程的5中，我们只检查了结果是否等于 $$ n - 1 $$，而没有检查结果是否等于 $$ 1 $$。
