@@ -78,8 +78,8 @@ no matter how many stones you remove,
 the number of the rest stones will not be multiple of $$ 4 $$.
 
 For `claim 2`, suppose the number of the stones is $$ n $$, and $$ n $$ is not multiple of $$ 4 $$.
-We just need remove $$ n \mod 4 $$ stones,
-then the number of the rest stones will be $$ n - n \mod 4 $$, which is multiple of $$ 4 $$.
+We just need remove $$ n mod 4 $$ stones,
+then the number of the rest stones will be $$ n - n mod 4 $$, which is multiple of $$ 4 $$.
 
 Then we know that $$ 0 $$ is the simplest losing state.
 Then we have proven the `theorem 1` by induction
