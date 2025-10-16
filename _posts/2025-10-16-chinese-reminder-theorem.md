@@ -43,7 +43,7 @@ n_i \equiv 0 mod m_j \quad (j \neq i)
 \end{cases}
 $$
 
-由同余的线性性质可知，$$ x' = \sum\_{i=1}^{k} c_i $$ 即为一个特解。
+由同余的线性性质可知，$$ x' = \sum_{i=1}^{k} c_i $$ 即为一个特解。
 
 不难证明通解可以写成 $$ x = x' + t \cdot M \quad (t \in \mathbb{Z}) $$。
 
