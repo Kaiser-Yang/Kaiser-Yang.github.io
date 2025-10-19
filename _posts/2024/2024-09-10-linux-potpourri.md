@@ -980,6 +980,42 @@ Besides, hard links and soft links have the following differences:
 
 In Linux, you can use the `ls -l` command to view the number of hard links to a file.
 
+### `mount`
+
+| Option   | Description                                                   |
+| -------- | ------------------------------------------------------------- |
+| `-a`     | Mount all file systems mentioned in `/etc/fstab`              |
+| `-t`     | Specify the type of the file system                           |
+| `-o`     | Specify mount options                                         |
+| `-r`     | Read only                                                     |
+| `-w`     | Read and write                                                |
+| `--move` | Move mounted file systems to new mount points                 |
+| `--fake` | Simulate a mount operation without actually mounting anything |
+
+Those below are the common file system types:
+
+- `ext4`: `Linux` file system.
+- `ntfs`: `Windows` file system, mounted using `mount -t ntfs-3g`.
+- `FAT32`: `FAT32` file system, mounted using `mount -t vfat`.
+- `exFAT`: Requires installing `exfat-fuse` and `exfat-utils` packages, mounted using `mount -t exfat`.
+- `ISO`: `ISO` file system, mounted using `mount -t iso9660`.
+- `nfs`: Network file system, can specify version using `mount -t nfs -o vers=num`.
+
+**NOTE**: `mount` will list all mounted file systems when used without arguments.
+And you can use `mount -t type` to list file systems of a specific type.
+
+#### `umount`
+
+`umount` is used to unmount file systems. The usage is `umount <mount_point>`,
+for example `umount /mnt`.
+
+**NOTE**: When unmounting a file system, if the file system is in use,
+it will prompt `device is busy`.
+In this case, you can use `lsof <mount_point>` to see which processes are using the file system,
+and then choose whether to kill those processes using the `kill` command.
+You can also use `umount -l <mount_point>` to lazily unmount it when it is no longer busy,
+or use `umount -f <mount_point>` to force unmount it.
+
 ### `sed`
 
 | Option       | Description                                          |
