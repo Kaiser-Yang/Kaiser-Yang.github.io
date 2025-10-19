@@ -652,6 +652,29 @@ which is used to specify the language priority list for messages.
 
 ## Commands
 
+### `apropos`
+
+| Option | Description                                 |
+| ------ | ------------------------------------------- |
+| `-a`   | Logical AND of search terms (default is OR) |
+| `-e`   | Exact match only                            |
+| `-w`   | Wildcard matching                           |
+| `-r`   | Regular expression matching                 |
+| `-l`   | Do not trim output to terminal width        |
+| `-s`   | Specify the section(s) to search            |
+
+For `-s` you can use those below to specify the section:
+
+- `1`: commands.
+- `2`: system calls.
+- `3`: library functions.
+- `4`: special files (usually devices).
+- `5`: file formats and conventions.
+- `6`: games.
+- `7`: potpourri.
+- `8`: system administration commands and daemons.
+- `9`: kernel routines.
+
 ### `awk`
 
 | Option | Description                                  |
@@ -1275,6 +1298,16 @@ while `server` is used to accept connections from remote hosts.
 **NOTE**: As to port forwarding, check [SSH Port Forwarding](/blog/2024/ssh-port-forwarding) for
 details.
 
+### `tee`
+
+| Option | Description              |
+| ------ | ------------------------ |
+| `-a`   | Append                   |
+| `-i`   | Ignore interrupt signals |
+
+We usually use `tee` in pipelines. For example,
+when we want to write some content of a command to a file,
+but the file requires `root` permission, we can use `sudo tee` to achieve this.
 
 ## Makefile
 
