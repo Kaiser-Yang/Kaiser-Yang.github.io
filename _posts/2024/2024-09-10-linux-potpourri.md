@@ -1309,6 +1309,33 @@ We usually use `tee` in pipelines. For example,
 when we want to write some content of a command to a file,
 but the file requires `root` permission, we can use `sudo tee` to achieve this.
 
+### `usermod`
+
+| Option | Description                                                                |
+| ------ | -------------------------------------------------------------------------- |
+| `-l`   | Modify the username                                                        |
+| `-u`   | Modify the `UID` of the user                                               |
+| `-g`   | Modify the primary group of the user                                       |
+| `-G`   | Modify the supplementary groups of the user                                |
+| `-a`   | Used with `-G` to append the user to supplementary groups                  |
+| `-d`   | Modify the home directory of the user                                      |
+| `-m`   | Used with `-d` to move the contents of the home directory at the same time |
+| `-s`   | Modify the login shell of the user                                         |
+| `-o`   | Allow non-unique `UID`                                                     |
+| `-c`   | Update the user's comment field                                            |
+| `-e`   | Specify the expiration date                                                |
+| `-p`   | Modify the password                                                        |
+| `-L`   | Lock the user                                                              |
+| `-U`   | Unlock the user                                                            |
+
+**NOTE**: When you use `-p` to update the password, the password should be encrypted.
+You can use `openssl passwd` to generate an encrypted password.
+But it is more recommended to use the `passwd` command to change the password.
+
+**NOTE**: The newly created user will not expire by default.
+If you set an expiration date, you can use `chmod -e ""` to cancel it.
+When the user expires, the user will not be able to log in, but the user still exists,
+
 ## Makefile
 
 ### Variables
