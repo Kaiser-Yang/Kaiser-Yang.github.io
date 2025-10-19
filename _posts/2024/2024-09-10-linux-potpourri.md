@@ -1239,6 +1239,25 @@ Other glob patterns:
 - `?`: matches any single character
 - `!`: excludes the following pattern
 
+### `su`
+
+| Option | Description                                                        |
+| ------ | ------------------------------------------------------------------ |
+| `-l`   | Switch user as login shell                                         |
+| `-c`   | Execute command as the specified user                              |
+| `-s`   | Specify shell                                                      |
+| `-p`   | Retain `HOME`, `SHELL`, `USER` and `LOGNAME` environment variables |
+
+**NOTE**: When use `su` without specifying a user, it will switch to the `root` user by default.
+
+**NOTE**: If you do not use `-l`, `su` will not switch the user's environment variables.
+When using `-l`, the following will be executed in order:
+
+> 1. clears all the environment variables except `TERM` and variables specified by `--whitelist-environment`
+> 2. initializes the environment variables `HOME`, `SHELL`, `USER`, `LOGNAME`, and `PATH`
+> 3. changes to the target user’s home directory
+> 4. sets `argv[0]` of the shell to `-` in order to make the shell a login shell
+
 ### `tar`
 
 | Option        | Description                                   |
