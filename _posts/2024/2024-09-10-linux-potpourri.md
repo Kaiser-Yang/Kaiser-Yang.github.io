@@ -1152,6 +1152,14 @@ You can use `scp` to copy multiple files at once, for example,
 while executing the command, it may be because `ssh-agent` is not started.
 You can start `ssh-agent` by using `eval $(ssh-agent)`.
 
+#### `ssh-agent`
+
+`ssh-agent` is used to manage user's keys.
+Once a key is added to `ssh-agent`,
+the user can log in without entering the key's password in subsequent login processes.
+
+You can use `eval $(ssh-agent)` to start `ssh-agent` in the current shell.
+
 #### `ssh-copy-id`
 
 | Option | Description                         |
