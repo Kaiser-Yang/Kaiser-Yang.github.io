@@ -1317,6 +1317,18 @@ When using `-l`, the following will be executed in order:
 > 3. changes to the target user’s home directory
 > 4. sets `argv[0]` of the shell to `-` in order to make the shell a login shell
 
+### `sudo`
+
+| Option | Description                                                         |
+| ------ | ------------------------------------------------------------------- |
+| `-l`   | List the allowed commands for the user or check a specified command |
+| `-U`   | In list mode, specify the user instead of current user              |
+| `-u`   | Specify the user to run the command                                 |
+| `-g`   | Specify the group to run the command                                |
+| `-s`   | Specify the shell to run the command                                |
+| `-k`   | Delete cached credentials without affecting the timestamp           |
+| `-v`   | Update the user's cached credentials without running a command      |
+
 ### `tar`
 
 | Option        | Description                                   |
