@@ -1137,6 +1137,21 @@ while keeping other configurations unchanged.
 You can use `scp` to copy multiple files at once, for example,
 `scp file1 file2 host_name:/path/to/`。
 
+#### `ssh-add`
+
+| Option | Description                      |
+| ------ | -------------------------------- |
+| `-l`   | List fingerprints of loaded keys |
+| `-L`   | List public keys of loaded keys  |
+| `-d`   | Delete a specific key            |
+| `-D`   | Delete all keys                  |
+| `-x`   | Lock `ssh-agent`                 |
+| `-X`   | Unlock `ssh-agent`               |
+
+**NOTE**: If there is `Could not open a connection to your authentication agent`
+while executing the command, it may be because `ssh-agent` is not started.
+You can start `ssh-agent` by using `eval $(ssh-agent)`.
+
 #### `ssh-copy-id`
 
 | Option | Description                         |
