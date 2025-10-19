@@ -997,7 +997,8 @@ Those below are the common file system types:
 - `ext4`: `Linux` file system.
 - `ntfs`: `Windows` file system, mounted using `mount -t ntfs-3g`.
 - `FAT32`: `FAT32` file system, mounted using `mount -t vfat`.
-- `exFAT`: Requires installing `exfat-fuse` and `exfat-utils` packages, mounted using `mount -t exfat`.
+- `exFAT`: Requires installing `exfat-fuse` and `exfat-utils` packages,
+  mounted using `mount -t exfat`.
 - `ISO`: `ISO` file system, mounted using `mount -t iso9660`.
 - `nfs`: Network file system, can specify version using `mount -t nfs -o vers=num`.
 
