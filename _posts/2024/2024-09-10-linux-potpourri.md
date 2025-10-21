@@ -1377,6 +1377,50 @@ When using `-l`, the following will be executed in order:
 | `-k`   | Delete cached credentials without affecting the timestamp           |
 | `-v`   | Update the user's cached credentials without running a command      |
 
+#### `/etc/sudoers`
+
+`/etc/sudoers` is a file used to configure `sudo` permissions.
+Only the users with `root` privileges can modify this file.
+
+The format of the file is as below:
+
+```bash
+# Configure a specific user
+user host=(runas[:runasgroup]) [NOPASSWD:] command
+# Configure a specific group
+%group host=(runas[:runasgroup]) [NOPASSWD:] command
+# Include another sudoers file
+@includedir dirname
+```
+
+Here are some examples:
+
+- `user ALL=(ALL) ALL`: allow `user` user to execute any command as any user on any host.
+- `%group ALL=(ALL) NOPASSWD: ALL`: allow all users in the `group` group to execute any command
+  as any user on any host without entering a password.
+- `@includedir /etc/sudoers.d`: include all files in the `/etc/sudoers.d` directory.
+
+**NOTE**: `~` and `.` can not be the ending character of a file in `@includedir` directory.
+This is explicitly stated in `/etc/sudoers.d/README`:
+
+> This will cause `sudo` to read and parse any files in the `/etc/sudoers.d` directory that do not
+> end in `~` or contain a `.` character.
+
+**NOTE**: If you want to configure multiple commands, you should use `,` as the separator.
+
+#### `visudo`
+
+It is recommended to use `visudo` to modify the `/etc/sudoers` file
+(i.e., via the command `sudo visudo`),
+`visudo` will check for syntax errors after modification.
+
+Some options of `visudo`:
+
+| Option | Description                      |
+| ------ | -------------------------------- |
+| `-c`   | Only check syntax                |
+| `-f`   | Specify the sudoers file to edit |
+
 ### `tar`
 
 | Option        | Description                                   |
