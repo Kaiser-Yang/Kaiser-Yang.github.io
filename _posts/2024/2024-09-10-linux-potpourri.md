@@ -1319,6 +1319,34 @@ You can use `eval $(ssh-agent)` to start `ssh-agent` in the current shell.
 the default generated key is `ed25519` rather than `rsa`.
 `ed25519` is more secure than rsa and also offers better performance.
 
+#### `sshfs`
+
+Using `sftp` directly allows for simple file transfers,
+but if you want more than just transferring remote files.
+For example,
+if you need to modify remote files,
+such as editing them directly with your locally configured editor
+then you can use `sshfs` to achieve this.
+
+The principle behind `sshfs` is to use the `sftp` protocol
+to mount files from a remote host onto your local host,
+which should be familiar to users who have used similar systems like `NFS`.
+
+Mounting with `sshfs`:
+
+```shell
+sshfs user@host:/path/to/dir /path/to/mount_point
+```
+
+**Note:** The owner of the mount point must be the current user.
+
+To unmount, you can use either
+`fusermount -u /path/to/mount_point` or `umount /path/to/mount_point`.
+
+**Note:** It is not recommended to add the mount to `/etc/fstab`,
+because if the network is unstable it may retry for a long time,
+leading to very lengthy boot times for the system.
+
 #### `~/.ssh/known_hosts`
 
 This file is used to store the public keys of remote hosts.
