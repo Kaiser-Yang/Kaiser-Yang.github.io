@@ -1244,6 +1244,31 @@ while keeping other configurations unchanged.
 You can use `scp` to copy multiple files at once, for example,
 `scp file1 file2 host_name:/path/to/`。
 
+#### `sftp`
+
+`sftp` is an interactive file transfer tool
+that uses `ssh` to ensure the security of file transfers.
+
+The startup process for `sftp` is similar to that of `ssh`, for example: `sftp user@host`.
+After starting, you can list available commands using `help` or `?`.
+Most `Linux` commands can be used within `sftp`.
+In addition, by adding a prefix `l` (or `!`) to the usual command,
+you indicate execution on the local machine.
+For example, `pwd` displays the current directory on the remote host,
+while `lpwd` shows the current directory on the local host;
+`cd` switches directories on the remote host,
+while `lcd` switches directories on the local host.
+
+If you need to perform multiple operations locally, you can use `!` to switch to the local shell,
+so you don’t need to add the `l` prefix to each command.
+After finishing local operations and wanting to return to `sftp`, simply execute `exit`.
+
+Use the `get` command to download files.
+For example, `get file` downloads the `file` from the remote host to the local machine.
+And the `put` command uploads files.
+For example, `put file` uploads the `file` from the local machine to the remote host.
+Both commands work similarly to `cp`; for directories, you need to add the `-r` option.
+
 #### `ssh-add`
 
 | Option | Description                      |
