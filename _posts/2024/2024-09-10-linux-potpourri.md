@@ -980,6 +980,53 @@ Besides, hard links and soft links have the following differences:
 
 In Linux, you can use the `ls -l` command to view the number of hard links to a file.
 
+### `lsof`
+
+`lsof` is an abbreviation for `list open files`, which is used to list open files in the system.
+The output of `lsof` contains the following fields:
+
+- `COMMAND`: the command that opened the file.
+- `PID`: the process ID.
+- `USER`: the user of the process.
+- `FD`: the file descriptor.
+- `TYPE`: the type of the file, common types include `REG`, `DIR`, `CHR`, `FIFO`, `SOCK`, `LINK`,
+  which represent regular files, directories,
+  character devices, pipes, sockets, and symbolic links respectively.
+- `DEVICE`: the device.
+- `SIZE/OFF`: the size of the file or the offset.
+- `NODE`: the `inode` number.
+- `NAME`: the name of the opened file.
+
+| Option | Description                                |
+| ------ | ------------------------------------------ |
+| `-u`   | Specify the user                           |
+| `-c`   | Specify the prefix of the command name     |
+| `+D`   | Specify the directory                      |
+| `-i`   | Internet files                             |
+| `-n`   | Show IP addresses instead of host names    |
+| `-P`   | Show port numbers instead of service names |
+| `-p`   | Specify the process ID                     |
+| `-U`   | Unix domain socket files                   |
+| `-R`   | Show the parent process ID                 |
+| `-l`   | Show the user's login ID                   |
+| `-a`   | Logical AND                                |
+| `-d`   | Specify the file descriptor                |
+| `-t`   | Only print process IDs                     |
+| `-b`   | Avoid kernel functions that may block      |
+
+**NOTE**: While using `lsof`, you can use `^` to represent NOT. For example,
+`lsof -u ^root` means to list all open files except those opened by the `root` user.
+
+**NOTE**: The full format of `-i` is:
+
+```shell
+-i[46][protocol][@hostname|@hostaddr][:service|:port]，
+```
+
+`protocol` can be `TCP`, `UDP`, or `TCP:UDP`.
+`hostname` can be a host name, `IPv4` address, or `IPv6` address.
+`service` can be a service name or a port number.
+
 ### `mount`
 
 | Option   | Description                                                   |
