@@ -1052,6 +1052,29 @@ Those below are the common file system types:
 **NOTE**: `mount` will list all mounted file systems when used without arguments.
 And you can use `mount -t type` to list file systems of a specific type.
 
+**NOTE**: `blkid /dev/sda1` can be used to get the file system type and `UUID` of a device.
+
+#### `/etc/fstab`
+
+After rebooting the system, all mounted file systems will be lost.
+We can update the `/etc/fstab` file to make the file systems
+automatically mounted at boot time. The format of `/etc/fstab` is as follows:
+
+```
+# device <mount_point>   <type>  <options>     <dump>  <pass>
+/dev/sda1       /mnt      ext4    defaults       0       2
+```
+
+The meanings of fields are as follows:
+
+- `<device>`: the name of the device.
+- `<mount_point>`: the mount point of the file system.
+- `<type>`: the file system type.
+- `<options>`: the mount options separated by commas.
+- `<dump>`: `0` for no backup, and `1` for backup (requires `dump` utility, usually set to `0`).
+- `<pass>`: check order at boot time. `0` for no check, `1` for first check,
+  `2` for second check (usually set to `1` for root file system, and `2` for other file systems).
+
 #### `umount`
 
 `umount` is used to unmount file systems. The usage is `umount <mount_point>`,
