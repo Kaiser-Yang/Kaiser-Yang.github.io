@@ -2,9 +2,8 @@
 layout: post
 title: A Brief Introduction of Game Theory
 date: 2024-06-17 19:42:56+0800
-last_updated: 2025-05-17 16:19:12+0800
-description:
-    This post introduce some simple examples of game theory.
+last_updated: 2025-10-31 16:30:31+0800
+description: This post introduce some simple examples of game theory.
 tags:
   - Mathematics
   - Game Theory
@@ -16,6 +15,7 @@ toc:
 related_posts: true
 pretty_table: true
 ---
+
 ## Nim Game
 
 ### The Simplest One
@@ -54,13 +54,13 @@ Otherwise, you will win the game.
 
 But why? In order to prove this, we must introduce some important definitions:
 
-* `Winning State`: The state you will win the game.
-* `Losing State`: The state you will lose the game.
+* `Winning State`: The state that one will win the game.
+* `Losing State`: The state that one will lose the game.
 
 We can find that if a state is a winning state,
-we can make a move to change the state to a losing state (make your opposite lose).
-And if a state is a losing state, no mater which move we choose,
-the state will be changed to a winning state (make your opposite win).
+one can make a move to change the state to a losing state (make the other lose).
+And if a state is a losing state, any move will make
+the state to be changed to a winning state (make the other win).
 
 Now, we can prove the `theorem 1` by proving the following two claims:
 
@@ -68,13 +68,13 @@ Now, we can prove the `theorem 1` by proving the following two claims:
 any move will make the number of the rest stones not multiple of $$ 4 $$
 (from `losing state` to `winning state`).
 * `Claim 2`: If the number of the stones is not multiple of $$ 4 $$,
-we can make a move to make the number of the rest stones multiple of $$ 4 $$
+there must be a move to make the number of the rest stones multiple of $$ 4 $$
 (from `winning state` to `losing state`).
 
 The proof of the `claim 1` is obvious.
-Because you can only remove $$ 1 $$, $$ 2 $$, or $$ 3 $$ stones at a time,
+Because one can only remove $$ 1 $$, $$ 2 $$, or $$ 3 $$ stones at a time,
 if the number of the stones is multiple of $$ 4 $$,
-no matter how many stones you remove,
+no matter how many stones be removed,
 the number of the rest stones will not be multiple of $$ 4 $$.
 
 For `claim 2`, suppose the number of the stones is $$ n $$, and $$ n $$ is not multiple of $$ 4 $$.
@@ -169,7 +169,7 @@ The binary representations: $$ 1 $$, $$ 1010 $$, $$ 1101 $$.
 
 The `Nim Sum` is $$ 110 $$, we can find $$ 1101 $$ is the pile
 whose $$ 3 $$-rd bit is $$ 1 $$: $$ 1(1)01 $$.
-Now we consider each bit of the right $$ 3 $$ bits of the pile $$ 1101 $$,
+Now we consider each bit of the rightmost $$ 3 $$ bits of the pile $$ 1101 $$,
 the first one is $$ 1 $$: $$ 110(1) $$,
 and the corresponding `Nim Sum` bit is $$ 0 $$: $$ 11(0) $$, we keep this;
 the second one is $$ 0 $$: $$ 11(0)1 $$,
@@ -279,6 +279,8 @@ that is not the bucket $$ 0 $$ to any one which is at the left side of the bucke
 but you can not jump over any buckets that contains cookies.
 The one who moves the last cookie will be the winner.
 You will take the first turn to move the cookie.
+
+#### Solution
 
 This one is similar with [variation 2](#variation-2).
 For each cookie, we just need to consider it as a pile of stones,
@@ -427,11 +429,11 @@ But you may ask how about a move make the `SG` value of the sub-game greater tha
 Yes, this is possible, but this really does not matter. Let me explain this for you by a simple way:
 
 Consider that one in a winning state,
-he or she will not make the `SG` value of a sub-game greater than $$ k $$.
-He or she knows that there is a move that can make the `Nim Sum` $$ 0 $$,
-so he will try this one. For the one in a losing state,
-he or she may consider take a move that make the `SG` value of a sub-game greater than $$ k $$.
-But for this, the opposite can make the `SG` value be $$ k $$ definitely.
+the one will not make the `SG` value of a sub-game greater than $$ k $$.
+The one knows that there is a move that can make the `Nim Sum` $$ 0 $$,
+so the one will try this move. For the one in a losing state,
+the one may consider take a move that make the `SG` value of a sub-game greater than $$ k $$.
+But for this, the other can make the `SG` value be $$ k $$ definitely.
 Therefore when there is no move that makes the `SG` value of a sub-game greater,
 the one has to move like removing stones from a pile.
 You may prove this by a formal one if you like. Bur for most, this simple one is enough.
@@ -464,8 +466,7 @@ There is a pile of $$ n $$ stones.
 You and your friend take turns to remove a stone or two stones.
 The one who can not move will lose.
 
-We now define the original game as game $$ A $$, and the new one
-as game $$ B $$.
+We now define the original game as game $$ A $$, and the new one as game $$ B $$.
 
 For the game $$ A $$, if we remove one node from the end of the chain at beginning,
 the game will change to the game $$ B $$ with $$ n-1 $$ stones.
