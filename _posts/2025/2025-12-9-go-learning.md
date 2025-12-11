@@ -2,7 +2,7 @@
 layout: post
 title: Go 学习笔记
 date: 2025-12-09 19:44:38+0800
-last_updated: 2025-12-10 20:01:31+0800
+last_updated: 2025-12-11 19:55:03+0800
 description: 本文记录了我在学习 Go 语言过程中的一些笔记和心得。
 tags:
   - Go
@@ -30,6 +30,7 @@ pretty_table: true
 | %d/%i | 十进制整数                 |
 | %f    | 十进制浮点数               |
 | %e/%E | 科学计数法（大小写）       |
+| %w    | 用于错误包装               |
 
 ---
 
@@ -196,9 +197,9 @@ emp.Age = 30  // 直接访问嵌入结构体的字段
 
 ```go
 type T struct {
-  // F T          // 错误，不能包含类型为 T 的字段
-  F *T          // 正确，可以包含类型为 *T 的字段
-  G []T         // 正确，可以包含类型为 []T 的字段
+  // F T         // 错误，不能包含类型为 T 的字段
+  F *T           // 正确，可以包含类型为 *T 的字段
+  G []T          // 正确，可以包含类型为 []T 的字段
   H map[string]T // 正确，可以包含类型为 map[type]T 的字段
 }
 
@@ -264,6 +265,71 @@ type MyInt int
 var a MyInt = 10
 b := 10
 c := a + b // 隐式转换，MyInt 和 int 可以进行运算
+```
+
+---
+
+`Go` 语言中的方法集合是指某个类型所拥有的方法的集合。 方法集合会根据接收者的类型而有所不同。
+如果接收者是值类型，那么方法集合中包含所有值接收者和指针接收者的方法。
+如果接收者是指针类型，那么方法集合中只包含指针接收者的方法。
+如果一个类型的方法集合是一接口的超集，那么该类型就实现了该接口。
+
+---
+
+`Go` 语言中可以通过类型断言来获取一个接口变量的具体类型和值。
+
+```go
+a := 10
+var x any = a
+v1, ok1 := x.(int)    // ok1 为 true，v1 的值为 10
+v2, ok2 := x.(string) // ok2 为 false，v2 的值为 string 类型的零值 ""
+v3 := x.(float64)     // 如果断言失败会引发 panic
+```
+
+需要注意的是，如果断言的类型是一个接口则语义变成了「变量是否实现了该接口」的判断。
+如果断言成功，会返回变量的实际类型和值而不是返回接口类型和值。
+
+---
+
+`Go` 语言中可以使用 `type switch` 来方便的判断一个接口变量所属于的类型。
+
+```go
+var x interface{} = 10
+switch v := x.(type) { // 只能接口类型可以使用 type switch
+case int:
+  fmt.Printf("x is int: %d\n", v)
+case string:
+  fmt.Printf("x is string: %s\n", v)
+default:
+  fmt.Printf("x is of unknown type\n")
+}
+```
+
+注意 `case` 后面的类型必须是实现了该接口的类型，否则会导致编译错误。
+
+---
+
+`Go` 中只能通过 `make` 来创建 `channel`，`make` 接收两个参数，
+第一个是 `channel` 的类型，第二个是 `channel` 的缓冲区大小。
+缓冲区大小默认为 `0`，表示无缓冲 `channel`。
+
+```go
+ch := make(chan int)       // 无缓冲 channel
+chBuf := make(chan int, 5) // 有缓冲 channel，缓冲区大小为 5
+```
+
+在使用无缓冲 `channel` 的时候，发送方和接收方一定要放在两个不同的 `goroutine` 中，
+这是因为如果放在同一个 `goroutine` 中，无缓冲 `channel` 在发送和接收时都会阻塞当前的 `goroutine`。
+
+`Go` 语言中使用 `channel` 的时候往往是由发送方来关闭，
+这是因为接收主有安全的手段来检查 `channel` 是否已经关闭，而发送方并没有这样安全的手段。
+
+```go
+n := <-ch     // 当 channel 关闭时，n 会被赋值为类型的零值
+m, ok := <-ch // ok 为 false 表示 channel 已经关闭
+for v := range ch {
+  // 当 channel 关闭时，循环会自动结束
+}
 ```
 
 ---
