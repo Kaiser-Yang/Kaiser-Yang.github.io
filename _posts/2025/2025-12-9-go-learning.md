@@ -2,7 +2,7 @@
 layout: post
 title: Go 学习笔记
 date: 2025-12-09 19:44:38+0800
-last_updated: 2025-12-11 19:55:03+0800
+last_updated: 2025-12-12 16:15:55+0800
 description: 本文记录了我在学习 Go 语言过程中的一些笔记和心得。
 tags:
   - Go
@@ -49,6 +49,21 @@ if err := doSomething(); err != nil {
 
 `Go` 中的 `switch` 语句会自动在每个 `case` 分支后面添加一个隐式的 `break`，
 因此不需要显式地使用 `break` 语句来终止分支。
+如果想要在某个 `case` 分支中继续执行下一个分支，可以使用 `fallthrough` 关键字。
+
+---
+
+`Go` 中可以使用 `type` 关键字来定义新类型或者给已有的类型取别名。
+
+```go
+type (
+  MyInt int               // 定义新类型 MyInt，底层类型为 int
+  YourInt = int          // 给 int 类型取别名 YourInt
+)
+```
+
+别名类型和原类型是完全相同的类型，可以互相赋值和转换。
+而新类型和原类型是不同的类型，往往需要进行显式的转换。
 
 ---
 
@@ -97,6 +112,26 @@ const (
 
 ---
 
+`Go` 中可以定义 `label`，`label` 可以用来进行 `continue` 或者 `break` 操作，
+从而跳出多层循环或者指定跳出某个循环。例如：
+
+```go
+OuterLoop:
+for i := 0; i < 3; i++ {
+  for j := 0; j < 3; j++ {
+    if i == 1 && j == 1 {
+      continue OuterLoop // 跳出当前内层循环，进入下一次外层循环
+    }
+    if i == 2 && j == 2 {
+      break OuterLoop // 跳出外层循环
+    }
+    fmt.Printf("i=%d, j=%d\n", i, j)
+  }
+}
+```
+
+---
+
 `Go` 中可以使用有显示名称的返回值，
 这样只需要在函数体中对这些返回值进行赋值而不需要显式地使用 `return` 语句返回它们。
 这样的写法在需要根据条件分支返回多个值时非常有用。
@@ -114,6 +149,25 @@ func divide(a, b int) (quotient int, remainder int) {
 func divide2(a, b int) (int, int) {
   return a / b, a % b
 }
+```
+
+---
+
+`Go` 语言中可以使用变长参数来接收不定数量的参数。
+变长参数使用 `...` 语法来定义，表示可以传入任意数量的该类型参数。
+在函数体内，变长参数会被视为一个切片。例如：
+
+```go
+func sum(nums ...int) int {
+  total := 0
+  for _, num := range nums {
+    total += num
+  }
+  return total
+}
+s := []int{1, 2, 3}
+result1 := sum(1, 2, 3, 4, 5) // 传入多个参数
+result2 := sum(s...)          // 传入切片，使用 ... 展开切片
 ```
 
 ---
@@ -152,23 +206,113 @@ g1 := 1.5e2        // 科学计数法表示
 g2 := 1.5E3        // 科学计数法表示
 h1 := 0x2.p10      // 十六进制浮点数
 h2 := 0X1.Fp0      // 十六进制浮点数
+
+ch1 := '\u4e2d'              // Unicode 字符字面量，表示中文“中”
+ch2 := '\U00004e2d'          // Unicode 字符字面量，表示中文“中”
+ch3 := '\x27'                // 字符字面量，表示单引号字符 `'`
+ch4 := '\047'                // 字符字面量，八进制表示的字符 `'`
+
+s1 := "abc\n"                // 字符串字面量，包含转义字符
+s2 := "\u4e2d\u6587"         // 字符串字面量，表示“中文”
+s3 := "\U00004e2d\U00006587" // 字符串字面量，表示“中文”
+s4 := `This is a raw string.
+This is the second line.
+This is the third line.
+\n will not be interpreted.` // 原始字符串字面量
+
+arr1 := [6]int { 0, 1, 2, 3, 4, 5 }
+arr2 := [...]int { 0, 1, 2, 3, 4, 5 }
+arr3 := [...]int { 5: 5 }   // 数组字面量，长度均为 6
+
+sp1 := []int { 0, 1, 2 }    // 切片字面量
+
+mp1 := map[string]int { "a": 1, "b": 2 } // 映射字面量
 ```
 
 在使用十六进制的科学计数法进行表示的时候，`p` 和 `P` 表示幂运算的底数是 `2`。
 需要注意的是整数部分和小数部分用十六进制来表示，而幂运算的指数部分仍然使用十进制来表示。
 
+如果想要在 `raw string` 中包含反引号，则可以使用 `+` 进行字符串的拼接来实现。
+
 ---
 
-`Go` 语言中支持 `raw string` 只需要使用反引号进行包裹即可。 `raw string` 中的内容会原样输出，
-不会对其中的转义字符进行处理。例如：
+`Go` 语言中可以使用 `array[low:high:max]` 来基于一个已经存在的数组创建一个切片。
+当省略 `max` 时，默认 `max` 的值为数组的长度。
+这个切片的长度是 `high - low`，容量是 `max - low`。
+这也表明 `[low, high)` 和 `[low, max)` 都是左闭右开区间。
+
+需要注意的是基于数组创建的切片的底层是原数组，所以对切片的修改往往会直接影响原数组。
+不过在切片发生扩容的时候会创建一个新的底层数组，此时对切片的修改就不会影响原数组了。
 
 ```go
-var s string = `This is a raw string.
-This is the second line.
-This is the third line. \n will not be interpreted.`
+arr := [5]int{0, 1, 2, 3, 4}
+s1 := arr[1:4:5]              // 创建切片 s1，包含 arr[1], arr[2], arr[3]
+fmt.Println(s1)               // 输出: [1 2 3]
+fmt.Println(len(s1), cap(s1)) // 输出: 3 4
+s1[0] = 10                    // 修改切片 s1
+fmt.Println(arr)              // 输出: [0 10 2 3 4]，arr 也被修改了
+s2 := append(s1, 20, 30)      // 切片 s1 发生扩容，创建了新的底层数组
+s2[0] = 30
+fmt.Println(arr) // 输出: [0 10 2 3 4]，arr 不受影响
+fmt.Println(s2)  // 输出: [30 2 3 20 30]
 ```
 
-如果想要在 `raw string` 中包含反引号，则可以使用 `+` 进行字符串的拼接来实现。
+可以使用 `len` 和 `cap` 函数来获取切片的长度和容量。
+但是对于 `map` 而言则只能使用 `len` 函数来获取其长度。
+
+---
+
+`Go` 语言中通过下标运算符去获取一个 `map` 中不存在的键时会返回该类型的零值。
+为了区分一个键是不存在还是其值就是类型的零值，可以使用双赋值的形式来获取键对应的值和一个布尔值，
+该布尔值表示该键是否存在于 `map` 中。
+
+```go
+m := make(map[string]int)
+v, ok = m["key"] // 如果 "key" 不存在，v 为 0，ok 为 false
+if !ok {
+// 处理键不存在的情况
+} else {
+// 使用 v 进行后续操作
+}
+```
+
+`Go` 语言的 `map` 是基于 `hash` 的，对其进行遍历时的顺序是随机的。
+`Go` 为了让开发者不依赖于 `map` 的遍历顺序，特意设计成每次遍历的顺序都有可能不一样。
+
+---
+
+`Go` 语言中的字符串、字节切片、`rune` 切片之间可以方便地进行相互转换。
+
+```go
+var s string = "Hello 世界"
+var b []byte = []byte(s)       // 字符串转换为字节切片
+var r []rune = []rune(s)       // 字符串转换为 rune 切片
+s2 := string(b)                // 字节切片转换为字符串
+s3 := string(r)                // rune 切片转换为字符串
+```
+
+---
+
+`Go` 语言中的字符串是通过 `UTF-8` 编码进行存储的，因此可以直接存储和处理多字节的 `Unicode` 字符。
+
+`Go` 语言中的 `len` 获取的字符串的字节数而不是字符数，如果要获取字符数可以使用
+`utf8.RuneCountInString` 函数。同理通过下标访问字符串时获取的是字节而不是字符。
+不过如果是使用 `for range` 来遍历字符串时获取的是字符。
+
+```go
+var s string = "Hello 世界"
+lengthInBytes := len(s)                      // 获取字符串的字节数
+lengthInRunes := utf8.RuneCountInString(s)   // 获取字符串的字符数
+for i, r := range s {                        // 遍历字符串中的字符
+  fmt.Printf("Character %d: %c\n", i, r)
+  // i 是字符的起始字节索引，r 是对应的 rune 值
+  // Character 5: 世
+  // Character 8: 界
+}
+for i := 0; i < len(s); i++ {
+  fmt.Printf("Byte %d: %x\n", i, s[i])      // 访问字符串中的字节
+}
+```
 
 ---
 
@@ -291,6 +435,62 @@ v3 := x.(float64)     // 如果断言失败会引发 panic
 
 ---
 
+`Go` 语言中可以使用 `select` 原语，其可以一次监听多个 `channel` 的操作。
+当其中某个 `channel` 准备好进行发送或接收操作时，`select` 会执行对应的 `case` 分支。
+
+```go
+select {
+case msg1 := <-ch1:
+  fmt.Printf("Received message from ch1: %s\n", msg1)
+case ch2 <- msg2:
+  fmt.Printf("Sent message to ch2: %s\n", msg2)
+default:
+  fmt.Println("No channel is ready")
+}
+```
+
+当没有使用 `default` 的时候，`select` 会一直阻塞直到某个 `case` 分支可以执行。
+
+下面三种是 `select` 原语常用的方式：
+- 使用 `default` 分支可以实现 `try` 语义。
+- 配合 `time` 包可以实现超时控制。
+- 配合 `time` 包的 `Ticker` 可以实现周期任务。
+
+```go
+fun TrySend(ch chan<- int, value int) bool {
+  select {
+  case ch <- value:
+    return true // 发送成功
+  default:
+    return false // channel 未准备好，发送失败
+  }
+}
+
+func ReceiveWithTimeout(ch <-chan int, timeout time.Duration) (int, error) {
+  select {
+  case value := <-ch:
+    return value, nil // 成功接收数据
+  case <-time.After(timeout):
+    return 0, errors.New("receive timeout") // 超时
+  }
+}
+
+func PeriodicTask(interval time.Duration, stopCh <-chan struct{}) {
+  ticker := time.NewTicker(interval)
+  defer ticker.Stop()
+  for {
+    select {
+    case <-ticker.C:
+      // 执行周期任务
+    case <-stopCh:
+      return // 停止任务
+    }
+  }
+}
+```
+
+---
+
 `Go` 语言中可以使用 `type switch` 来方便的判断一个接口变量所属于的类型。
 
 ```go
@@ -334,6 +534,53 @@ for v := range ch {
 
 ---
 
+`Go` 语言的泛型不支持在类型里面内嵌泛型本身，也不支持在泛型方法中接着定义泛型。
+
+```go
+type MyType[T any] struct {
+  // T          // 错误，不能在泛型类型中内嵌泛型本身
+}
+// 错误，不能在泛型方法中接着定义泛型
+func (m MyType[T]) MyMethod[U any]() {
+}
+```
+
+---
+
+`Go` 语言的类型约束在有些情况下可以简写，例如：
+
+```go
+func a1[I interface { int | int32 | ~int64 }](param I) {}
+func a2[T int | int32 | ~int64](param T) {}
+```
+
+不过要注意的是，如果是单独的指针类型则需要加上 `,` 来进行简写：
+
+```go
+func b1[I interface { *int  }](param I) {}
+func b2[T *int,](param T) {} // 需要加上逗号
+```
+
+---
+
+`Go` 语言中 `panic` 表示程序发生了不可恢复的错误，通常会导致程序崩溃。
+任意一个 `goroutine` 中发生的 `panic` 都会导致整个程序崩溃。
+可以使用 `recover` 函数来捕获 `panic`，从而防止程序崩溃。
+而 `recover` 函数只能在 `defer` 函数中调用。
+
+```go
+func safeFunction() {
+  defer func() {
+    if r := recover(); r != nil {
+      fmt.Println("Recovered from panic:", r)
+    }
+  }()
+  // 可能引发 panic 的代码
+}
+```
+
+---
+
 `Go` 语言中的包导入时可以在结尾增加版本信息，例如：
 
 ```go
@@ -346,3 +593,15 @@ import "github.com/user/project/v2"
 
 如果想要移除一个依赖，需要使用 `go get <package_name>` 的形式在版本部分添加 `@none`，
 例如 `go get github.com/go-redis/redis/v8@none` 会移除已经添加的 `go-redis v8` 依赖。
+
+---
+
+`Go` 中命名的一些规范：
+- 循环和条件变量多采用单个字母命名。
+- 函数/方法的参数和返回值以单个单词或字母为主。
+- 方法的命名以单个单词为主。
+- 函数/类型多以多个单词的复合形式命名。
+- 变量中不携带类型信息。
+- 包名往往由单个单词进行命名，且尽量与导入路径的最后一个路径分段一致。
+- `Go` 中如果接口类型只有一个方法，则接口往往命名为该方法名加上 `-er` 后缀。
+比如 `Read` 方法对应的接口名为 `Reader`，`Write` 方法对应的接口名为 `Writer`。
