@@ -3,7 +3,7 @@ layout: post
 title: 背包问题
 date: 2025-10-24 18:39:56+0800
 last_updated: 2025-10-24 18:39:56+0800
-description: 本文介绍多种背包问题的两种优化方法。
+description: 本文介绍多重背包问题的两种优化方法。
 tags:
   - Knapsack Problem
 categories: Algorithm
