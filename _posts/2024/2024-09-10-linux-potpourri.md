@@ -16,8 +16,6 @@ related_posts: true
 pretty_table: true
 ---
 
-**This post is being continuously updated.**
-
 ## Shell
 
 **NOTE**: All the contents are based on `bash` shell.
