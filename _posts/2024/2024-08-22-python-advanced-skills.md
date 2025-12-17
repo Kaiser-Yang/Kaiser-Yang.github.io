@@ -2,7 +2,7 @@
 layout: post
 title: Python 高级技巧学习
 date: 2024-08-22 20:34:45+0800
-last_updated: 2025-04-15 15:52:12+0800
+last_updated: 2025-12-17 17:02:44+0800
 description:
 tags:
 categories: Python
@@ -16,61 +16,54 @@ pretty_table: true
 
 本文介绍一些 `Python` 高级技巧。
 
-# 拆包
+## 拆包
 
 在 `Python` 中，我们可以使用拆包的方式来将一个序列或者字典中的元素赋值给多个变量。
-下面是最简单的用法：
+下面一些例子：
 
 ```python
 a, b = (1, 2)
 print(a, b) # 1 2
-
 a, *b = (1, 2, 3)
 print(a, b) # 1 [2, 3]
-
 a, *b, c = (1, 2, 3, 4)
 print(a, b, c) # 1 [2, 3] 4
-
 *a, b = (1, 2, 3)
 print(a, b) # [1, 2] 3
-```
 
-`*` 还可以直接用在列表变量中，这样可以将列表中的所有元素拆包为多个变量：
-
-```python
 a = [1, 2, 3]
 print(a) # [1, 2, 3]
 print(*a) # 1 2 3
-```
 
-`*` 还可以用在字典中，这样可以将字典中的所有键拆包为一个列表：
-
-```python
 a, *b = {'a': 1, 'b': 2, 'c': 3}
 print(a, b) # 'a' ['b', 'c']
 ```
 
+## `args` 和 `kwargs`
+
 `*` 可以用在函数的参数中，这样可以将参数拆包为多个参数：
 
 ```python
-def f1(a, b, *c):
-    return a, b, c
+def f1(a, b, *args):
+    return a, b, args
 print(f1(1, 2, 3, 4, 5)) # (1, 2, (3, 4, 5))
 ```
 
 `**` 可以用在函数的参数中，这样可以将参数记录成字典：
 
 ```python
-def g1(a, b, **c):
+def g1(a, b, **kwargs):
     return a, b, c
 print(g1(1, 2, x=3, y=4, z=5)) # (1, 2, {'x': 3, 'y': 4, 'z': 5})
 ```
 
-# `fstring`
+**NOTE**：`args` 是 `arguments` 的缩写，而 `kwargs` 是 `keyword arguments` 的缩写。
+
+## `fstring`
 
 `fstring` 是 `Python 3.6` 新增的字符串格式化方法，可以使用 `{}` 和 `f` 前缀来格式化字符串。
 
-## `!r`, `!s` 和 `!a`
+### `!r`, `!s` 和 `!a`
 
 `fstring` 中的 `!r` 和 `!s` 分别表示调用对象的 `__repr__` 和 `__str__` 方法。
 
@@ -80,7 +73,7 @@ print(g1(1, 2, x=3, y=4, z=5)) # (1, 2, {'x': 3, 'y': 4, 'z': 5})
 在默认情况下 `f'{number}'` 会调用 `number.__str__` 方法，
 而 `f'{number!r}'` 会调用 `number.__repr__` 方法。
 
-## `:f`, `:e`, `:E`, `:g` 和 `:%`
+### `:f`, `:e`, `:E`, `:g` 和 `:%`
 
 `fstring` 中的 `:f`, `:e`, `:E`, `:g` 和 `:%`
 分别表示浮点数、科学计数法、科学计数法大写、通用格式和百分比。
@@ -94,7 +87,7 @@ print(f'{number:g}') # '123.456'
 print(f'{number:%}') # '12345.600000%'
 ```
 
-## `:>`, `:<` 和 `:^`
+### `:>`, `:<` 和 `:^`
 
 `fstring` 中的 `:>`, `:<` 和 `:^` 分别表示右对齐、左对齐和居中对齐。
 
@@ -107,7 +100,7 @@ print(f'{number:^8}') # '  123   '
 
 我们还可以指定填充字符，例如 `f'{number:0>8}'` 表示右对齐，不足 8 位的部分用 `0` 填充。
 
-## `:b`, `:d`, `:o`, `:x` 和 `:X`
+### `:b`, `:d`, `:o`, `:x` 和 `:X`
 
 `fstring` 中的 `:b`, `:d`, `:o`, `:x` 和 `:X`
 分别表示二进制、十进制、八进制、十六进制小写和十六进制大写。
@@ -116,7 +109,7 @@ print(f'{number:^8}') # '  123   '
 还可以通过设置宽度和填充字符来格式化字符串，例如
 `f'{number:08b}'` 表示将 `number` 转换为 `8` 位的二进制字符串，不足 `8` 位的部分用 `0` 填充。
 
-## 千分位分隔符
+### 千分位分隔符
 
 `fstring` 中可以使用 `,` 等来添加千分位分隔符。
 
@@ -161,7 +154,7 @@ print(f'{number:X}') # '0000000A'
 使得 `Number` 类的 `:b`, `:d`, `:o`, `:x` 和 `:X`
 变成了 `8` 位的二进制、十进制、八进制、十六进制小写和十六进制大写。
 
-# `match/case` 语句
+## `match/case` 语句
 
 `Python 3.10` 新增了 `match/case` 语句，这是一种新的模式匹配语法，可以替代 `if/elif/else` 语句。
 
@@ -259,12 +252,12 @@ match_color([('red', True), 1]) # Light ('red', True)
 
 需要注意的是，只有以下的类型支持对序列进行拆分的写法：
 
-* `list`
-* `memoryview`
-* `array.array`
-* `tuple`
-* `range`
-* `collections.deque`
+- `list`
+- `memoryview`
+- `array.array`
+- `tuple`
+- `range`
+- `collections.deque`
 
 需要注意的是在序列结构中使用 `str()` 等是标明匹配项必须是 `str` 类型，而不是进行字符串转换：
 
@@ -280,7 +273,7 @@ match_color((1, True)) # Unknown
 match_color(('red', True)) # Light red
 ```
 
-# 特殊方法
+## 特殊方法
 
 `Python` 中的特殊方法也叫魔术方法 (`Magic Method`)，这些方法以 `__` 开头和结尾，比如 `__init__`、
 `__str__`、`__repr__` 等。
@@ -288,105 +281,105 @@ match_color(('red', True)) # Light red
 
 这里给出常用的特殊方法的定义与调用方式。
 
-## 类型转换
+### 类型转换
 
-| 方法                            | 说明     | 调用方式 |
-| ---                             | ---      | --- |
-| `__bool__(self)`                | 布尔化   | `bool(obj)` |
-| `__int__(self)`                 | 整型化   | `int(obj)` |
-| `__float__(self)`               | 浮点化   | `float(obj)` |
-| `__complex__(self)`             | 复数化   | `complex(obj)` |
-| `__bytes__(self)`               | 字节化   | `bytes(obj)` |
-| `__str__(self)`                 | 字符串化 | `str(obj)` |
+| 方法                | 说明     | 调用方式       |
+| ------------------- | -------- | -------------- |
+| `__bool__(self)`    | 布尔化   | `bool(obj)`    |
+| `__int__(self)`     | 整型化   | `int(obj)`     |
+| `__float__(self)`   | 浮点化   | `float(obj)`   |
+| `__complex__(self)` | 复数化   | `complex(obj)` |
+| `__bytes__(self)`   | 字节化   | `bytes(obj)`   |
+| `__str__(self)`     | 字符串化 | `str(obj)`     |
 
-## 一元运算符
+### 一元运算符
 
-| 方法            | 说明     | 调用方式 |
-| ---             | ---      | --- |
-| `__neg__(self)` | 取负     | `-obj` |
-| `__pos__(self)` | 取正     | `+obj` |
-| `__abs__(self)` | 取绝对值 | `abs(obj)` |
-| `__round__(self, ndigits)`  | 四舍五入 | `round(obj, ndigits)` |
+| 方法                       | 说明     | 调用方式              |
+| -------------------------- | -------- | --------------------- |
+| `__neg__(self)`            | 取负     | `-obj`                |
+| `__pos__(self)`            | 取正     | `+obj`                |
+| `__abs__(self)`            | 取绝对值 | `abs(obj)`            |
+| `__round__(self, ndigits)` | 四舍五入 | `round(obj, ndigits)` |
 
-## 算数运算
+### 算数运算
 
-| 方法                        | 说明     | 调用方式 |
-| ---                         | ---      | --- |
-| `__add__(self, other)`      | 加法     | `obj + other` |
-| `__sub__(self, other)`      | 减法     | `obj - other` |
-| `__mul__(self, other)`      | 乘法     | `obj * other` |
-| `__truediv__(self, other)`  | 除法     | `obj / other` |
-| `__floordiv__(self, other)` | 整除     | `obj // other` |
-| `__mod__(self, other)`      | 取模     | `obj % other` |
-| `__pow__(self, other)`      | 幂运算   | `obj ** other` |
+| 方法                        | 说明   | 调用方式       |
+| --------------------------- | ------ | -------------- |
+| `__add__(self, other)`      | 加法   | `obj + other`  |
+| `__sub__(self, other)`      | 减法   | `obj - other`  |
+| `__mul__(self, other)`      | 乘法   | `obj * other`  |
+| `__truediv__(self, other)`  | 除法   | `obj / other`  |
+| `__floordiv__(self, other)` | 整除   | `obj // other` |
+| `__mod__(self, other)`      | 取模   | `obj % other`  |
+| `__pow__(self, other)`      | 幂运算 | `obj ** other` |
 
 说明：上述的所有方法增加了 `r` 前缀，比如 `__radd__`、`__rsub__` 等，表示反向运算，即 `other + obj`。
 增加了 `i` 前缀，比如 `__iadd__`、`__isub__` 等，表示增量运算，即 `obj += other`。
 
-## 比较
+### 比较
 
-| 方法                  | 说明     | 调用方式 |
-| ---                   | ---      | --- |
+| 方法                  | 说明     | 调用方式       |
+| --------------------- | -------- | -------------- |
 | `__eq__(self, other)` | 等于     | `obj == other` |
 | `__ne__(self, other)` | 不等于   | `obj != other` |
-| `__lt__(self, other)` | 小于     | `obj < other` |
+| `__lt__(self, other)` | 小于     | `obj < other`  |
 | `__le__(self, other)` | 小于等于 | `obj <= other` |
-| `__gt__(self, other)` | 大于     | `obj > other` |
+| `__gt__(self, other)` | 大于     | `obj > other`  |
 | `__ge__(self, other)` | 大于等于 | `obj >= other` |
 
-## 迭代
+### 迭代
 
-| 方法                            | 说明       | 调用方式 |
-| ---                             | ---        | --- |
-| `__len__(self)`                 | 长度       | `len(obj)` |
-| `__getitem__(self, pos)`        | 获取元素   | `obj[pos]` |
+| 方法                            | 说明       | 调用方式           |
+| ------------------------------- | ---------- | ------------------ |
+| `__len__(self)`                 | 长度       | `len(obj)`         |
+| `__getitem__(self, pos)`        | 获取元素   | `obj[pos]`         |
 | `__setitem__(self, pos, value)` | 设置元素   | `obj[pos] = value` |
-| `__iter__(self)`                | 迭代器     | `for i in obj:` |
-| `__contains__(self, value)`     | 是否包含   | `value in obj` |
-| `__next__(self)`                | 下一个     | `next(obj)` |
-| `__reversed__(self)`            | 反向迭代器 | `reversed(obj)` |
+| `__iter__(self)`                | 迭代器     | `for i in obj:`    |
+| `__contains__(self, value)`     | 是否包含   | `value in obj`     |
+| `__next__(self)`                | 下一个     | `next(obj)`        |
+| `__reversed__(self)`            | 反向迭代器 | `reversed(obj)`    |
 
-## 位运算
+### 位运算
 
-| 方法                        | 说明     | 调用方式 |
-| ---                         | ---      | --- |
-| `__and__(self, other)`      | 与运算   | `obj & other` |
-| `__or__(self, other)`       | 或运算   | `obj | other` |
-| `__xor__(self, other)`      | 异或运算 | `obj ^ other` |
-| `__lshift__(self, other)`   | 左移     | `obj << other` |
-| `__rshift__(self, other)`   | 右移     | `obj >> other` |
-| `__invert__(self)`          | 取反     | `~obj` |
+| 方法                      | 说明     | 调用方式       |
+| ------------------------- | -------- | -------------- |
+| `__and__(self, other)`    | 与运算   | `obj & other`  |
+| `__or__(self, other)`     | 或运算   | `obj | other`  |
+| `__xor__(self, other)`    | 异或运算 | `obj ^ other`  |
+| `__lshift__(self, other)` | 左移     | `obj << other` |
+| `__rshift__(self, other)` | 右移     | `obj >> other` |
+| `__invert__(self)`        | 取反     | `~obj`         |
 
 说明：上述的所有方法增加了 `r` 前缀，比如 `__rand__`、`__ror__` 等，表示反向运算，即 `other & obj`。
 增加了 `i` 前缀，比如 `__iand__`、`__ior__` 等，表示增量运算，即 `obj &= other`。
 
-## 构造与析构
+### 构造与析构
 
-| 方法                  | 说明     | 调用方式 |
-| ---                   | ---      | --- |
+| 方法                  | 说明     | 调用方式               |
+| --------------------- | -------- | ---------------------- |
 | `__init__(self, ...)` | 构造方法 | `obj = ClassName(...)` |
 | `__new__(cls, ...)`   | 创建对象 | `obj = ClassName(...)` |
-| `__del__(self)`       | 析构方法 | `del obj` |
+| `__del__(self)`       | 析构方法 | `del obj`              |
 
 其中的 `__new__` 方法是一个类方法，用于创建对象，而 `__init__` 方法是一个实例方法，用于初始化对象。
 `__new__` 方法需要返回一个对象，通常是调用父类的 `__new__` 方法，这个返回值会传递给 `__init__` 方法，
 而 `__init__` 方法不需要返回值。
 
-## 其他
+### 其他
 
-| 方法                                             | 说明         | 调用方式 |
-| ---                                              | ---          | --- |
-| `__repr__(self)`                                 | 表示形式     | `repr(obj)` |
+| 方法                                             | 说明         | 调用方式                   |
+| ------------------------------------------------ | ------------ | -------------------------- |
+| `__repr__(self)`                                 | 表示形式     | `repr(obj)`                |
 | `__format__(self, format_spec)`                  | 格式化       | `format(obj, format_spec)` |
-| `__hash__(self)`                                 | 哈希值       | `hash(obj)` |
-| `__index__`                                      | 索引值       | `index(obj)` |
-| `__call__(self, ...)`                            | 调用         | `obj(...)` |
-| `__delitem__(self, pos)`                         | 删除元素     | `del obj[pos]` |
-| `__getattr__(self, name)`                        | 获取属性     | `obj.name` |
-| `__setattr__(self, name, value)`                 | 设置属性     | `obj.name = value` |
-| `__delattr__(self, name)`                        | 删除属性     | `del obj.name` |
-| `__enter__(self)`                                | 上下文管理器 | `with obj as ...:` |
-| `__exit__(self, exc_type, exc_value, traceback)` | 上下文管理器 | `with obj as ...:` |
+| `__hash__(self)`                                 | 哈希值       | `hash(obj)`                |
+| `__index__`                                      | 索引值       | `index(obj)`               |
+| `__call__(self, ...)`                            | 调用         | `obj(...)`                 |
+| `__delitem__(self, pos)`                         | 删除元素     | `del obj[pos]`             |
+| `__getattr__(self, name)`                        | 获取属性     | `obj.name`                 |
+| `__setattr__(self, name, value)`                 | 设置属性     | `obj.name = value`         |
+| `__delattr__(self, name)`                        | 删除属性     | `del obj.name`             |
+| `__enter__(self)`                                | 上下文管理器 | `with obj as ...:`         |
+| `__exit__(self, exc_type, exc_value, traceback)` | 上下文管理器 | `with obj as ...:`         |
 
 注意：实现方法后的调用方式可能并不只有一种，
 比如 `__str__` 方法可以通过 `str(obj)` 或 `print(obj)` 来调用。
@@ -396,7 +389,7 @@ match_color(('red', True)) # Light red
 例如对于一个只实现了 `__add__` 方法的类，也可以使用 `a += b` 这种形式，
 此时会被解释为 `a = a + b`，即先调用 `__add__` 方法，然后进行赋值。
 
-# 海象运算符 `:=`
+## 海象运算符 `:=`
 
 这个符号被称为海象运算符，仅仅是因为它的形状像海象。
 
@@ -440,7 +433,7 @@ evens = [n * 2 for n in numbers if n * 2 >= 10]
 
 上面的代码能够帮我简化一次 `n * 2` 的计算，对于一些复杂的计算，这种方式会更加简洁且效率更高。
 
-## 海象运算符变量的作用域
+### 海象运算符变量的作用域
 
 `:=` 运算符定义的变量的作用域是当前函数，除非目标变量使用 `global` 或者 `nonlocal` 修饰：
 
@@ -451,11 +444,11 @@ if (n := len('hello')) > 5:
 print(n) # OK
 ```
 
-# 切片
+## 切片
 
 `Python` 中的切片是一个非常强大的功能，我们可以使用切片来获取列表、元组、字符串等序列的子序列。
 
-## 切片对象
+### 切片对象
 
 除了基础的切片用法之外，我们可以通过 `slice` 类来创建切片对象，这样我们就可以在多个地方使用同一个切片对象：
 
@@ -465,12 +458,7 @@ s1 = slice(1, 5) # start = 1, end = 5, step = 1
 s2 = slice(1) # start = 1, end = None, step = 1
 print(numbers[s1]) # [2, 3, 4, 5]
 print(numbers[s2]) # [2, 3, 4, 5, 6, 7, 8, 9]
-```
 
-切片获取到的对象可以通过赋值来修改原对象：
-
-```python
-numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 numbers[1:5] = [10, 20, 30, 40]
 print(numbers) # [1, 10, 20, 30, 40, 6, 7, 8, 9]
 ```
@@ -489,7 +477,7 @@ test[0:2][0] = -1
 print(test) # [1, 2, 3]
 ```
 
-# `memoryview`
+## `memoryview`
 
 `memoryview` 是一个内置类，它可以让我们直接操作内存，而不需要复制数据。
 `memoryview` 对象可以通过 `memoryview()` 函数创建。
@@ -504,9 +492,9 @@ mem[1, 2] = 100
 print(numbers) # [1, 2, 3, 4, 5, 100]
 ```
 
-# 字典
+## 字典
 
-## 字典推导式
+### 字典推导式
 
 我们可以使用列表推导式快速创建列表，实际上，对于字典的创建也有类似的语法：
 
@@ -514,7 +502,7 @@ print(numbers) # [1, 2, 3, 4, 5, 100]
 {key: value for key, value in iterable}
 ```
 
-## 在 `match/case` 中匹配字典
+### 在 `match/case` 中匹配字典
 
 `match/case` 语句还可以用来匹配字典：
 
@@ -538,9 +526,9 @@ match_color({'color': 'red', 'light': True}) # Light Red
 上面的匹配式的意思是只要含有这些键值对的都会被匹配，而且顺序不重要，
 即使是一个 `OrderDict` 也会被忽略顺序。
 
-# 集合
+## 集合
 
-## 集合推导式
+### 集合推导式
 
 也可以使用集合推导式创建集合：
 
@@ -548,20 +536,20 @@ match_color({'color': 'red', 'light': True}) # Light Red
 {value for value in iterable}
 ```
 
-## 判断集合的包含关系
+### 判断集合的包含关系
 
 使用比较运算符可以判断集合的包含关系：
 
-| 运算符 | 说明 |
-| --- | --- |
-| `<=` | 子集 |
-| `<` | 真子集 |
-| `>=` | 超集 |
-| `>` | 真超集 |
-| `==` | 相等 |
-| `!=` | 不相等 |
+| 运算符 | 说明   |
+| ------ | ------ |
+| `<=`   | 子集   |
+| `<`    | 真子集 |
+| `>=`   | 超集   |
+| `>`    | 真超集 |
+| `==`   | 相等   |
+| `!=`   | 不相等 |
 
-# 可变对象与不可变对象
+## 可变对象与不可变对象
 
 `Python` 中的对象分为可变对象和不可变对象，可变对象是指对象的值可以改变，
 而不可变对象是指对象的值不可以改变。
@@ -586,7 +574,7 @@ print(is_mutable('hello')) # False
 print(is_mutable([1, 2, 3])) # True
 ```
 
-## 避免可变对象作为默认值
+### 避免可变对象作为默认值
 
 在 `Python` 中如果使用可变对象绑定到默认值，
 那么在函数调用时会共享这个可变对象，这样会导致默认值的改变：
@@ -614,7 +602,7 @@ print(f()) # [1]
 print(f()) # [1]
 ```
 
-# 类属性和实例属性
+## 类属性和实例属性
 
 在 `Python` 中，存在类属性和实例属性的区分，一般而言，类属性可以通过在类的开头定义，
 而实例对象在 `__init__` 方法中定义。类属性可以通过类名或者实例对象访问，
