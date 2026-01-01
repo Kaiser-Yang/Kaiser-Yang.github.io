@@ -70,7 +70,7 @@ pretty_table: true
 ---
 
 `vim` 中 `it` 和 `at` 分别表示 "inside tag" 和 "around tag"，
-可以在 HTML 或 XML 文件中使用这些文本对象来选择标签内的内容或包括标签本身的内容。
+可以在 `HTML` 或 `XML` 文件中使用这些文本对象来选择标签内的内容或包括标签本身的内容。
 
 ---
 
