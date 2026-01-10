@@ -51,6 +51,8 @@ pretty_table: true
 例如 `CTRL-K <<` 会插入 `«` 字符，`CTRL-K >>` 会插入 `»` 字符。
 可以通过 `:help digraphs-table` 来查看所有可用的字符缩写。这个功能用的并不多。
 
+在普通模式下，可以通过 `ga` 来查看光标下字符的 `ASCII` 码值和 `Unicode` 码值。
+
 ---
 
 在 `vim` 中，`CTRL-H` 在插入模式和命令行模式下其功能等同于 `Backspace` 键，
