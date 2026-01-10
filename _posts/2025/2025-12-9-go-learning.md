@@ -2,7 +2,7 @@
 layout: post
 title: Go 学习笔记
 date: 2025-12-09 19:44:38+0800
-last_updated: 2026-01-10 10:53:12+0800
+last_updated: 2026-01-10 12:04:23+0800
 description: 本文记录了我在学习 Go 语言过程中的一些笔记和心得。
 tags:
   - Go
@@ -165,8 +165,9 @@ func divide2(a, b int) (int, int) {
 ---
 
 `Go` 语言中可以使用变长参数来接收不定数量的参数。
-变长参数使用 `...` 语法来定义，表示可以传入任意数量的该类型参数。
-在函数体内，变长参数会被视为一个切片。例如：
+变长参数使用 `t ...T` 语法来定义，表示可以传入任意数量的该类型参数。
+在函数体内，变长参数会被视为一个切片。
+变长参数可以匹配多个类型为 `T` 的参数或者一个类型为 `[]T` 的参数，但是不能同时匹配两种形式：
 
 ```go
 func sum(nums ...int) int {
@@ -176,10 +177,23 @@ func sum(nums ...int) int {
   }
   return total
 }
-s := []int{1, 2, 3}
-result1 := sum(1, 2, 3, 4, 5) // 传入多个参数
-result2 := sum(s...)          // 传入切片，使用 ... 展开切片
+func main() {
+  result1 := sum(1, 2, 3, 4)       // 传入多个 int 参数
+  result2 := sum([]int{5, 6, 7}...) // 传入一个 []int 参数，注意要加上 ...
+  // result3 := sum(1, 2, []int{3, 4}...) // 错误，不能同时传入多种形式的参数
+  fmt.Println(result1) // 输出: 10
+  fmt.Println(result2) // 输出: 18
+}
 ```
+
+不过上面的规则有个例外：在使用 `append` 将一个 `string` 变量追加到 `[]byte` 切片中的时候是可行的：
+
+```go
+var b []byte
+b = append(b, "hello"...) // OK
+```
+
+编译器会自动将 `string` 转换为 `[]byte`，然后再进行追加操作。
 
 ---
 
@@ -368,6 +382,84 @@ type T2 struct {
 
 ---
 
+嵌入按照嵌入类型可以分为以下几种：
+
+- 接口中嵌入接口（只能是 `I`）
+- 结构体中嵌入结构体（可以是 `T` 或 `*T`）
+- 结构体中嵌入接口（只能是 `I`）
+
+这里重点介绍一下在一个结构体中嵌入接口的情况。
+在结构体中嵌入接口后，这个结构体类型就实现了该接口。
+但是我们必须在使用接口中的方法前，为嵌入的接口字段赋值，否则会导致运行时错误：
+
+```go
+type I interface {
+  M1()
+  M2()
+}
+type S struct{}
+func (s S) M1() {
+  println("M1 called")
+}
+func (s S) M2() {
+  println("M2 called")
+}
+type T struct {
+  I // T 中嵌入接口 I
+}
+func main() {
+  t := T{
+    I: S{}, // 为嵌入的接口字段赋值，否则会导致运行时错误
+  }
+  t.M1()
+  t.M2()
+}
+```
+
+我们也可以自己在 `T` 中实现接口 `I` 的方法，当接口变量被赋值且 `T` 实现了接口的方法时，
+`T` 实现的方法会优先被调用：
+
+```go
+// ...
+func (t T) M1() {
+  println("T's M1 called")
+}
+func main() {
+  t := T{
+    I: S{},
+  }
+  t.M1() // 调用 T 实现的 M1 方法
+  t.M2() // 调用 S 实现的 M2 方法
+}
+```
+
+在结构体内嵌入多个接口时，如果这些接口中有同名的方法：
+
+- 若同名方法的签名不同，则编译时会报错，提示方法冲突。
+- 若同名方法的签名相同，则必须在结构体中实现该方法，否则编译器会报错。
+
+```go
+type I1 interface {
+  M()
+  M1()
+}
+type I2 interface {
+  M()
+  M2()
+}
+type T struct {
+  I1
+  I2
+}
+func (t T) M() { println("T.M") } // 必须实现 M 方法，否则 t.M() 会导致编译错误
+func main() {
+  t := T{}
+  t.M()
+}
+```
+
+---
+
 `Go` 语言中主要有三种方法可以对自定义类型进行初始化。以下面的自定义类型为例。
 
 ```go
@@ -410,6 +502,38 @@ func NewPerson(name string, age int) *Person {
 p3 := NewPerson("Alice", 30) // p3 在这里是 *Person 类型
 ```
 
+不过官方推荐使用一种名为 `WithOption` 的设计模式来进行复杂类型的初始化，
+这种方式可以通过传入不同的选项函数来灵活地配置初始化参数。 例如：
+
+```go
+type Person struct {
+  Name string
+  Age  int
+}
+type PersonOption func(*Person)
+func WithName(name string) PersonOption {
+  return func(p *Person) {
+    p.Name = name
+  }
+}
+func WithAge(age int) PersonOption {
+  return func(p *Person) {
+    p.Age = age
+  }
+}
+func NewPerson(opts ...PersonOption) *Person {
+  p := &Person{
+    Name: "Unknown",
+    Age:  0, // 默认值
+  }
+  for _, opt := range opts {
+    opt(p)
+  }
+  return p
+}
+p4 := NewPerson(WithName("Alice"), WithAge(30))
+```
+
 ---
 
 `Go` 语言可以对底层类型相同的元素进行隐式转换，编译器会保证这种转换的安全。
@@ -421,6 +545,82 @@ var a MyInt = 10
 b := 10
 c := a + b // 隐式转换，MyInt 和 int 可以进行运算
 ```
+
+---
+
+`Go` 语言中不能给接口或者指针类型定义方法：
+
+```go
+type MyInt *int
+// CE: invalid receiver type MyInt (MyInt is a pointer type)
+func (r MyInt) IsNil() bool { return r == nil }
+
+type MyReader io.Reader
+// CE: invalid receiver type MyReader (MyReader is an interface type)
+func (r MyReader) Read(p []byte) (n int, err error) {}
+```
+
+---
+
+`Go` 语言对接口的实现是通过 `iface` 和 `eface` 两种内部数据结构来实现的。
+`iface` 用于存储非空接口类型的变量，而 `eface` 用于存储空接口类型的变量。
+
+空接口是指接口中没有任何方法的接口类型，表示可以存储任意类型的值。
+`Go` 语言中的 `any` 类型实际上就是空接口类型的别名。
+非空接口是指除了空接口之外的所有接口类型。
+
+在 `eface` 内部，包含了两个字段：
+
+- `_type`：表示具体的类型信息。
+- `data`：表示具体的值。
+
+而在 `iface` 内部，包含了两个字段：
+
+- `tab`：表示类型信息和方法集合的表。
+- `data`：表示具体的值。
+
+接口的比较是基于这两个数据结构来实现的。
+
+不管是空接口还是非空接口只有当其两个字段均为 `nil` 时才表示接口变量为 `nil`：
+
+```go
+var a1 any
+var a2 any = nil
+var e1 error
+var e2 error = nil
+```
+
+上面的四个变量和 `nil` 进行比较时均为 `true`。
+因为上面的四个变量都为 `nil` 所以他们在通过 `==` 进行比较时都会返回 `true`。
+
+一旦两个字段中的任意一个不为 `nil`，那么接口变量就不再等于 `nil`：
+
+```go
+var i *int = nil
+var m *MyError = nil
+var a any = i
+var e error = m
+```
+
+上面例子中的 `a` 和 `e` 都不等于 `nil`，因为他们的 `data` 字段虽然为 `nil`，
+但是 `_type` 字段不为 `nil`。
+
+在进行接口变量之间的比较时：
+
+- 当比较的两个接口变量是空接口时（`eface`）当且仅当其 `_type` 字段相等、
+`data` 字段指向的数据内容一致时才相等。
+- 当比较的两个接口变量是非空接口时（`iface`）当且仅当其 `tab` 字段相等、
+`data` 字段指向的数据内容一致时才相等。
+- 当比较的两个接口变量一个是空接口（`eface`），另一个是非空接口（`iface`）时，
+当且仅当空接口的 `_type` 字段等于非空接口的 `tab` 字段中的 `_type`字段、
+`data` 字段指向的数据内容一致时才相等。
+
+这里的 `data` 字段指向的数据内容一致指的是：
+
+- 如果接口与指针类型绑定，那么比较的是指针的值是否相等。
+- 如果接口与非指针类型绑定，那么比较的是值的内容是否相等。
+
+**NOTE**：`iface` 代表的是 `interface` 的意思，而 `eface` 代表的是 `empty interface` 的意思。
 
 ---
 
@@ -469,6 +669,11 @@ func main() {
 `Go` 语言会自动将其取地址从而调用接收者为指针的方法。
 同样地，对于指针类型的变量，`Go` 语言也会自动解引用从而调用接收者为非指针的方法。
 
+当我们使用 `type` 给一个变量取别名或者基于已有的类型定义新的类型时，方法集合会根据原类型而有所不同。
+
+* 基于接口类型创建的新类型，其方法集合与原接口类型一致；
+* 而基于非接口类型创建的新类型，其方法集合为空。
+
 ---
 
 `Go` 语言中，`map` 存储的元素是不可寻址的，而切片中的元素确是可寻址的。
@@ -499,6 +704,11 @@ v3 := x.(float64)     // 如果断言失败会引发 panic
 
 需要注意的是，如果断言的类型是一个接口则语义变成了“变量是否实现了该接口”的判断。
 如果断言成功，返回值的类型为实际类型而不是所实现的接口类型。
+
+---
+
+在对内置的函数进行 `defer` 操作的时候，
+`append`、`cap`、`len`、`make`、`new` 等并不能作为 `deferred` 函数调用。
 
 ---
 
@@ -556,6 +766,28 @@ func PeriodicTask(interval time.Duration, stopCh <-chan struct{}) {
   }
 }
 ```
+
+有一点需要注意的是，在实现超时控制的时候，如果使用无缓冲 `channel` 则可能出现协程泄漏的问题：
+
+```go
+ch := make(chan struct{})
+go func() {
+  // do some work
+  ch <- struct{}
+}()
+select {
+case <-ch:
+  fmt.Println("任务完成！")
+case <-time.After(2 * time.Second):
+  fmt.Println("任务超时!")
+}
+```
+
+在上面的代码中，如果任务在 `2` 秒内没有完成，
+那么超时分支会被执行，而任务协程仍然会继续运行并尝试向 `ch` 发送数据。
+由于 `ch` 是一个无缓冲的 `channel`，如果没有其他协程在接收数据，
+那么任务协程会一直阻塞在发送操作上，导致协程泄漏。
+为了解决这个问题，可以使用有缓冲的 `channel` 或者使用 `context` 进行超时控制。
 
 ---
 
@@ -722,3 +954,101 @@ fmt.Println("a = ", a) // a = [1 12 13 4 5]
 
 同理，当我们使用 `for i, v := range a[:]` 拷贝的就是切片，而切片的底层数组是同一个，
 所以 `v` 也可以看到这样的影响。
+
+对于 `map` 而言，如果在 `for` 过程中添加或者删除键值，则循环的次数是不确定的。
+而对于切片而言，其循环次数在一开始就已经确定了。
+
+对于 `channel` 而言，`for range` 只有在 `channel` 被关闭后才会结束循环。
+如果 `channel` 的变量是 `nil` 则循环将会永远被阻塞。
+
+在 `go 1.22` 版本之前，`for` 循环中变量只会被创建一次，
+这会导致一些奇怪的现象：
+
+```go
+type Customer struct {
+  ID      string
+  Balance float64
+}
+type Store struct {
+  Customers map[string]*Customer
+}
+
+func (s *Store) storeCustomers(customers []Customer) {
+  for _, customer := range customers {
+    // 在 go 1.22 之前需要这样写以避免问题，保证每次创建一个新的 customer 变量
+    // customer := customer
+    s.Customers[customer.ID] = &customer
+  }
+}
+
+func main() {
+  s := Store{Customers: make(map[string]*Customer)}
+  s.storeCustomers([]Customer{
+    {ID: "1", Balance: 10},
+    {ID: "2", Balance: -10},
+    {ID: "3", Balance: 0},
+  })
+  for i, v := range s.Customers {
+    fmt.Printf("id=%s,customer=%+v\n", i, v)
+  }
+}
+```
+
+上面的代码在 `go 1.22` 之前会输出：
+
+```text
+id=1, customer=&main.Customer{ID:"3", Balance:0}
+id=2, customer=&main.Customer{ID:"3", Balance:0}
+id=3, customer=&main.Customer{ID:"3", Balance:0}
+```
+
+这是因为在 `for range` 循环中变量 `customer` 只会被创建一次，
+所以三次赋值都指向了同一个地址，从而导致最后的结果都是相同的。
+
+在 `go 1.22` 及之后的版本中，`for range` 循环中变量 `v` 会在每次循环时创建新的变量，
+从而避免了上述的问题。
+
+---
+
+`Go` 语言中除了常见的方法调用方式外，还可以通过 `Method Expression` 进行调用：
+
+```go
+type T struct{}
+func (t T) Get() {}
+func (t *T) Set(value int) {}
+var t T
+t.Get()
+t.Set(10)
+// or
+T.Get(t)
+(*T).Set(&t, 10)
+```
+
+除了 `Method Expression` 以外，还可以使用 `Method Value` 进行调用：
+
+```go
+type T struct{}
+func (t T) Get() {}
+func (t *T) Set(value int) {}
+var t T
+getFunc := t.Get
+setFunc := (&t).Set
+getFunc()   // 等价于 t.Get()
+setFunc(10) // 等价于 t.Set(10)
+```
+
+---
+
+`Go` 语言中的 `select` 的执行过程分为求值阶段和选择阶段。
+
+在求值阶段，`select` 会在进入后按照从上到下、从左到右进行求值：
+
+```go
+select {
+case getAChannel() <- computeValue1():           // getAChannel() 和 computeValue1() 会被调用
+case (getAStorageArray())[0] := <-getAChannel(): // getAStorageArray() 不会被调用，getAChannel() 会被调用
+}
+```
+
+在上面的代码中，会依次执行 `<-` 左右两部分，但是在赋值语句中，赋值号左边的表达式不会被执行，
+只有在其被选中时才会执行。
