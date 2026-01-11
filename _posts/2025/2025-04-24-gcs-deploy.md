@@ -8,7 +8,7 @@ tags:
   - Linux
   - Nginx
   - Docker
-categories: Java
+categories: gcs
 featured:
 giscus_comments: true
 toc:

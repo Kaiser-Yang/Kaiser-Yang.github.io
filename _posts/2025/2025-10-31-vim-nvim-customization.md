@@ -5,8 +5,7 @@ date: 2025-10-31 16:37:42+0800
 last_updated: 2025-10-31 16:37:42+0800
 description: 本文介绍自己如何客制化 Neovim 以提升编程效率。
 tags:
-  - Vim/Neovim
-categories: Potpourri
+categories: Vim/Neovim
 featured:
 giscus_comments: true
 toc:

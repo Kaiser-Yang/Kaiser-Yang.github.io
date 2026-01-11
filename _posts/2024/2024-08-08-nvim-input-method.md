@@ -5,8 +5,7 @@ date: 2024-08-08 21:52:18+0800
 last_updated: 2025-10-31 15:54:32+0800
 description:
 tags:
-  - Vim/Neovim
-categories: Potpourri
+categories: Vim/Neovim
 featured:
 giscus_comments: true
 toc:

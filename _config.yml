@@ -318,11 +318,12 @@ display_tags:
   # - "blockquotes"
 # these categories will be displayed on the front page of your blog
 display_categories:
-  # - "external-services"
   - "Algorithm"
   - "C/C++"
   - "Java"
   - "Python"
+  - "Go"
+  - "Vim/Neovim"
   - "Potpourri"
   - "gcs"
 

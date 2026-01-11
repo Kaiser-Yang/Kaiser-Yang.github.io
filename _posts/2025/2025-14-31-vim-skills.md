@@ -5,9 +5,7 @@ date: 2025-12-31 15:42:58+0800
 last_updated: 2026-01-10 12:03:36+0800
 description: 本文介绍自己学习到的一些好用的 Vim 技巧。
 tags:
-  - Vim
-  - Neovim
-categories: Potpourri
+categories: Vim/Neovim
 featured:
 giscus_comments: true
 toc:
