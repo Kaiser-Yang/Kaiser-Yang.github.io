@@ -5,6 +5,7 @@ date: 2025-12-09 19:44:38+0800
 last_updated: 2026-01-10 12:04:23+0800
 description: 本文记录了我在学习 Go 语言过程中的一些笔记和思考。
 tags:
+  - 中文文章
 categories: Go
 featured:
 giscus_comments: true

@@ -5,6 +5,7 @@ date: 2023-12-12 21:16:38+0800
 last_updated: 2025-05-22 11:36:08
 description: This post introduces the C++ multi-threading library and its usage.
 tags:
+  - EngLish Posts
 categories: C/C++
 featured:
 giscus_comments: true

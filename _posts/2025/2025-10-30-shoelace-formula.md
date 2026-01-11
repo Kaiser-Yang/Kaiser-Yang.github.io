@@ -5,6 +5,7 @@ date: 2025-10-30 16:51:37+0800
 last_updated: 2025-10-30 16:51:37+0800
 description: 本文介绍鞋带公式的原理及其实现方式。
 tags:
+  - 中文文章
   - Shoelace Formula
 categories: Algorithm
 featured: false

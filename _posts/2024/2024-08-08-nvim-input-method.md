@@ -3,8 +3,9 @@ layout: post
 title: 在 nvim 中使用 rime-ls 配置中文输入法
 date: 2024-08-08 21:52:18+0800
 last_updated: 2025-10-31 15:54:32+0800
-description:
+description: 本文介绍如何在 nvim 中使用 rime-ls 配置中文输入法，以及相关的配置和使用技巧。
 tags:
+  - 中文文章
 categories: Vim/Neovim
 featured:
 giscus_comments: true

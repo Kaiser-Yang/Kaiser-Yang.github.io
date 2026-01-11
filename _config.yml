@@ -308,15 +308,9 @@ jekyll-archives:
     year: "/blog/:year/"
     tag: "/blog/tag/:name/"
     category: "/blog/category/:name/"
-# these tags will be displayed on the front page of your blog
 display_tags:
-  # - "formatting"
-  # - "images"
-  # - "links"
-  # - "math"
-  # - "code"
-  # - "blockquotes"
-# these categories will be displayed on the front page of your blog
+  - "English Posts"
+  - "中文文章"
 display_categories:
   - "Algorithm"
   - "C/C++"

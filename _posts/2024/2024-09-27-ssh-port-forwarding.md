@@ -5,6 +5,7 @@ date: 2024-09-27 19:42:56+0800
 last_updated: 2025-05-17 16:19:12+0800
 description: This post introduces the three types of SSH port forwarding.
 tags:
+  - English Posts
   - Unix/Linux
 categories: Potpourri
 featured:

@@ -5,6 +5,7 @@ date: 2025-06-05 09:26:27+0800
 last_updated: 2025-06-05 09:26:33+0800
 description: This post includes the main process of gcs-front-end development.
 tags:
+  - English Posts
   - Frontend
   - Vue
 categories: gcs

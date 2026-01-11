@@ -3,8 +3,9 @@ layout: post
 title: C++ Pack, from Static Loop to Static Prime Check
 date: 2024-01-05 16:52:11
 last_updated: 2025-05-19 16:52:11
-description:
+description: "This post introduces C++ Pack and Meta Programming: Static Loop and Static Prime Check."
 tags:
+  - English Posts
   - Meta Programming
 categories: C/C++
 featured:

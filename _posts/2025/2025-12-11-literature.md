@@ -5,6 +5,7 @@ date: 2025-12-11 14:18:12+0800
 last_updated: 2025-12-11 14:18:12+0800
 description: 本文收集了一些我喜欢的文学作品中的摘抄。
 tags:
+  - 中文文章
   - Literature
 categories: Potpourri
 featured:

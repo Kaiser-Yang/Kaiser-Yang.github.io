@@ -5,6 +5,7 @@ date: 2024-06-17 19:42:56+0800
 last_updated: 2025-10-31 16:30:31+0800
 description: This post introduce some simple examples of game theory.
 tags:
+  - English Posts
   - Mathematics
   - Game Theory
 categories: Potpourri

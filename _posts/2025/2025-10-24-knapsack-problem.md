@@ -5,6 +5,7 @@ date: 2025-10-24 18:39:56+0800
 last_updated: 2025-10-24 18:39:56+0800
 description: 本文介绍多重背包问题的两种优化方法。
 tags:
+  - 中文文章
   - Knapsack Problem
 categories: Algorithm
 featured: false

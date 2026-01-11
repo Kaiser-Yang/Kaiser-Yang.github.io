@@ -5,6 +5,7 @@ date: 2025-05-08 20:21:15+0800
 last_updated: 2025-05-08 20:21:15+0800
 description: A guide to adding support for new Git hosting services in blink-cmp-git.
 tags:
+  - English Posts
 categories: Potpourri
 featured:
 giscus_comments: true

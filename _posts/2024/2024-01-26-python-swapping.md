@@ -5,6 +5,7 @@ date: 2024-01-26 10:00:00+0800
 last_updated: 2025-10-31 16:53:14+0800
 description: 本文介绍某君在使用 Python 进行变量交换时遇到的奇怪现象及其原因分析。
 tags:
+  - 中文文章
 categories: Python
 featured:
 giscus_comments: true

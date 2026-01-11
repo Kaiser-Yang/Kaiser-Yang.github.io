@@ -5,6 +5,7 @@ date: 2025-05-16 21:16:38+0800
 last_updated: 2025-06-29 19:52:31+0800
 description: Some questions that I have encountered in my work.
 tags:
+  - English Posts
 categories: Potpourri
 featured:
 giscus_comments: true

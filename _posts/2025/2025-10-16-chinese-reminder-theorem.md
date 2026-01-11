@@ -5,6 +5,7 @@ date: 2025-10-16 15:22:05+0800
 last_updated: 2025-10-16 15:22:05+0800
 description: 本文介绍中国剩余定理以及扩展中国剩余定理。
 tags:
+  - 中文文章
   - Chinese Remainder Theorem
 categories: Algorithm
 featured: false

@@ -5,6 +5,7 @@ date: 2023-12-06 15:50:57+0800
 last_updated: 2025-11-15 15:50:57+0800
 description: 本文介绍一个关于C++中临时对象生命周期的例子
 tags:
+  - 中文文章
 categories: C/C++
 featured:
 giscus_comments: true

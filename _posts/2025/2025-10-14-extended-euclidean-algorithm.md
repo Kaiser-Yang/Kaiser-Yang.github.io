@@ -5,6 +5,7 @@ date: 2025-10-14 18:42:49+0800
 last_updated: 2025-10-14 18:42:49+0800
 description: 本文介绍扩展欧几里德算法的原理及应用。
 tags:
+  - 中文文章
   - Extended Euclidean Algorithm
   - gcd
 categories: Algorithm

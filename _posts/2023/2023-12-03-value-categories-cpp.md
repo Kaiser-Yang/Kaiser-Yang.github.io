@@ -3,8 +3,9 @@ layout: post
 title: C++ Value Categories, References, Move Semantics and Perfect Forwarding
 date: 2023-12-3 21:16:38+0800
 last_updated: 2025-05-18 21:16:38+0800
-description:
+description: This post introduces C++ value categories, lvalue reference, rvalue reference, move semantics and perfect forwarding.
 tags:
+  - English Posts
 categories: C/C++
 featured:
 giscus_comments: true

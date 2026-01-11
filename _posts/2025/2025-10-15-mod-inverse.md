@@ -5,6 +5,7 @@ date: 2025-10-15 21:34:31+0800
 last_updated: 2025-10-15 21:34:31+0800
 description: 本文介绍模逆元的定义及其计算方法。
 tags:
+  - 中文文章
   - Modular Inverse
 categories: Algorithm
 featured: false

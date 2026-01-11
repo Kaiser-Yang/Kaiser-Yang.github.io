@@ -5,6 +5,7 @@ date: 2025-06-04 20:04:58+0800
 last_updated: 2025-06-04 20:04:58+0800
 description: This post includes the main process of gcs-back-end development.
 tags:
+  - English Posts
   - Docker
   - Spring
   - Backend

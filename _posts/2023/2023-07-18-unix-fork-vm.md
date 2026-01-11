@@ -5,6 +5,7 @@ date: 2023-07-18 11:58:36+0800
 last_updated: 2023-07-18 11:58:36+0800
 description: 本文介绍 Unix/Linux 系统调用 fork 函数在虚拟内存管理中的一些问题，说明其并不适合通过全局变量进行通信。
 tags:
+  - 中文文章
   - Unix/Linux
   - System Call
 categories: Potpourri

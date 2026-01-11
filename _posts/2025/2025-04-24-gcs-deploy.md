@@ -5,6 +5,7 @@ date: 2025-04-24 17:10:49+0800
 last_updated: 2025-06-04 19:59:07+0800
 description: This post introduces how to deploy gcs on a server using Docker.
 tags:
+  - English Posts
   - Linux
   - Nginx
   - Docker

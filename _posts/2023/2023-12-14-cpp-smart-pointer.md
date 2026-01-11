@@ -3,8 +3,9 @@ layout: post
 title: The Introduction of C++ Smart Pointers
 date: 2023-12-14 17:29:32
 last_updated: 2025-05-21 17:30:57
-description:
+description: "This post introduces the RAII concept and three types of C++ smart pointers: std::unique_ptr, std::shared_ptr, and std::weak_ptr."
 tags:
+  - English Posts
 categories: C/C++
 featured:
 giscus_comments: true
