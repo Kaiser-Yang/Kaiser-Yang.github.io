@@ -2,7 +2,7 @@
 layout: post
 title: Vim 常用技巧
 date: 2025-12-31 15:42:58+0800
-last_updated: 2026-01-10 12:03:36+0800
+last_updated: 2026-01-15 19:57:06+0800
 description: 本文介绍自己学习到的一些好用的 Vim 技巧。
 tags:
   - 中文文章
@@ -493,6 +493,25 @@ vim.keymap.set('n', '[]', function()
   return 'k$][%?}<CR>'
 end, { expr = true, silent = true, remap = true, desc = 'Jump to previous section or }' })
 ```
+
+下面是一些 `text-objects`：
+
+| 按键 | 说明                    |
+| ---- | ------------------------|
+| `is` | `inside sentence` |
+| `as` | `around sentence` |
+| `ip` | `inside paragraph` |
+| `ap` | `around paragraph` |
+| `it` | `inside tag` |
+| `at` | `around tag` |
+| `ib` | `inside block` |
+| `ab` | `around block` |
+| `iB` | `inside Block` |
+| `aB` | `around Block` |
+
+`tag` 指的是成对出现的标签，例如 `<div>...</div>`。`inside tag` 会选择标签内的内容，而 `around tag` 则会选择包括标签本身在内的内容。在 `HTML` 和 `XML` 文件中，`it` 和 `at` 非常有用。
+
+`block` 是指 `()` 围成的区域，`Block` 则是指 `{}` 围成的区域。`inside block` 会选择括号内的内容，而 `around block` 则会选择包括括号本身在内的内容。
 
 ---
 
