@@ -2,7 +2,7 @@
 layout: post
 title: Vim 常用技巧
 date: 2025-12-31 15:42:58+0800
-last_updated: 2026-01-15 19:57:06+0800
+last_updated: 2026-01-16 10:36:47+0800
 description: 本文介绍自己学习到的一些好用的 Vim 技巧。
 tags:
   - 中文文章
@@ -406,6 +406,8 @@ pretty_table: true
 
 在使用与 `quick-fix` 列表相关的命令（如 `:grep`、`:vimgrep`、`:make`） 或使用与缓冲区列表、参数列表有关的命令（如 `:args`、`:argdo`）前设置一个全局标记可以在操作后快速返回。
 
+可以使用 `gi` 命令跳转到上次插入的位置并进入插入模式。
+
 ---
 
 `Vim` 中可以使用以下的默认 `operator`：
@@ -452,7 +454,24 @@ pretty_table: true
 | `)`  | 移动到下一个 `sentence` 的开头       |
 | `{`  | 移动到上一个 `paragraph` 的开头       |
 | `}`  | 移动到下一个 `paragraph` 的开头       |
+| `H`  | 移动到屏幕顶部行的第一个非空字符 |
+| `M`  | 移动到屏幕中间行的第一个非空字符 |
+| `L`  | 移动到屏幕底部行的第一个非空字符 |
+| `gf` | 移动到光标下文件的开头 |
+| `CTRL-]` | 跳转到光标下标识符的定义处 |
 | `{N}_` | 向下移 `N-1` 行，且到第一个非空字符 |
+| `[(` | 移动到上一个未匹配的 `(` |
+| `])` | 移动到下一个未匹配的 `)` |
+| `[{' | 移动到上一个未匹配的 `{` |
+| `]}' | 移动到下一个未匹配的 `}` |
+| `[m` | 移动到上一个方法的开头 |
+| `]m` | 移动到下一个方法的开头 |
+| `[M` | 移动到上一个方法的结尾 |
+| `]M` | 移动到下一个方法的结尾 |
+| `[#` | 移动到上一个未匹配的 `#if` 或 `#else` |
+| `]#` | 移动到下一个未匹配的 `#if` 或 `#else` |
+| `[*` 或 `[/` | 移动到上一个 `C` 语言风格的注释开头 `/*` |
+| `]*` 或 `]/` | 移动到下一个 `C` 语言风格的注释结尾 `*/` |
 | `[[` | 移动到上一个 `section` 的开头或上一个行首 `{` |
 | `]]` | 移动到下一个 `section` 的开头或下一个行首 `{` |
 | `[]` | 移动到上一个 `section` 的开头或上一个行首 `}` |
@@ -467,32 +486,6 @@ pretty_table: true
 `paragraph` 则可以简单地认为是以一个或多个空行作为分隔符的文本块。需要注意的是 `section` 的边界也是 `paragraph` 的边界。
 
 `section` 则必须以 `sections` 中定义的标记作为分隔符，这个概念平时用得不多，在写 `Vim` 的相关文档的时候可能会用到。
-
-我们可以使用下面的 `lua` 代码使 `section` 相关的移动不只在行首的大括号生效：
-
-```lua
-local function clear_hlsearch()
-  local v = vim.o.hlsearch
-  vim.o.hlsearch = false
-  return vim.schedule_wrap(function() vim.o.hlsearch = v end)
-end
-vim.keymap.set('n', ']]', function()
-  clear_hlsearch()()
-  return 'j0[[%/{<CR>'
-end, { expr = true, silent = true, remap = true, desc = 'Jump to next section or {' })
-vim.keymap.set('n', '[[', function()
-  clear_hlsearch()()
-  return '?{<CR>w99[{'
-end, { expr = true, silent = true, desc = 'Jump to previous section or {' })
-vim.keymap.set('n', '][', function()
-  clear_hlsearch()()
-  return '/}<CR>b99]}'
-end, { expr = true, silent = true, desc = 'Jump to next section or }' })
-vim.keymap.set('n', '[]', function()
-  clear_hlsearch()()
-  return 'k$][%?}<CR>'
-end, { expr = true, silent = true, remap = true, desc = 'Jump to previous section or }' })
-```
 
 下面是一些 `text-objects`：
 
@@ -516,3 +509,41 @@ end, { expr = true, silent = true, remap = true, desc = 'Jump to previous sectio
 ---
 
 `Vim` 中的 `path` 变量会控制一些命令的查找路径，默认值为 `.,,` 其中的 `.` 代表当前文件所在目录，`,` 是分隔符，两个逗号一起表示增加一个空路径，空路径表示当前的工作目录。
+
+`subffixesadd` 变量则会控制一些命令在查找文件时所使用的后缀名列表。其往往会根据打开的文件类型被自动设置。
+
+---
+
+`Vim` 中可以使用 `:ju` 来查看当前窗口的跳转列表，使用 `:cle` 可以清空当前窗口的跳转列表。
+
+跳转列表里面的每一项记录了一个跳转位置，可以使用 `CTRL-O` 和 `CTRL-I` 来在跳转列表中向后和向前跳转。需要注意的是 `CTRL-I` 和 `<Tab>` 是等价的，这意味着你绑定 `<Tab>` 键为其他功能后将无法使用 `CTRL-I` 进行跳转。
+
+---
+
+`Vim` 中可以使用 `:c` 来查看当前文件的修改列表。修改列表记录了每一次对文件的修改位置。`g;` 和 `g,` 则可以在修改列表中向后和向前跳转。
+
+---
+
+`Vim` 中使用 `d` 进行删除时会将删除的内容放入匿名寄存器中，如果想要在删除时不放入任何寄存器，则可以使用 `"_d` 来进行删除。
+
+`Vim` 中我们有时候在使用 `p` 的时候可能会发现匿名寄存器中的内容已经被覆盖了，这个时候我们可以使用 `"0p` 来粘贴最近一次使用 `y` 进行复制的内容。`0` 寄存器专门用于保存最近一次复制的内容。
+
+下面给出一些寄存器的说明：
+
+| 寄存器 | 说明                         |
+| ---- | ---------------------------- |
+| `%`  | 当前文件名                 |
+| `#`  | 轮换文件名                 |
+| `.`  | 上次插入的文本             |
+| `:`  | 上次命令行模式下的命令     |
+| `/`  | 上次搜索的模式             |
+
+---
+
+`Vim` 中在可视模式使用 `p` 实际上会将选中的内容替换掉并将其放入匿名寄存器中，如果想要在可视模式下使用 `p` 进行粘贴而不覆盖匿名寄存器中的内容，可以使用 `"_dP` 来实现。
+
+也正是因为这个特性我们可以使用如下的步骤来交换两段内容：
+
+1. 选择第一段内容并使用 `d` 删除，使用 `mm` 来创建一个标记 `m` 记录删除位置
+2. 选择第二段内容并使用 `p` 进行粘贴
+3. 使用 `` `m `` 跳转到标记 `m` 处并使用 `p` 进行粘贴
