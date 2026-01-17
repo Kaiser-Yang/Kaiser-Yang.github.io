@@ -2,7 +2,7 @@
 layout: post
 title: Go 学习笔记
 date: 2025-12-09 19:44:38+0800
-last_updated: 2026-01-10 12:04:23+0800
+last_updated: 2026-01-17 15:23:46+0800
 description: 本文记录了我在学习 Go 语言过程中的一些笔记和思考。
 tags:
   - 中文文章
@@ -1073,4 +1073,109 @@ case (getAStorageArray())[0] := <-getAChannel(): // getAStorageArray() 不会被
 ```bash
 go build -gcflags="-l" -o myapp main.go
 go run -gcflags="-l" main.go
+```
+
+---
+
+`Go` 语言中常用的测试方式有两种：
+
+- 包内测试；
+- 包外测试。
+
+我们可以使用 `go list -f={{.TestGoFiles}}` 来查看一个包下的包内测试文件，使用 `go list -f={{.XTestGoFiles}}` 来查看一个包下的包外测试文件。
+
+无论是包内测试还是包外测试，测试文件通过都是以 `_test.go` 结尾命名的文件，且与被测试包相同的目录下。而包内测试的包名（也就是 `package` 关键字后面的名称）与被测试包相同，而包外测试的包名则是被测试包名加上 `_test` 后缀。
+
+由于包内测试的代码和被测的代码在同一个包中，所以包内测试可以访问被测试的包内所以符号，这也是为什么包内测试也被叫做白盒测试。而包外测试由于和被测代码不在同一个包中，所以只能访问被测包导出的符号，这也是为什么包外测试也被叫做黑盒测试。
+
+白盒测试的覆盖率通常会比墨盒测试高，且白盒测试的灵活性比较高，可以直接访问包内的非导出符号，从而进行更细粒度的测试。而黑盒测试则更接近于真实的使用场景，可以更好地模拟外部用户对包的使用方式。
+
+不过白盒测试有一个致命的缺陷，那就是包循环引用。比如在标准库的测试文件 `strings_test.go` 中会引用 `testing` 这个包，而 `testing.go` 文件中因为需要处理测试结果的输出，所以会引用 `strings` 包，如果这里使用包内测试就会导致包循环引用的问题，这是 `Go` 语言所不允许的。所以在标准库中使用了包外测试的方法来测试 `strings` 包。
+
+如果我们使用包外测试进行测试，可能会出现需要使用包内非导出符号的情况，对于这种情况，我们可以使用 `Go` 语言提供的 `export_test.go` 文件来解决。在测试一个包的过程中我们可以在包所在的目录下创建一个名为 `export_test.go` 的文件，该文件与被测试的包处在同一个包下，所有其可以访问包中未导出的符号，我们可以在该文件中将未导出的符号进行导出，该文件只有在测试阶段才会被编译，例如 `Go` 语言 `fmt` 包下的 `export_test.go` 中部分内容：
+
+```go
+// 标明和 fmt 包在同一个包下
+package fmt
+
+var IsSpace = isSpace
+var Parsenum = parsenum
+```
+
+根据上面的对比我们可以发现，包外测试因为有 `export_test.go` 的支持，所以其解决了包内测试的硬伤，可以说包内测试可以完成的功能包外测试都可以完成，所以在实际开发中推荐使用包外测试的方式进行测试。
+
+
+`Go` 语言中我们可以使用 `go test -run=TestCompare -v .` 来指定只运行前缀为 `TestCompare` 的测试函数。
+
+
+`Go` 在 `1.14` 之前如果我们要在测试的时候进行初始化和清理工作我们可以使用以下的方法：
+
+```go
+func setup() func() {
+  // 初始化工作
+  return func() {
+    // 清理工作
+  }
+}
+func TestSomething(t *testing.T) {
+  teardown := setup()
+  defer teardown()
+  // 测试代码
+}
+```
+
+从 `1.14` 开始我们可以使用 `testing.Cleanup` 方法来清理：
+
+```go
+func setup() {
+  // 初始化工作
+}
+
+func cleanup() {
+  // 清理工作
+}
+
+func TestSomething(t *testing.T) {
+  // 测试开始时调用
+  t.Setup(setup)
+  // 测试结束时调用
+  t.Cleanup(cleanup)
+  // 测试代码
+}
+```
+
+`Go` 语言在 `1.4` 引入了 `TestMain` 函数来进行包级别的初始化和清理工作：
+
+```go
+// 其他的测试函数……
+
+func pkgSetup() {
+  // 包级别的初始化工作
+}
+func pkgCleanup() {
+  // 包级别的清理工作
+}
+func TestMain(m *testing.M) {
+  m.Setup(pkgSetup)
+  m.Cleanup(pkgCleanup)
+  // 初始化工作
+  code := m.Run() // 运行所有测试
+  // 清理工作
+  os.Exit(code)
+}
+```
+
+`Go` 语言中我们可以通过 `t.Run("", func)` 来给当前的测试用例添加子测试用例，最后测试用例之间将会以树形结构进行展示：
+
+```go
+func testChild1(t *testing.T) {
+  // 子测试用例 1 的代码
+}
+func testChild2(t *testing.T) {
+  // 子测试用例 2 的代码
+}
+func TestParent(t *testing.T) {
+  t.Run("Child_1", testchild1)
+  t.Run("Child_2", testchild2)
+}
 ```
