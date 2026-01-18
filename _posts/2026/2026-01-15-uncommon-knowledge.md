@@ -3,7 +3,7 @@ layout: post
 title: 奇怪的知识增加了
 date: 2026-01-15 19:00:29+0800
 last_updated: 2026-01-17 15:24:23+0800
-description: 一些不太常用的知道。
+description: 一些不太常用的知识。
 tags:
   - 中文文章
 categories: Potpourri
