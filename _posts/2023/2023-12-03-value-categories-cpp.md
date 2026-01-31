@@ -2,7 +2,7 @@
 layout: post
 title: C++ Value Categories, References, Move Semantics and Perfect Forwarding
 date: 2023-12-3 21:16:38+0800
-last_updated: 2025-05-18 21:16:38+0800
+last_updated: 2026-01-31 19:50:14+0800
 description: This post introduces C++ value categories, lvalue reference, rvalue reference, move semantics and perfect forwarding.
 tags:
   - English Posts
@@ -51,12 +51,12 @@ We can simply understand lvalue as those whose address can be obtained by `&`.
 
 There are some cases of lvalue:
 
-* String literal, e.g. `"Hello World"`;
+* String literal, e.g. `"Hello World"` (In `C++`, string literal is stored in read-only memory for a whole life time);
 * The built-in pre-increment and pre-decrement operations, e.g. `--a, ++a`;
 * The built-in assignment and compound assignment operations, e.g. `a = b`, `a += b`;
 * `a, b`, the built-in comma expression, where `b` is an lvalue;
 * A cast expression to lvalue reference type, e.g. `static_cast<int&>(a)`;
-* `a.*mp` or `p->*mp`, the built-in pointer to member of objecct or pointer to member of pointer
+* `a.*mp` or `p->*mp`, the built-in pointer to member of object or pointer to member of pointer
 expression, where `mp` is a data member;
 * `a[n]` where `a` is an array lvalue.
 * A constant template parameter of an lvalue reference type;
@@ -90,10 +90,10 @@ There are some cases of prvalue:
 * The built-in address-of expression, e.g. `&a`;
 * `a, b`, the built-in comma expression, where `b` is an prvalue;
 * `a.m` or `p->m` where `m` is a non-static member function or member enumeration;
-* `a.*mp` or `p->*mp`, the built-in pointer to member of objecct or pointer to member of pointer
+* `a.*mp` or `p->*mp`, the built-in pointer to member of object or pointer to member of pointer
 expression, where `mp` is a member function;
 * A cast expression to non-reference type, e.g. `static_cast<int>(a)`;
-* `this` pointer;
+* `this`;
 * An enumerator;
 * A lambda expression;
 * A constant template parameter of a scalar type;
@@ -138,6 +138,8 @@ Move-eligible expressions are defined as xvalue since `C++23`.
 
 rvalue is a union of prvalue and xvalue.
 
+---
+
 > Actually, there should be four types of value categories:
 >
 > * has identity and can not be moved (lvalue);
@@ -149,7 +151,7 @@ rvalue is a union of prvalue and xvalue.
 
 ## References
 
-## lvalue reference
+### lvalue reference
 
 lvalue reference is a reference to an lvalue.
 
@@ -190,7 +192,7 @@ void goodSwapTwoIntByRef(int &a, int &b) {
 }
 ```
 
-### Possible Implementation
+#### Possible Implementation
 
 The above code is almost equivalent to the following code:
 
@@ -206,14 +208,14 @@ There are still some differences between the two codes.
 `cppreference` mentions that a reference has no extra space,
 but the above code needs extra space to store the address of the pointer.
 
-## rvalue reference
+### rvalue reference
 
-### Why rvalue reference?
+#### Why rvalue reference?
 
-rvalue reference is for move semantics. Before `C++11`, there is no move semantics,
+rvalue reference is for move semantics. Before `C++11`, there was no move semantics,
 only copy semantics (copy constructor and copy assignment operator).
 For the class whose member variable contains pointers or user-defined types,
-we often need to implement a copy constructor and copy assignment operator by ourselves
+we often need to implement a copy constructor and copy assignment operator
 so that the data can be successfully copied (usually called deep copy), rather than just
 let the pointer point to the same memory (usually called shallow copy).
 
@@ -258,7 +260,7 @@ You may think this is good, and no need for rvalue reference. But NO!
 In some situations, we may need to update the parameter in the function.
 However, for this code, we can not.
 
-rvalue reference can be binded to any rvalue and also can be modified.
+rvalue reference can be bound to any rvalue and also can be modified.
 
 For example:
 
@@ -305,6 +307,8 @@ with move semantics, the above code will create a temporary object
 and then move it to `value` through the move constructor
 (if we don't consider the optimization of the compiler).
 Move semantics reduces one time copy operation.
+
+---
 
 Assignment phase, if the right side of the assignment is an rvalue,
 then it will trigger the move assignment operator:
@@ -358,7 +362,7 @@ There is an example in `cppreference`:
 std::string str = "Salut";
 std::vector<std::string> v;
 
-// Uses the push_back(const T&) overload, which means 
+// Uses the push_back(const T&) overload, which means
 // we'll incur the cost of copying str
 v.push_back(str);
 std::cout << "After copy, str is " << std::quoted(str) << '\n';
@@ -388,10 +392,10 @@ original `str` is now empty. We should not use `str` any more.
 ## lvalue VS rvalue
 
 The simplest way to distinguish between lvalue and rvalue is to check
-if the expression can be binded to a lvalue reference or rvalue reference.
+if the expression can be bound to a lvalue reference or rvalue reference.
 
-Actually, if the expression can be binded to a lvalue reference, then it is an lvalue;
-if the expression can be binded to a rvalue reference, then it is an rvalue.
+Actually, if the expression can be bound to a lvalue reference, then it is an lvalue;
+if the expression can be bound to a rvalue reference, then it is an rvalue.
 
 ## Perfect Forwarding
 
@@ -448,14 +452,14 @@ and when the actual parameter is an rvalue, the type of `t` is an rvalue referen
 
 ### What is Perfect Forwarding?
 
-The term forwading here refers to the process of passing parameters during function calls.
+The term forwarding here refers to the process of passing parameters during function calls.
 
 Perfect forwarding means the process of passing parameters to another function
 while maintaining the original value category of the parameters.
 For example, if the parameter is an lvalue,
-it will be passed as an lvalue so that it can be binded to an lvalue reference;
+it will be passed as an lvalue so that it can be bound to an lvalue reference;
 if the parameter is an rvalue,
-it will be passed as an rvalue so that it can be binded to an rvalue reference.
+it will be passed as an rvalue so that it can be bound to an rvalue reference.
 
 ### Why Perfect Forwarding?
 
