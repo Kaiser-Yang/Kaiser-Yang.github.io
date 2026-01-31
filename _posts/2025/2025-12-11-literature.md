@@ -2,7 +2,7 @@
 layout: post
 title: 文学摘抄
 date: 2025-12-11 14:18:12+0800
-last_updated: 2026-01-31 13:40:40+0800
+last_updated: 2026-01-31 20:53:01+0800
 description: 本文收集了一些我喜欢的文学作品中的摘抄。
 tags:
   - 中文文章
@@ -50,6 +50,13 @@ pretty_table: true
 <div align="center">朱熹</div>
 <div align="center">半亩方塘一鉴开，天光云影共徘徊。</div>
 <div align="center">问渠那得清如许？为有源头活水来。</div>
+
+---
+
+<div align="center">观书有感二首·其二</div>
+<div align="center">朱熹</div>
+<div align="center">昨夜江边春水生，艨艟巨舰一毛轻。</div>
+<div align="center">向来枉费推移力，此日中流自在行。</div>
 
 ---
 
