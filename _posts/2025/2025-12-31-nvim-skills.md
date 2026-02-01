@@ -1,7 +1,7 @@
 ---
 layout: post
 title: nvim 学习
-date: 2026-12-31 15:42:58+0800
+date: 2025-12-31 15:42:58+0800
 last_updated: 2026-01-31 13:41:01+0800
 description: 本文介绍自己学习到的一些好用的 nvim 技巧，其中大部分可以在 vim 中使用。
 tags:
